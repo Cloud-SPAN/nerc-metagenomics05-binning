@@ -1,5 +1,5 @@
 ---
-title: "Create Your AWS Account"
+title: "Binning --- episode 1"
 teaching: 20
 exercises: 10
 questions: 
