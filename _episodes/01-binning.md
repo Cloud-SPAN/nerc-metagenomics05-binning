@@ -9,8 +9,8 @@ objectives:
 - "Check the quality of the Metagenome-Assembled genomes."  
 keypoints:
 - "Metagenome-Assembled Genomes (MAGs) sometimes are obtained from curated contigs grouped into bins."
-- "Use MAXBIN to assign the contigs to bins of different taxa."
-- "Use ChekM to evaluate the quality of each Metagenomics-Assembled Genome."
+- "Use Metabat2 to assign the contigs to bins of different taxa."
+- "Use CheckM to evaluate the quality of each Metagenomics-Assembled Genome."
 ---
 
 ## Metagenomic binning
@@ -26,93 +26,108 @@ Although an obvious way to separate contigs that correspond to a different speci
 there are more reliable methods that do the binning using
 characteristics of the contigs, such as their GC content, the use of tetranucleotides (composition), or their coverage (abundance).
 
-[Maxbin](https://sourceforge.net/projects/maxbin/files/) is a binning algorithm
+[Metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm
 that distinguishes between contigs that belong to different bins according to their
 coverage levels and the tetranucleotide frequencies they have.
 
-Let's bin the sample we just assembled. The command for running MaxBin is `run_MaxBin.pl`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and name.
+Let's bin the sample we just assembled. The command for running MaxBin is `runMetaBat.sh`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and name. Before we run Metabat2 we need to generate a BAM file using the program BWA, and then sort these BAM files.
+
+[BWA](http://bio-bwa.sourceforge.net/bwa.shtml) is a alignment tool, which maps reads to a reference. Due to the assembly being a *de novo* genome that we don't know what it should look like. We can instead use the assembly that we have polished, and map the reads used to generate the assembly and map them to it.
+
+~~~
+$ # We use bwa index to generate an inde for the fasta containing the contigs
+$ bwa index assembly.fa
+$ # We then align the reads against contigs and sort this BAM file
+$ bwa mem  -t 16 assembly.fa shortreads.fq.gz | samtools sort -o alignment.bam
+$ # We then index this BAM file
+$ samtools index alignment.bam
+~~~
+{: .bash}
+
+When we have the sorted BAM file we are then ready to use Metabat2
+
+~~~
+$ runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
+$ runMetaBat.sh assembly.fasta sample1.bam &
+~~~
+{: .bash}
+
+
 ~~~
 $ cd ~/dc_workshop/results/assembly_JC1A
-$ mkdir MAXBIN
-$ run_MaxBin.pl -thread 8 -contig JC1A_contigs.fasta -reads ../../data/trimmed_fastq/JC1A_R1.trim.fastq.gz -reads2 ../../data/trimmed_fastq/JC1A_R2.trim.fastq.gz -out MAXBIN/JC1A &
+$ mkdir Metabat2
+$ runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
+$ runMetaBat.sh assembly.fasta sample1.bam &
 ~~~
 {: .bash}
 ~~~
-MaxBin 2.2.7
-Thread: 12
-Input contig: JC1A_contigs.fasta
-Located reads file [../../data/trimmed_fastq/JC1A_R1.trim.fastq.gz]
-Located reads file [../../data/trimmed_fastq/JC1A_R2.trim.fastq.gz]
-out header: MAXBIN/JC1A
-Running Bowtie2 on reads file [../../data/trimmed_fastq/JC1A_R1.trim.fastq.gz]...this may take a while...
-Reading SAM file to estimate abundance values...
-Running Bowtie2 on reads file [../../data/trimmed_fastq/JC1A_R2.trim.fastq.gz]...this may take a while...
-Reading SAM file to estimate abundance values...
-Searching against 107 marker genes to find starting seed contigs for [JC1A_contigs.fasta]...
-Running FragGeneScan....
-Running HMMER hmmsearch....
-Try harder to dig out marker genes from contigs.
-Marker gene search reveals that the dataset cannot be binned (the medium of marker gene number <= 1). Program stop.
-~~~
+metabat2 -h
+
+Allowed options:
+  -h [ --help ]                     produce help message
+  -i [ --inFile ] arg               Contigs in (gzipped) fasta file format [Mandatory]
+  -o [ --outFile ] arg              Base file name and path for each bin. The default output is fasta format.
+                                    Use -l option to output only contig names [Mandatory].
+  -a [ --abdFile ] arg              A file having mean and variance of base coverage depth (tab delimited;
+                                    the first column should be contig names, and the first row will be
+                                    considered as the header and be skipped) [Optional].
+  -m [ --minContig ] arg (=2500)    Minimum size of a contig for binning (should be >=1500).
+  --maxP arg (=95)                  Percentage of 'good' contigs considered for binning decided by connection
+                                    among contigs. The greater, the more sensitive.
+  --minS arg (=60)                  Minimum score of a edge for binning (should be between 1 and 99). The
+                                    greater, the more specific.
+  --maxEdges arg (=200)             Maximum number of edges per node. The greater, the more sensitive.
+  --pTNF arg (=0)                   TNF probability cutoff for building TNF graph. Use it to skip the
+                                    preparation step. (0: auto).
+  --noAdd                           Turning off additional binning for lost or small contigs.
+  --cvExt                           When a coverage file without variance (from third party tools) is used
+                                    instead of abdFile from jgi_summarize_bam_contig_depths.
+  -x [ --minCV ] arg (=1)           Minimum mean coverage of a contig in each library for binning.
+  --minCVSum arg (=1)               Minimum total effective mean coverage of a contig (sum of depth over
+                                    minCV) for binning.
+  -s [ --minClsSize ] arg (=200000) Minimum size of a bin as the output.
+  -t [ --numThreads ] arg (=0)      Number of threads to use (0: use all cores).
+  -l [ --onlyLabel ]                Output only sequence labels as a list in a column without sequences.
+  --saveCls                         Save cluster memberships as a matrix format
+  --unbinned                        Generate [outFile].unbinned.fa file for unbinned contigs
+  --noBinOut                        No bin output. Usually combined with --saveCls to check only contig
+                                    memberships
+  --seed arg (=0)                   For exact reproducibility. (0: use random seed)
+  -d [ --debug ]                    Debug output
+  -v [ --verbose ]                  Verbose output
+  ~~~
 {: .output}
 
-It seems that it is impossible to bin our assembly because the amount of marker genes is less than 1.
-We could have expected this as we know it is a small sample.
+In MetaBAT 2, parameter optimization will be unnecessary, though we allowed a few parameters so that advanced users might play with them.
 
-We will perform the binning process with the other sample from the same study that is a little larger. We have the assembly precomputed in the `~/dc-workshop/mags/` directory.
-~~~
-$ cd ~/dc_workshop/mags/
-$ mkdir MAXBIN
-$ run_MaxBin.pl -thread 8 -contig JP4D_contigs.fasta -reads ../data/trimmed_fastq/JP4D_R1.trim.fastq.gz -reads2 ../data/trimmed_fastq/JP4D_R2.trim.fastq.gz -out MAXBIN/JP4D &
-~~~
-{: .bash}  
-It will take a few minutes to run. And it will finish with an output like this:
+You can decrease -m (--minContig) when the qualities of both assembly and formed bins with default value are very good.
 
-~~~
-========== Job finished ==========
-Yielded 4 bins for contig (scaffold) file JP4D_contigs.fasta
+'-i' input file should be either fasta or gzipped fasta file. (since v0.32.3)
 
-Here are the output files for this run.
-Please refer to the README file for further details.
+-p option is for utilizing paired info from short reads. It may improve sensitivity.
+'--p1' and '--p2' should be both high to maintain great specificity. Usually p1 >= p2 performs better.
+--minProb mainly controls the scope and sensitivity of binning. A smaller number improves sensitivity. It should be < p1, p2.
 
-Summary file: MAXBIN/JP4D.summary
-Genome abundance info file: MAXBIN/JP4D.abundance
-Marker counts: MAXBIN/JP4D.marker
-Marker genes for each bin: MAXBIN/JP4D.marker_of_each_gene.tar.gz
-Bin files: MAXBIN/JP4D.001.fasta - MAXBIN/JP4D.004.fasta
-Unbinned sequences: MAXBIN/JP4D.noclass
+--minBinned mainly controls the specificity. A greater number improves specificity. Usually <= 50.
+Use --verysensitive on simple community for more inclusive binning.
 
-Store abundance information of reads file [../data/trimmed_fastq/JP4D_R1.trim.fastq.gz] in [MAXBIN/JP4D.abund1].
-Store abundance information of reads file [../data/trimmed_fastq/JP4D_R2.trim.fastq.gz] in [MAXBIN/JP4D.abund2].
+--minCorr would include contigs which are closely correlated in abundance but somewhat different in absolute abundance. More effective in availability of many samples.
+Recruiting by correlation would be activated only if # of samples >= minSamples and be disabled (for better specificity) when minContigByCorr > minContig.
 
+Smaller contigs (>1000) will be given a chance to be recruited to existing bins when # of samples >= minSamples by default setting.
 
-========== Elapsed Time ==========
-0 hours 6 minutes and 56 seconds.
+'--saveDistance' option saves a lot of computations when multiple binning attempts are executed with different parameter settings.
 
-~~~
-{: .output}  
+'--unbinned' option generates a file for unbinned contigs.
 
-With the `.summary` file we can have a quick look at the bins that MaxBin produced.
+'-B' option is for ensemble binning. Recommended to be 20 or more. Should be >= 10 for reasonable results. It tends to generate reduced number of better quality bins at the cost of some additional computation.
 
-~~~
-$ cat MAXBIN/JP4D.summary
-~~~
-{: .bash}  
+'--pB' option controls for sensitivity and specificity tradeoff in ensemble binning. The smaller, the sensitive. Range is between 0 to 100. The default is 50.
 
-~~~
-Bin name	Completeness	Genome size	GC content
-JP4D.001.fasta	57.9%	3141556	55.5
-JP4D.002.fasta	87.9%	6186438	67.3
-JP4D.003.fasta	51.4%	3289972	48.1
-JP4D.004.fasta	77.6%	5692657	38.9
-~~~
-{: .output}  
+Produced bins would be stochastic if ensemble binning was used. --seed would minimize the stochasticity but still there would be slight difference.
 
-> ## Discussion: The quality of MAGs
->
->Can we trust the quality of our bins only with the given information?
->What else do we want to know about our MAGs to confidently use them for further analysis?
-{: .discussion}
+Each bin will be saved as a fasta format
+
 
 ## Quality check
 
@@ -164,6 +179,12 @@ The table we just made looks like [this](https://github.com/carpentries-incubato
 This will be very useful when you need to document your work or communicate it.
 
 The question of, how much contamination we can tolerate and how much completeness do we need, certainly depends on the scientific question being tackled, but in the [CheckM](https://genome.cshlp.org/content/25/7/1043) paper, there are some parameters that we can follow.
+
+> ## Discussion: The quality of MAGs
+>
+>Can we trust the quality of our bins only with the given information?
+>What else do we want to know about our MAGs to confidently use them for further analysis?
+{: .discussion}
 
 > ## Exercise 1: Discuss the quality of the obtained MAGs
 >
