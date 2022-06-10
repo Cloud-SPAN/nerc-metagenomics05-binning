@@ -180,11 +180,6 @@ This will be very useful when you need to document your work or communicate it.
 
 The question of, how much contamination we can tolerate and how much completeness do we need, certainly depends on the scientific question being tackled, but in the [CheckM](https://genome.cshlp.org/content/25/7/1043) paper, there are some parameters that we can follow.
 
-> ## Discussion: The quality of MAGs
->
->Can we trust the quality of our bins only with the given information?
->What else do we want to know about our MAGs to confidently use them for further analysis?
-{: .discussion}
 
 > ## Exercise 1: Discuss the quality of the obtained MAGs
 >
