@@ -34,30 +34,33 @@ Let's bin the sample we just assembled. The command for running MaxBin is `runMe
 
 [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) is a alignment tool, which maps reads to a reference. Due to the assembly being a *de novo* genome that we don't know what it should look like. We can instead use the assembly that we have polished, and map the reads used to generate the assembly and map them to it.
 
+
+
 ~~~
-$ # We use bwa index to generate an inde for the fasta containing the contigs
-$ bwa index assembly.fa
-$ # We then align the reads against contigs and sort this BAM file
-$ bwa mem  -t 16 assembly.fa shortreads.fq.gz | samtools sort -o alignment.bam
-$ # We then index this BAM file
-$ samtools index alignment.bam
+We use bwa index to generate an index for the fasta containing the contigs
+bwa index assembly.fa
+We then align the reads against contigs and sort this BAM file
+bwa mem  -t 16 pilon.fasta shortreads.fq.gz | samtools sort -o alignment.bam
+We then index this BAM file
+samtools index alignment.bam
 ~~~
 {: .bash}
 
 When we have the sorted BAM file we are then ready to use Metabat2
 
 ~~~
-$ runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
-$ runMetaBat.sh assembly.fasta sample1.bam &
+runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
+runMetaBat.sh pilon.fasta sample1.bam &
 ~~~
 {: .bash}
 
 
 ~~~
-$ cd ~/dc_workshop/results/assembly_JC1A
-$ mkdir Metabat2
-$ runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
-$ runMetaBat.sh assembly.fasta sample1.bam &
+ cd ~/analysis/
+ mkdir Metabat2
+ cd Metabat2
+ runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
+ runMetaBat.sh pilon.fasta sample1.bam &
 ~~~
 {: .bash}
 ~~~
