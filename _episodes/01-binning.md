@@ -30,7 +30,7 @@ characteristics of the contigs, such as their GC content, the use of tetranucleo
 that distinguishes between contigs that belong to different bins according to their
 coverage levels and the tetranucleotide frequencies they have.
 
-Let's bin the sample we just assembled. The command for running MaxBin is `runMetaBat.sh`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and name. Before we run Metabat2 we need to generate a BAM file using the program BWA, and then sort these BAM files.
+Let's bin the sample we just assembled. The command for running Metabat2 is `runMetaBat.sh`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and name. Before we run Metabat2 we need to generate a BAM file using the program BWA, and then sort these BAM files.
 
 [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) is a alignment tool, which maps reads to a reference. Due to the assembly being a *de novo* genome that we don't know what it should look like. We can instead use the assembly that we have polished, and map the reads used to generate the assembly and map them to it.
 
