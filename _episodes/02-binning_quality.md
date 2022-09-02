@@ -23,7 +23,8 @@ and if it is contaminated (does the MAG contain only one genome?).
 
 [CheckM](https://github.com/Ecogenomics/CheckM) is a good program to see the quality of our MAGs.
 It gives a measure of the completeness and the contamination by counting marker genes in the MAGs.
-The lineage workflow that is a part of CheckM places your bins in a reference tree to know to which lineage it corresponds to and to use the appropriate marker genes to estimate the quality parameters. Unfortunately, the lineage workflow uses a lot of memory so it can't run in our machines, but we can tell CheckM to use marker genes from Bacteria only, to spend less memory.
+The lineage workflow that is a part of CheckM places your bins in a reference tree to know to which lineage it corresponds to and to use the appropriate marker genes to estimate the quality parameters. We will be telling CheckM to use marker genes from Bacteria only, to reduce the memory consumption. This will be unlikely to give us accurate results for the yeasts in our metagenomes, so bear this in mind.
+
 This is a less accurate approach but it can also be very useful if you want all of your bins analyzed with the same markers.
 
 We will run the taxonomy workflow specifying the use of markers at the domain level, specific for the rank Bacteria,
