@@ -1,5 +1,5 @@
 ---
-title: "Metagenome Binning"
+title: "QC of metagenome bins"
 teaching: 50
 exercises: 10
 questions:
