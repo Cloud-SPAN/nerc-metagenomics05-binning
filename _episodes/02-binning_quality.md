@@ -67,23 +67,23 @@ This will be very useful when you need to document your work or communicate it.
 The question of, how much contamination we can tolerate and how much completeness do we need, certainly depends on the scientific question being tackled, but in the [CheckM](https://genome.cshlp.org/content/25/7/1043) paper, there are some parameters that we can follow.
 
 
-> ## Exercise 1: Discuss the quality of the obtained MAGs
+> ## Exercise 1: Explore the quality of the obtained MAGs
 >
 > Fill in the blanks to complete the code you need to download the `quality_JP4D.tsv` to your local computer:
 > ~~~
-> ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/dc_workshop/mags/CHECKM/quality_JP4D.tsv ____
+> ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/CHECKM/quality_JP4D.tsv ____
 > ~~~
 > {: .bash}
 >
 >> ## Solution
->>In a terminal that is standing on your local computer do:
+>>In a terminal logged into your local machine type:
 >> ```
->>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/dc_workshop/mags/CHECKM/quality_JP4D.tsv <the destination directory of your choice>
+>>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/CHECKM/quality_JP4D.tsv <the destination directory of your choice>
 >> ```
 >>{: .bash}
 >>
 > {: .solution}
-> Then open the table in a spreadsheet and discuss with your team which of the parameters in the table do you find useful.
+> Open the spreadsheet in excel and think about  which of the parameters in the table you find useful.
 {: .challenge}
 
 {: .bash}
