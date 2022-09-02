@@ -27,11 +27,11 @@ The lineage workflow that is a part of CheckM places your bins in a reference tr
 This is a less accurate approach but it can also be very useful if you want all of your bins analyzed with the same markers.
 
 We will run the taxonomy workflow specifying the use of markers at the domain level, specific for the rank Bacteria,
-we will specify that our bins are in FASTA format, that they are located in the `MAXBIN` directory
+we will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory
 and that we want our output in the `CHECKM/` directory.
 ~~~
 $ mkdir CHECKM
-$ checkm taxonomy_wf domain Bacteria -x fasta MAXBIN/ CHECKM/
+$ checkm taxonomy_wf domain Bacteria -x fasta Metabat2/ CHECKM/
 ~~~
 {: .bash}
 
