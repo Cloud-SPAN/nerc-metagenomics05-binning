@@ -87,7 +87,7 @@ Generating metagenome bins can be challenging, especially in complex community s
 >> ## Solution
 >>In a terminal logged into your local machine type:
 >> ```
->>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/CHECKM/quality_JP4D.tsv <the destination directory of your choice>
+>>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/CHECKM/MAGs_checkm.tsv <the destination directory of your choice>
 >> ```
 >>{: .bash}
 >>
