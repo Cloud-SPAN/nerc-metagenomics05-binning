@@ -17,22 +17,19 @@ keypoints:
 ## Quality check
 
 The quality of a MAG is highly dependent on the size of the genome of the species, its abundance
-in the community, and the depth at which we sequenced it.
-Two important things that can be measured to know its quality are completeness (is the MAG a complete genome?)
-and if it is contaminated (does the MAG contain only one genome?).
+in the community, and the depth at which we sequenced it.Two important things that can be measured to know its quality are completeness (is the MAG a complete genome?) and if it is contaminated (does the MAG contain only one genome?).
 
 [CheckM](https://github.com/Ecogenomics/CheckM) is a good program to see the quality of our MAGs.
-It gives a measure of the completeness and the contamination by counting marker genes in the MAGs.
-The lineage workflow that is a part of CheckM places your bins in a reference tree to know to which lineage it corresponds to and to use the appropriate marker genes to estimate the quality parameters. We will be telling CheckM to use marker genes from Bacteria only, to reduce the memory consumption. This will be unlikely to give us accurate results for the yeasts in our metagenomes, so bear this in mind.
+It gives a measure of the completeness and the contamination by counting marker genes in the MAGs. Here is a [short youtube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards that explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
 
-This is a less accurate approach but it can also be very useful if you want all of your bins analyzed with the same markers.
+Two of the main methods are the lineage workflow `lineage_wf` and the taxnonmic workflow `taxonomy_wf`. The lineage workflow places your bins in a reference tree to know to which lineage it corresponds to and to use the appropriate marker genes to estimate the quality parameters. The taxonomy workflow works similarly but can be used for generating more specific markers for a specific taxonomic group such as a specific phylum. If you are concerned which is more appropriate for you the [checkM](https://github.com/Ecogenomics/CheckM) manual compared results across 1000 randomly selected genomes using [GTDB representative genomes](https://gtdb.ecogenomic.org/), and identical results were obtained using the lineage_wf, taxonomy_wf and ssu_finder methods.
 
-We will run the taxonomy workflow specifying the use of markers at the domain level, specific for the rank Bacteria,
-we will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory
-and that we want our output in the `CHECKM/` directory.
+
+
+We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `CHECKM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
 ~~~
 $ mkdir CHECKM
-$ checkm taxonomy_wf domain Bacteria -x fasta Metabat2/ CHECKM/
+$ checkm lineage_wf domain Bacteria -x fasta Metabat2/ CHECKM/ --reduced_tree -t 4
 ~~~
 {: .bash}
 
