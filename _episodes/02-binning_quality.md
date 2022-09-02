@@ -63,14 +63,12 @@ Running this workflow means that we run four checkM commands in one go rather th
 Ideally, we would like to get only one contig per bin, with a length similar the genome size of the corresponding taxa. Since this scenario is very difficult to obtain we can use parameters that show us how good is our assembly. Here are some of the most common metrics:
 If we arrange our contigs by size, from larger to smaller, and divide the whole sequence in half, N50 is the size of the smallest contig in the half that has the larger contigs; and L50 is the number of contigs in this half of the sequence. So we want big N50 and small L50 values for our genomes. Read [What’s N50?](https://www.molecularecologist.com/2017/03/29/whats-n50/).
 
-To get the table with these extra parameters we need to specify the file of the markers that CheckM used in the previous step `checkM.ms`, the name of the output file we want `quality_JP4D.tsv`, that we want a table `--tab_table`, and the option number 2 `-o 2` is to ask for the extra parameters printed on the table. This means we will run the checkm qa part of the workflow again seperately with these addition commands:
+To get the table with these extra parameters we need to specify the file of the markers that CheckM used in the previous step `checkM.ms`, the name of the output file we want `MAGs_checkm.tsv`, that we want a table `--tab_table`, and the option number 2 `-o 2` is to ask for the extra parameters printed on the table. This means we will run the checkm qa part of the workflow again seperately with these addition commands:
 
 ~~~
   checkm qa CHECKM/checkM.ms CHECKM/ --file CHECKM/MAGs_checkm.tsv --tab_table -o 2
 ~~~
 {: .bash}
-The table we just made looks like [this](https://github.com/carpentries-incubator/metagenomics/blob/gh-pages/files/quality_JP4D.tsv).
-This will be very useful when you need to document your work or communicate it.
 
 The question of, how much contamination we can tolerate and how much completeness do we need, certainly depends on the scientific question being tackled, but in the [CheckM](https://genome.cshlp.org/content/25/7/1043) paper, there are some parameters that we can follow.
 
