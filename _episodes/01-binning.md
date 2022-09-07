@@ -48,6 +48,7 @@ In order to use this new BAM with metabat2 we also need to sort the order of the
 
 
 We sort the BAM file we generated in the last lesson
+~~~
 samtools sort -o pilon_short_read_alignment_sort.bam pilon_short_read_alignment.bam
 
 We then index this BAM file
@@ -69,7 +70,7 @@ runMetaBat.sh assembly.fasta sample1.bam &
  mkdir Metabat2
  cd Metabat2
  runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
- runMetaBat.sh pilon.fasta short_read_alignment_sort.bam &
+ runMetaBat.sh pilon.fasta pilon_short_read_alignment_sort.bam &
 ~~~
 {: .bash}
 ~~~
