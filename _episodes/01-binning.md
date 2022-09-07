@@ -34,9 +34,19 @@ Let's bin the sample we just assembled. The command for running Metabat2 is `run
 
 [BWA](http://bio-bwa.sourceforge.net/bwa.shtml) is a alignment tool, which maps reads to a reference. Due to the assembly being a *de novo* genome that we don't know what it should look like. We can instead use the assembly that we have polished, and map the reads used to generate the assembly and map them to it.
 
-Thankfully we have already created this BAM file and the index in the [polishing an assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/04-polishing-assembly/index.html). We will be using the file `short_read_alignment.bam` and the index `short_read_alignment.bam.bai` we generated in the previous episode. However in order to use this BAM with metabat2 we also need to sort the order of the alignments using the command `samtools sort`.
+We already created a BAM file and the index in the [polishing an assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/04-polishing-assembly/index.html). However becaues there are small changes to the length of sequence of the reference after using pilon, we will need to generate a new BAM fileand index.
 
+We are going to index the polished reference first with the following command, and then use bwa mem command again.
 ~~~
+bwa index pilon.fasta
+
+bwa mem -t 4  pilon.fasta ../../ERR3152367_sub5_filtered.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam >> pilon_alignment.out 2>&1  &
+~~~
+{: .bash}
+
+In order to use this new BAM with metabat2 we also need to sort the order of the alignments using the command `samtools sort`.
+
+
 We sort the BAM file we generated in the last lesson
 samtools sort -o pilon_short_read_alignment_sort.bam pilon_short_read_alignment.bam
 
