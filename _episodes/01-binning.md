@@ -73,6 +73,38 @@ runMetaBat.sh assembly.fasta sample1.bam &
  runMetaBat.sh pilon.fasta pilon_short_read_alignment_sort.bam &
 ~~~
 {: .bash}
+
+Once you have ran metabat2 you should have this output to the screen
+
+~~~
+Executing: 'jgi_summarize_bam_contig_depths --outputDepth pilon.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta pilon.fasta pilon_short_read_alignment_sort.bam' at Wed  7 Sep 17:54:51 BST 2022
+Output depth matrix to pilon.fasta.depth.txt
+Minimum percent identity for a mapped read: 0.97
+minContigLength: 1000
+minContigDepth: 1
+Reference fasta file pilon.fasta
+jgi_summarize_bam_contig_depths 2.15 (Bioconda) 2020-01-04T21:10:40
+Output matrix to pilon.fasta.depth.txt
+Reading reference fasta file: pilon.fasta
+... 146 sequences
+0: Opening bam: pilon_short_read_alignment_sort.bam
+Processing bam files
+Thread 0 finished: pilon_short_read_alignment_sort.bam with 928919 reads and 53364 readsWellMapped
+Creating depth matrix file: pilon.fasta.depth.txt
+Closing most bam files
+Closing last bam file
+Finished
+Finished jgi_summarize_bam_contig_depths at Wed  7 Sep 17:55:17 BST 2022
+Creating depth file for metabat at Wed  7 Sep 17:55:17 BST 2022
+Executing: 'metabat2  --inFile pilon.fasta --outFile pilon.fasta.metabat-bins-20220907_175517/bin --abdFile pilon.fasta.depth.txt' at Wed  7 Sep 17:55:17 BST 2022
+MetaBAT 2 (2.15 (Bioconda)) using minContig 2500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, maxEdges 200 and minClsSize 200000. with random seed=1662569717
+0 bins (0 bases in total) formed.
+Finished metabat2 at Wed  7 Sep 17:55:20 BST 2022
+~~~
+{: .output}
+
+If you would like to see other options to alter your output you can get these by accepting the metabat2 manual
+
 ~~~
 metabat2 -h
 
