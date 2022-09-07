@@ -38,10 +38,10 @@ Thankfully we have already created this BAM file and the index in the [polishing
 
 ~~~
 We sort the BAM file we generated in the last lesson
-samtools sort -o short_read_alignment_sort.bam short_read_alignment.bam
+samtools sort -o pilon_short_read_alignment_sort.bam pilon_short_read_alignment.bam
 
 We then index this BAM file
-samtools index short_read_alignment_sort.bam
+samtools index pilon_short_read_alignment_sort.bam
 ~~~
 {: .bash}
 
