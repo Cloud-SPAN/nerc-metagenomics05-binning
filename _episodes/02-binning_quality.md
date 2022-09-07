@@ -26,10 +26,10 @@ Two of the main methods are the lineage workflow `lineage_wf` and the taxnonmic 
 
 
 
-We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `CHECKM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
+We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `checkM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
 ~~~
-$ mkdir CHECKM
-$ checkm lineage_wf  -x fasta Metabat2/ CHECKM/ --reduced_tree -t 4 -o 2 --tab_table -f MAGs_checkm.tsv
+$ mkdir checkM
+$ checkm lineage_wf  -x fasta Metabat2/ checkM/ --reduced_tree -t 4 -o 2 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
@@ -55,7 +55,7 @@ Running this workflow means that we run four checkM commands in one go rather th
   checkm lineage_set <output folder> <marker file>
   checkm analyze <marker file> <bin folder> <output folder>
   checkm qa <marker file> <output folder>
-  checkm qa CHECKM/checkM.ms CHECKM/ --file CHECKM/MAGs_checkm.tsv --tab_table -o 2
+  checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
 ~~~
 {: .bash}
 
@@ -66,7 +66,7 @@ If we arrange our contigs by size, from larger to smaller, and divide the whole 
 To get the table with these extra parameters we need to specify the file of the markers that CheckM used in the previous step `checkM.ms`, the name of the output file we want `MAGs_checkm.tsv`, that we want a table `--tab_table`, and the option number 2 `-o 2` is to ask for the extra parameters printed on the table. This means we will run the checkm qa part of the workflow again seperately with these addition commands:
 
 ~~~
-  checkm qa CHECKM/checkM.ms CHECKM/ --file CHECKM/MAGs_checkm.tsv --tab_table -o 2
+  checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
 ~~~
 {: .bash}
 
@@ -80,14 +80,14 @@ Generating metagenome bins can be challenging, especially in complex community s
 >
 > Fill in the blanks to complete the code you need to download the `quality_JP4D.tsv` to your local computer:
 > ~~~
-> ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/CHECKM/MAGs_checkm.tsv ____
+> ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv ____
 > ~~~
 > {: .bash}
 >
 >> ## Solution
 >>In a terminal logged into your local machine type:
 >> ```
->>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/CHECKM/MAGs_checkm.tsv <the destination directory of your choice>
+>>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv <the destination directory of your choice>
 >> ```
 >>{: .bash}
 >>
