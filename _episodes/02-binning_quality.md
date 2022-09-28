@@ -26,7 +26,7 @@ CheckM has multiple different workflows available which are appropriate for diff
 
 We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
 
-CheckM has been pre-installed on the instance so we can first check the help documentation.
+CheckM has been pre-installed on the instance so we can first check the help documentation.  
 
 > ## CheckM help Documentation
 > ~~~
