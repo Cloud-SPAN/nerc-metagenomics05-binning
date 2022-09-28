@@ -26,62 +26,73 @@ CheckM has multiple different workflows available which are appropriate for diff
 
 We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
 
-CheckM has been pre-installed on the instance so we can first check the help documentation.  
+CheckM has been pre-installed on the instance so we can check the help documentation.  
+
+~~~
+checkm lineage_wf -h
+~~~
+{: .bash}
 
 > ## CheckM help documentation
 > ~~~
+> usage: checkm lineage_wf [-h] [-r] [--ali] [--nt] [-g] [-u UNIQUE] [-m MULTI]
+>                          [--force_domain] [--no_refinement]
+>                          [--individual_markers] [--skip_adj_correction]
+>                          [--skip_pseudogene_correction]
+>                          [--aai_strain AAI_STRAIN] [-a ALIGNMENT_FILE]
+>                          [--ignore_thresholds] [-e E_VALUE] [-l LENGTH]
+>                          [-f FILE] [--tab_table] [-x EXTENSION] [-t THREADS]
+>                          [--pplacer_threads PPLACER_THREADS] [-q]
+>                          [--tmpdir TMPDIR]
+>                          bin_input output_dir
 >
->                 ...::: CheckM v1.2.1 :::...
+> Runs tree, lineage_set, analyze, qa
 >
->   Lineage-specific marker set:
->     tree         -> Place bins in the reference genome tree
->     tree_qa      -> Assess phylogenetic markers found in each bin
->     lineage_set  -> Infer lineage-specific marker sets for each bin
+> positional arguments:
+>   bin_input             directory containing bins (fasta format) or path to file describing genomes/genes - tab separated in 2 or 3 columns [genome ID, genome fna, genome translation file (pep)]
+>   output_dir            directory to write output files
 >
->   Taxonomic-specific marker set:
->     taxon_list   -> List available taxonomic-specific marker sets
->     taxon_set    -> Generate taxonomic-specific marker set
+> optional arguments:
+>   -h, --help            show this help message and exit
+>   -r, --reduced_tree    use reduced tree (requires <16GB of memory) for determining lineage of each bin
+>   --ali                 generate HMMER alignment file for each bin
+>   --nt                  generate nucleotide gene sequences for each bin
+>   -g, --genes           bins contain genes as amino acids instead of nucleotide contigs
+>   -u, --unique UNIQUE   minimum number of unique phylogenetic markers required to use lineage-specific marker set (default: 10)
+>   -m, --multi MULTI     maximum number of multi-copy phylogenetic markers before defaulting to domain-level marker set (default: 10)
+>   --force_domain        use domain-level sets for all bins
+>   --no_refinement       do not perform lineage-specific marker set refinement
+>   --individual_markers  treat marker as independent (i.e., ignore co-located set structure)
+>   --skip_adj_correction
+>                         do not exclude adjacent marker genes when estimating contamination
+>   --skip_pseudogene_correction
+>                         skip identification and filtering of pseudogenes
+>   --aai_strain AAI_STRAIN
+>                         AAI threshold used to identify strain heterogeneity (default: 0.9)
+>   -a, --alignment_file ALIGNMENT_FILE
+>                         produce file showing alignment of multi-copy genes and their AAI identity
+>   --ignore_thresholds   ignore model-specific score thresholds
+>   -e, --e_value E_VALUE
+>                         e-value cut off (default: 1e-10)
+>   -l, --length LENGTH   percent overlap between target and query (default: 0.7)
+>   -f, --file FILE       print results to file (default: stdout)
+>   --tab_table           print tab-separated values table
+>   -x, --extension EXTENSION
+>                         extension of bins (other files in directory are ignored) (default: fna)
+>   -t, --threads THREADS
+>                         number of threads (default: 1)
+>   --pplacer_threads PPLACER_THREADS
+>                         number of threads used by pplacer (memory usage increases linearly with additional threads) (default: 1)
+>   -q, --quiet           suppress console output
+>   --tmpdir TMPDIR       specify an alternative directory for temporary files
 >
->   Apply marker set to genome bins:
->     analyze      -> Identify marker genes in bins
->     qa           -> Assess bins for contamination and completeness
->
->   Common workflows (combines above commands):
->     lineage_wf   -> Runs tree, lineage_set, analyze, qa
->     taxonomy_wf  -> Runs taxon_set, analyze, qa
->
->   Reference distribution plots:
->     gc_plot      -> Create GC histogram and delta-GC plot
->     coding_plot  -> Create coding density (CD) histogram and delta-CD plot
->     tetra_plot   -> Create tetranucleotide distance (TD) histogram and delta-TD plot
->     dist_plot    -> Create image with GC, CD, and TD distribution plots together
->
->   General plots:
->     nx_plot      -> Create Nx-plots
->     len_hist     -> Sequence length histogram
->     marker_plot  -> Plot position of marker genes on sequences
->     gc_bias_plot -> Plot bin coverage as a function of GC
->
->   Bin exploration and modification:
->     unique       -> Ensure no sequences are assigned to multiple bins
->     merge        -> Identify bins with complementary sets of marker genes
->     outliers     -> [Experimental] Identify outlier in bins relative to reference distributions
->     modify       -> [Experimental] Modify sequences in a bin
->
->   Utility functions:
->     unbinned     -> Identify unbinned sequences
->     coverage     -> Calculate coverage of sequences
->     tetra        -> Calculate tetranucleotide signature of sequences
->     profile      -> Calculate percentage of reads mapped to each bin
->     ssu_finder   -> Identify SSU (16S/18S) rRNAs in sequences
->
->   Use 'checkm data setRoot <checkm_data_dir>' to specify the location of CheckM database files.
->
->   Usage: checkm <command> -h for command specific help
->
+> Example: checkm lineage_wf ./bins ./output
 > ~~~
 > {: .output}
 {: .solution}
+
+
+
 
 We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `checkM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
 ~~~
