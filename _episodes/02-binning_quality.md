@@ -16,20 +16,79 @@ keypoints:
 
 ## Quality check
 
-The quality of a MAG is highly dependent on the size of the genome of the species, its abundance
-in the community, and the depth at which we sequenced it.Two important things that can be measured to know its quality are completeness (is the MAG a complete genome?) and if it is contaminated (does the MAG contain only one genome?).
+The quality of a metagenome-assembled genome (MAG) or bin is highly dependent on the depth of sequencing, the abundance of the organism in the community and and how successful the assembly and polishing (if any) was.
 
-[CheckM](https://github.com/Ecogenomics/CheckM) is a good program to see the quality of our MAGs.
-It gives a measure of the completeness and the contamination by counting marker genes in the MAGs. Here is a [short youtube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards that explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
+In order to determine the quality of a MAG we can look at two different metrics. These are the completeness (i.e. how much of the genome is captured in the MAG) and contamination (i.e. do all the sequences in the MAG belong to the same organism).
 
-Two of the main methods are the lineage workflow `lineage_wf` and the taxnonmic workflow `taxonomy_wf`. The lineage workflow places your bins in a reference tree to know to which lineage it corresponds to and to use the appropriate marker genes to estimate the quality parameters. The taxonomy workflow works similarly but can be used for generating more specific markers for a specific taxonomic group such as a specific phylum. If you are concerned which is more appropriate for you the [checkM](https://github.com/Ecogenomics/CheckM) manual compared results across 1000 randomly selected genomes using [GTDB representative genomes](https://gtdb.ecogenomic.org/), and identical results were obtained using the lineage_wf, taxonomy_wf and ssu_finder methods. Details on how to run both workflows are given [here](https://github.com/Ecogenomics/CheckM/wiki/Workflows).
+We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determine the quality of MAGs. CheckM uses a collection of domain and lineage-specific markers to estimate completeness and contamination of a MAG. Here is a [short youtube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards that explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
 
+CheckM has multiple different workflows available which are appropriate for different datasets, see [CheckM documentation on Workflows](https://github.com/Ecogenomics/CheckM/wiki/Workflows) for more information.
 
+We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
+
+CheckM has been pre-installed on the instance so we can first check the help documentation.
+
+> ## CheckM help Documentation
+>
+> ~~~
+>
+>                 ...::: CheckM v1.2.1 :::...
+>
+>   Lineage-specific marker set:
+>     tree         -> Place bins in the reference genome tree
+>     tree_qa      -> Assess phylogenetic markers found in each bin
+>     lineage_set  -> Infer lineage-specific marker sets for each bin
+>
+>   Taxonomic-specific marker set:
+>     taxon_list   -> List available taxonomic-specific marker sets
+>     taxon_set    -> Generate taxonomic-specific marker set
+>
+>   Apply marker set to genome bins:
+>     analyze      -> Identify marker genes in bins
+>     qa           -> Assess bins for contamination and completeness
+>
+>   Common workflows (combines above commands):
+>     lineage_wf   -> Runs tree, lineage_set, analyze, qa
+>     taxonomy_wf  -> Runs taxon_set, analyze, qa
+>
+>   Reference distribution plots:
+>     gc_plot      -> Create GC histogram and delta-GC plot
+>     coding_plot  -> Create coding density (CD) histogram and delta-CD plot
+>     tetra_plot   -> Create tetranucleotide distance (TD) histogram and delta-TD plot
+>     dist_plot    -> Create image with GC, CD, and TD distribution plots together
+>
+>   General plots:
+>     nx_plot      -> Create Nx-plots
+>     len_hist     -> Sequence length histogram
+>     marker_plot  -> Plot position of marker genes on sequences
+>     gc_bias_plot -> Plot bin coverage as a function of GC
+>
+>   Bin exploration and modification:
+>     unique       -> Ensure no sequences are assigned to multiple bins
+>     merge        -> Identify bins with complementary sets of marker genes
+>     outliers     -> [Experimental] Identify outlier in bins relative to reference distributions
+>     modify       -> [Experimental] Modify sequences in a bin
+>
+>   Utility functions:
+>     unbinned     -> Identify unbinned sequences
+>     coverage     -> Calculate coverage of sequences
+>     tetra        -> Calculate tetranucleotide signature of sequences
+>     profile      -> Calculate percentage of reads mapped to each bin
+>     ssu_finder   -> Identify SSU (16S/18S) rRNAs in sequences
+>
+>   Use 'checkm data setRoot <checkm_data_dir>' to specify the location of CheckM database files.
+>
+>   Usage: checkm <command> -h for command specific help
+>     
+> ~~~
+> {: .output}
+{: .solution}
 
 We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `checkM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
 ~~~
-$ mkdir checkM
-$ checkm lineage_wf  -x fasta Metabat2/ checkM/ --reduced_tree -t 4 -o 2 --tab_table -f MAGs_checkm.tsv
+cd ~/analysis/
+mkdir checkM
+checkm lineage_wf  -x fasta Metabat2/ checkM/ --reduced_tree -t 4 -o 2 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
