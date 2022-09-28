@@ -132,4 +132,11 @@ seqkit stats -a *.fa
 | bin.5.fa | FASTA  | DNA  | 2        | 6812625 | 738110  | 3406312.5 | 6074515 | 738110.0  | 3406312.5 | 6074515.0 | 0       | 6074515 | 0.00   | 0.00   | 66.18 |
 | bin.6.fa | FASTA  | DNA  | 1        | 2992057 | 2992057 | 2992057.0 | 2992057 | 1496028.5 | 2992057.0 | 1496028.5 | 0       | 2992057 | 0.00   | 0.00   | 37.95 |
 
+
+> ## Optional Exercise:
+> Using the GC% from above and some additional reading, which bin might correspond to which organism?
+>
+{: challenge}
+
+
 {% include links.md %}
