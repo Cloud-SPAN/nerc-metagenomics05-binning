@@ -29,9 +29,7 @@ We will be using the lineage workflow here. `lineage_wf` places your bins in a r
 CheckM has been pre-installed on the instance so we can first check the help documentation.
 
 > ## CheckM help Documentation
->
 > ~~~
->
 >                 ...::: CheckM v1.2.1 :::...
 >
 >   Lineage-specific marker set:
@@ -78,8 +76,7 @@ CheckM has been pre-installed on the instance so we can first check the help doc
 >
 >   Use 'checkm data setRoot <checkm_data_dir>' to specify the location of CheckM database files.
 >
->   Usage: checkm <command> -h for command specific help
->     
+>   Usage: checkm <command> -h for command specific help   
 > ~~~
 > {: .output}
 {: .solution}
