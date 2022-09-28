@@ -30,7 +30,7 @@ characteristics of the contigs, such as their GC content, the use of tetranucleo
 that distinguishes between contigs that belong to different bins according to their
 coverage levels and the tetranucleotide frequencies they have.
 
-We are going to index the polished reference first with the following command, and then use bwa mem command again to align our short reads to the polished assembly in order to determine the abundance of each contig.
+We are going to index the polished reference first with the following command, and then use `bwa mem` command again to align our short reads to the polished assembly in order to determine the abundance of each contig.
 
 ~~~
 cd analysis/pilon/
@@ -46,7 +46,7 @@ cd binning
 ~~~
 {: .bash}
 
-We can then run the following command (we are adapting the `bwa mem` command we've used previously.
+We can then run the following command (we are adapting the `bwa mem` command we've used previously).
 
 ~~~
 bwa mem -t 4 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam
@@ -123,13 +123,16 @@ seqkit stats -a *.fa
 ~~~
 {: .bash}
 
-| file     | format | type | num_seqs | sum_len | min_len | avg_len   | max_len | Q1        | Q2        | Q3        | sum_gap | N50     | Q20(%) | Q30(%) | GC(%) |
-|----------|--------|------|----------|---------|---------|-----------|---------|-----------|-----------|-----------|---------|---------|--------|--------|-------|
-| bin.1.fa | FASTA  | DNA  | 78       | 833410  | 3189    | 10684.7   | 28254   | 6756.0    | 8325.5    | 14036.0   | 0       | 13228   | 0.00   | 0.00   | 38.16 |
-| bin.2.fa | FASTA  | DNA  | 37       | 3132462 | 4459    | 84661.1   | 334164  | 31784.0   | 59490.0   | 100708.0  | 0       | 152863  | 0.00   | 0.00   | 44.21 |
-| bin.3.fa | FASTA  | DNA  | 2        | 253329  | 53561   | 126664.5  | 199768  | 53561.0   | 126664.5  | 199768.0  | 0       | 199768  | 0.00   | 0.00   | 40.99 |
-| bin.4.fa | FASTA  | DNA  | 5        | 574132  | 70348   | 114826.4  | 176715  | 78563.0   | 98950.0   | 149556.0  | 0       | 149556  | 0.00   | 0.00   | 43.57 |
-| bin.5.fa | FASTA  | DNA  | 2        | 6812625 | 738110  | 3406312.5 | 6074515 | 738110.0  | 3406312.5 | 6074515.0 | 0       | 6074515 | 0.00   | 0.00   | 66.18 |
-| bin.6.fa | FASTA  | DNA  | 1        | 2992057 | 2992057 | 2992057.0 | 2992057 | 1496028.5 | 2992057.0 | 1496028.5 | 0       | 2992057 | 0.00   | 0.00   | 37.95 |
+~~~
+file      format  type  num_seqs    sum_len    min_len      avg_len    max_len           Q1           Q2           Q3  sum_gap        N50  Q20(%)  Q30(%)
+bin.1.fa  FASTA   DNA         78    833,410      3,189     10,684.7     28,254        6,756      8,325.5       14,036        0     13,228       0       0
+bin.2.fa  FASTA   DNA         37  3,132,462      4,459     84,661.1    334,164       31,784       59,490      100,708        0    152,863       0       0
+bin.3.fa  FASTA   DNA          2    253,329     53,561    126,664.5    199,768       53,561    126,664.5      199,768        0    199,768       0       0
+bin.4.fa  FASTA   DNA          5    574,132     70,348    114,826.4    176,715       78,563       98,950      149,556        0    149,556       0       0
+bin.5.fa  FASTA   DNA          2  6,812,625    738,110  3,406,312.5  6,074,515      738,110  3,406,312.5    6,074,515        0  6,074,515       0       0
+bin.6.fa  FASTA   DNA          1  2,992,057  2,992,057    2,992,057  2,992,057  1,496,028.5    2,992,057  1,496,028.5        0  2,992,057       0       0
+~~~
+{: .output}
+
 
 {% include links.md %}
