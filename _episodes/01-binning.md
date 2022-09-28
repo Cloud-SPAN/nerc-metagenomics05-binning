@@ -30,13 +30,7 @@ characteristics of the contigs, such as their GC content, the use of tetranucleo
 that distinguishes between contigs that belong to different bins according to their
 coverage levels and the tetranucleotide frequencies they have.
 
-Let's bin the sample we just assembled. The command for running Metabat2 is `runMetaBat.sh`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and name. Before we run Metabat2 we need to generate a BAM file using the program BWA, and then sort these BAM files.
-
-[BWA](http://bio-bwa.sourceforge.net/bwa.shtml) is a alignment tool, which maps reads to a reference. Due to the assembly being a *de novo* genome that we don't know what it should look like. We can instead use the assembly that we have polished, and map the reads used to generate the assembly and map them to it.
-
-We already created a BAM file and the index in the [polishing an assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/04-polishing-assembly/index.html). However becaues there are small changes to the length of sequence of the reference after using pilon, we will need to generate a new BAM fileand index.
-
-We are going to index the polished reference first with the following command, and then use bwa mem command again.
+We are going to index the polished reference first with the following command, and then use bwa mem command again to align our short reads to the polished assembly in order to determine the abundance of each contig.
 
 ~~~
 cd analysis/pilon/
