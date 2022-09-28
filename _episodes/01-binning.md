@@ -15,15 +15,15 @@ keypoints:
 
 ## Metagenomic binning
 To analyze each of the species inside our sample individually, the original genomes in the sample can be separated with a process called binning.
-We call these genomes reconstructed from metagenomic assembly MAGs (Metagenome-Assembled Genomes).
+We call these genomes reconstructed from metagenomic assembly MAGs (Metagenome-Assembled Genomes).  
 In this process, the assembled contigs from the metagenome will be assigned to different bins (FASTA files that contain certain contigs). Ideally, each bin corresponds to only one original genome (a MAG).
 
 <a href="{{ page.root }}/fig/03-05-01.png">
   <img src="{{ page.root }}/fig/03-05-01.png" width="435" height="631" alt="Diagram depicting the DNA sequences  in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned"/>
 </a>
 
-Although an obvious way to separate contigs that correspond to a different species is by their taxonomic assignation,
-there are more reliable methods that do the binning using
+Although an obvious way to separate contigs that correspond to a different species is by their taxonomic assignation, this can be time consuming and require a lot of computational power.
+There are easier methods that do the binning to a high quality using
 characteristics of the contigs, such as their GC content, the use of tetranucleotides (composition), or their coverage (abundance).
 
 [Metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm
@@ -37,119 +37,105 @@ Let's bin the sample we just assembled. The command for running Metabat2 is `run
 We already created a BAM file and the index in the [polishing an assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/04-polishing-assembly/index.html). However becaues there are small changes to the length of sequence of the reference after using pilon, we will need to generate a new BAM fileand index.
 
 We are going to index the polished reference first with the following command, and then use bwa mem command again.
-~~~
-bwa index pilon.fasta
 
-bwa mem -t 4  pilon.fasta ../../ERR3152367_sub5_filtered.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam >> pilon_alignment.out 2>&1  &
+~~~
+cd analysis/pilon/
+bwa index pilon.fasta
 ~~~
 {: .bash}
 
-In order to use this new BAM with metabat2 we also need to sort the order of the alignments using the command `samtools sort`.
-
-
-We sort the BAM file we generated in the last lesson
+We will then make a directory for the output of our binning.
 ~~~
-samtools sort -o pilon_short_read_alignment_sort.bam pilon_short_read_alignment.bam
+cd ~/analysis/
+mkdir binning
+cd binning
+~~~
+{: .bash}
 
-We then index this BAM file
+We can then run the following command (we are adapting the `bwa mem` command we've used previously.
+
+~~~
+bwa mem -t 4 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam
+~~~
+{: .bash}
+
+In order to use this new BAM with metabat2 we also need to index the alignment using the command `samtools index`
+
+~~~
 samtools index pilon_short_read_alignment_sort.bam
 ~~~
 {: .bash}
 
-When we have the sorted BAM file we are then ready to use Metabat2
+When we have the sorted and indexed BAM file we are then ready to use Metabat2
 
 ~~~
-runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
-runMetaBat.sh assembly.fasta sample1.bam &
-~~~
-{: .bash}
-
-
-~~~
- cd ~/analysis/
- mkdir Metabat2
- cd Metabat2
- runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]
- runMetaBat.sh pilon.fasta pilon_short_read_alignment_sort.bam &
+runMetaBat.sh -m 1500 ../pilon/pilon.fasta pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-Once you have ran metabat2 you should have this output to the screen
-
+When you run this, `metabat2` will first read in the bam file then generate bins. This should take around 5 minutes.
+You will first see the following when metabat2 is processing the bam file. It will likely stay at this point for a few minutes while the bam file is processed.
 ~~~
-Remove - empty bins - add concoct output instead
+Executing: 'jgi_summarize_bam_contig_depths --outputDepth pilon.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta ../pilon/pilon.fasta pilon_short_read_alignment.bam' at Wed 28 Sep 16:45:13 BST 2022
+Output depth matrix to pilon.fasta.depth.txt
+Minimum percent identity for a mapped read: 0.97
+minContigLength: 1000
+minContigDepth: 1
+Reference fasta file ../pilon/pilon.fasta
+jgi_summarize_bam_contig_depths 2.15 (Bioconda) 2020-07-03T13:02:15
+Output matrix to pilon.fasta.depth.txt
+Reading reference fasta file: ../pilon/pilon.fasta
+... 148 sequences
+0: Opening bam: pilon_short_read_alignment.bam
+Processing bam files
 ~~~
 {: .output}
 
-If you would like to see other options to alter your output you can get these by accepting the metabat2 manual
-
+Once the bam file has processed and binning has completed, you should see the following output.
 ~~~
-metabat2 -h
-
-Allowed options:
-  -h [ --help ]                     produce help message
-  -i [ --inFile ] arg               Contigs in (gzipped) fasta file format [Mandatory]
-  -o [ --outFile ] arg              Base file name and path for each bin. The default output is fasta format.
-                                    Use -l option to output only contig names [Mandatory].
-  -a [ --abdFile ] arg              A file having mean and variance of base coverage depth (tab delimited;
-                                    the first column should be contig names, and the first row will be
-                                    considered as the header and be skipped) [Optional].
-  -m [ --minContig ] arg (=2500)    Minimum size of a contig for binning (should be >=1500).
-  --maxP arg (=95)                  Percentage of 'good' contigs considered for binning decided by connection
-                                    among contigs. The greater, the more sensitive.
-  --minS arg (=60)                  Minimum score of a edge for binning (should be between 1 and 99). The
-                                    greater, the more specific.
-  --maxEdges arg (=200)             Maximum number of edges per node. The greater, the more sensitive.
-  --pTNF arg (=0)                   TNF probability cutoff for building TNF graph. Use it to skip the
-                                    preparation step. (0: auto).
-  --noAdd                           Turning off additional binning for lost or small contigs.
-  --cvExt                           When a coverage file without variance (from third party tools) is used
-                                    instead of abdFile from jgi_summarize_bam_contig_depths.
-  -x [ --minCV ] arg (=1)           Minimum mean coverage of a contig in each library for binning.
-  --minCVSum arg (=1)               Minimum total effective mean coverage of a contig (sum of depth over
-                                    minCV) for binning.
-  -s [ --minClsSize ] arg (=200000) Minimum size of a bin as the output.
-  -t [ --numThreads ] arg (=0)      Number of threads to use (0: use all cores).
-  -l [ --onlyLabel ]                Output only sequence labels as a list in a column without sequences.
-  --saveCls                         Save cluster memberships as a matrix format
-  --unbinned                        Generate [outFile].unbinned.fa file for unbinned contigs
-  --noBinOut                        No bin output. Usually combined with --saveCls to check only contig
-                                    memberships
-  --seed arg (=0)                   For exact reproducibility. (0: use random seed)
-  -d [ --debug ]                    Debug output
-  -v [ --verbose ]                  Verbose output
-  ~~~
+Thread 0 finished: pilon_short_read_alignment.bam with 97425751 reads and 95337444 readsWellMapped
+Creating depth matrix file: pilon.fasta.depth.txt
+Closing most bam files
+Closing last bam file
+Finished
+Finished jgi_summarize_bam_contig_depths at Wed 28 Sep 16:46:23 BST 2022
+Creating depth file for metabat at Wed 28 Sep 16:46:23 BST 2022
+Executing: 'metabat2  -m 1500 --inFile ../pilon/pilon.fasta --outFile pilon.fasta.metabat-bins1500-20220928_164623/bin --abdFile pilon.fasta.depth.txt' at Wed 28 Sep 16:46:23 BST 2022
+MetaBAT 2 (2.15 (Bioconda)) using minContig 1500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, maxEdges 200 and minClsSize 200000. with random seed=1664379983
+6 bins (14598015 bases in total) formed.
+Finished metabat2 at Wed 28 Sep 16:46:25 BST 2022
+~~~
 {: .output}
 
-In MetaBAT 2, parameter optimization will be unnecessary, though we allowed a few parameters so that advanced users might play with them.
+From the final line we can see that MetaBAT has produced 6 bins `6 bins (14598015 bases in total) formed.`
 
-You can decrease -m (--minContig) when the qualities of both assembly and formed bins with default value are very good.
+If you `ls` you can see that metabat2 has generated a depth file `pilon.fasta.depth.txt` and a directory `pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`. Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
+~~~
+cd pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/
+ls
+~~~
+{: .bash}
 
-'-i' input file should be either fasta or gzipped fasta file. (since v0.32.3)
+~~~
+bin.1.fa  bin.2.fa  bin.3.fa  bin.4.fa  bin.5.fa  bin.6.fa
+~~~
+{: .output}
 
--p option is for utilizing paired info from short reads. It may improve sensitivity.
-'--p1' and '--p2' should be both high to maintain great specificity. Usually p1 >= p2 performs better.
---minProb mainly controls the scope and sensitivity of binning. A smaller number improves sensitivity. It should be < p1, p2.
 
---minBinned mainly controls the specificity. A greater number improves specificity. Usually <= 50.
-Use --verysensitive on simple community for more inclusive binning.
+We can then run seqkit stats on all 6 of these bins to see how they compare.
 
---minCorr would include contigs which are closely correlated in abundance but somewhat different in absolute abundance. More effective in availability of many samples.
-Recruiting by correlation would be activated only if # of samples >= minSamples and be disabled (for better specificity) when minContigByCorr > minContig.
+~~~
+seqkit stats -a *.fa
+~~~
+{: .bash}
 
-Smaller contigs (>1000) will be given a chance to be recruited to existing bins when # of samples >= minSamples by default setting.
-
-'--saveDistance' option saves a lot of computations when multiple binning attempts are executed with different parameter settings.
-
-'--unbinned' option generates a file for unbinned contigs.
-
-'-B' option is for ensemble binning. Recommended to be 20 or more. Should be >= 10 for reasonable results. It tends to generate reduced number of better quality bins at the cost of some additional computation.
-
-'--pB' option controls for sensitivity and specificity tradeoff in ensemble binning. The smaller, the sensitive. Range is between 0 to 100. The default is 50.
-
-Produced bins would be stochastic if ensemble binning was used. --seed would minimize the stochasticity but still there would be slight difference.
-
-Each bin will be saved as a fasta format
-
+| file     | format | type | num_seqs | sum_len | min_len | avg_len   | max_len | Q1        | Q2        | Q3        | sum_gap | N50     | Q20(%) | Q30(%) | GC(%) |
+|----------|--------|------|----------|---------|---------|-----------|---------|-----------|-----------|-----------|---------|---------|--------|--------|-------|
+| bin.1.fa | FASTA  | DNA  | 78       | 833410  | 3189    | 10684.7   | 28254   | 6756.0    | 8325.5    | 14036.0   | 0       | 13228   | 0.00   | 0.00   | 38.16 |
+| bin.2.fa | FASTA  | DNA  | 37       | 3132462 | 4459    | 84661.1   | 334164  | 31784.0   | 59490.0   | 100708.0  | 0       | 152863  | 0.00   | 0.00   | 44.21 |
+| bin.3.fa | FASTA  | DNA  | 2        | 253329  | 53561   | 126664.5  | 199768  | 53561.0   | 126664.5  | 199768.0  | 0       | 199768  | 0.00   | 0.00   | 40.99 |
+| bin.4.fa | FASTA  | DNA  | 5        | 574132  | 70348   | 114826.4  | 176715  | 78563.0   | 98950.0   | 149556.0  | 0       | 149556  | 0.00   | 0.00   | 43.57 |
+| bin.5.fa | FASTA  | DNA  | 2        | 6812625 | 738110  | 3406312.5 | 6074515 | 738110.0  | 3406312.5 | 6074515.0 | 0       | 6074515 | 0.00   | 0.00   | 66.18 |
+| bin.6.fa | FASTA  | DNA  | 1        | 2992057 | 2992057 | 2992057.0 | 2992057 | 1496028.5 | 2992057.0 | 1496028.5 | 0       | 2992057 | 0.00   | 0.00   | 37.95 |
 
 {% include links.md %}
