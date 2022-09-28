@@ -62,6 +62,9 @@ samtools index pilon_short_read_alignment_sort.bam
 
 When we have the sorted and indexed BAM file we are then ready to use Metabat2
 
+Metabat2 has been pre-installed on your instance. From the documentation [README.md file](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) we can see how to run Metabat2 on the command line in the section "MetaBAT 2 USAGE: running on command line".
+This tells us the "easy" way to run metabat2 is using `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`, this will generate a depth file and then do the binning for us.
+We're also going to add the flag `-m 1500`, which sets the minimum contig length it will try to bin to 1500bp
 ~~~
 runMetaBat.sh -m 1500 ../pilon/pilon.fasta pilon_short_read_alignment.bam
 ~~~
@@ -139,7 +142,7 @@ seqkit stats -a *.fa
 > You might find it helpful to go to the section where we introduce the dataset ([Metagenomics 01 - 00 Introduction](https://cloud-span.github.io/metagenomics01-qc-assembly/00-introduction-meta/index.html)) and also do some additional reading about each species.
 >
 >> ## Solution
->> 
+>>
 > {: .solution}
 {: .challenge}
 
