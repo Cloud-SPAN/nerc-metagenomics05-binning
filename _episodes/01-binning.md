@@ -133,7 +133,7 @@ seqkit stats -a *.fa
 | bin.6.fa | FASTA  | DNA  | 1        | 2992057 | 2992057 | 2992057.0 | 2992057 | 1496028.5 | 2992057.0 | 1496028.5 | 0       | 2992057 | 0.00   | 0.00   | 37.95 |
 
 
-> ## Optional Exercise:
+> ## Optional Exercise:  
 > Using the GC content and total size from the seqkit stats output, which bin might correspond to which organism in our dataset? You might find it helpful to go to the section where we introduce the dataset ([Metagenomics 01 - 00 Introduction](https://cloud-span.github.io/metagenomics01-qc-assembly/00-introduction-meta/index.html)) and also do some additional reading about each species.
 >
 {: .challenge}
