@@ -5,7 +5,7 @@ exercises: 10
 questions:
 - "How can we obtain the original genomes from a metagenome?"
 objectives:
-- "Obtain Metagenome-Assembled Genomes from the metagenomic assembly."
+- "Obtain Metagenome-Assembled Genomes (MAGs) from the metagenomic assembly."
 - "Understand that there are multiple methods that can be used to perform binning"  
 keypoints:
 - "Metagenome-Assembled Genomes (MAGs) sometimes are obtained from curated contigs grouped into bins."
