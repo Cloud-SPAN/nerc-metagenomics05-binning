@@ -35,13 +35,14 @@ prokka -h
 ~~~
 {: .bash}
 
-From this we can see build our command.
+From this we can build our command.
 ~~~
 prokka --outdir mydir --prefix mygenome contigs.fa
 ~~~
 {: .bash}
 
-We need to run prokka for each of our six MAGs. 
+We need to run prokka for each of our six MAGs.
+Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.txt` but many of the other files are useful for
 
 | Suffix | Description of file contents                       |
 |--------|----------------------------------------------------|
@@ -55,6 +56,8 @@ We need to run prokka for each of our six MAGs.
 | .gff   | GFF v3 file containing sequences and annotations   |
 | .log   | Log file of Prokka processing output               |
 | .txt   | Annotation summary statistics                      |
+
+
 
 
 Do we want to identify the 16S and then use this to make a tree?
