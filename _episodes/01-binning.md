@@ -118,6 +118,7 @@ bin.1.fa  bin.2.fa  bin.3.fa  bin.4.fa  bin.5.fa  bin.6.fa
 ~~~
 {: .output}
 
+Note these output files have the file extensions of `.fa` - this is exactly the same format as a `.fasta` file it is just a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions. 
 
 We can then run seqkit stats on all 6 of these bins to see how they compare.
 
