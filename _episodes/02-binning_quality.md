@@ -24,14 +24,14 @@ We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determ
 
 CheckM has multiple different workflows available which are appropriate for different datasets, see [CheckM documentation on Workflows](https://github.com/Ecogenomics/CheckM/wiki/Workflows) for more information.
 
+We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
+
 ~~~
 cd ~/analysis/
 ~~~
 {: .bash}
 
-We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
-
-CheckM has been pre-installed on the instance so we can check the help documentation.  
+CheckM has been pre-installed on the instance so we can check the help documentation for the lineage_wf.  
 
 ~~~
 checkm lineage_wf -h
