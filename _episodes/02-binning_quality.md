@@ -24,6 +24,11 @@ We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determ
 
 CheckM has multiple different workflows available which are appropriate for different datasets, see [CheckM documentation on Workflows](https://github.com/Ecogenomics/CheckM/wiki/Workflows) for more information.
 
+~~~
+cd ~/analysis/
+~~~
+{: .bash}
+
 We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
 
 CheckM has been pre-installed on the instance so we can check the help documentation.  
@@ -91,14 +96,10 @@ checkm lineage_wf -h
 > {: .output}
 {: .solution}
 
+From this we can see that along with the directory that contains the bins and an output directory we also need to add a flag to tell CheckM the format of our bins, which in our case is `.fa`. We also need to pass the `--reduced_tree` flag which limits the memory requirements so we can successfully run it on the amount of compute we have. The flag `-f` will specify and output file and we also want to use the flag `--tab_table` so the output is in a tab-separated format. Finally, we want to use `-t 4` to set the number of threads used to four, which is the number we have on our instance.
 
-
-
-We will run the lineage workflow and will specify that our bins are in FASTA format, that they are located in the `Metabat2` directory and that we want our output in the `checkM/` directory. We will be using the `reduced_tree` option to keep our RAM consumption to 16Gb, and `-t 4` to set the number of thread to 4 because these are available on the instance and will speed up the process. If you are on a High performance computing cluster (HPC), you can remove the reduced_tree option.
 ~~~
-cd ~/analysis/
-mkdir checkM
-checkm lineage_wf  -x fasta Metabat2/ checkM/ --reduced_tree -t 4 -o 2 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf  -x fasta metabat2/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
@@ -124,17 +125,6 @@ Running this workflow means that we run four checkM commands in one go rather th
   checkm lineage_set <output folder> <marker file>
   checkm analyze <marker file> <bin folder> <output folder>
   checkm qa <marker file> <output folder>
-  checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
-~~~
-{: .bash}
-
-
-Ideally, we would like to get only one contig per bin, with a length similar the genome size of the corresponding taxa. Since this scenario is very difficult to obtain we can use parameters that show us how good is our assembly. Here are some of the most common metrics:
-If we arrange our contigs by size, from larger to smaller, and divide the whole sequence in half, N50 is the size of the smallest contig in the half that has the larger contigs; and L50 is the number of contigs in this half of the sequence. So we want big N50 and small L50 values for our genomes. Read [What’s N50?](https://www.molecularecologist.com/2017/03/29/whats-n50/).
-
-To get the table with these extra parameters we need to specify the file of the markers that CheckM used in the previous step `checkM.ms`, the name of the output file we want `MAGs_checkm.tsv`, that we want a table `--tab_table`, and the option number 2 `-o 2` is to ask for the extra parameters printed on the table. This means we will run the checkm qa part of the workflow again seperately with these addition commands:
-
-~~~
   checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
 ~~~
 {: .bash}
