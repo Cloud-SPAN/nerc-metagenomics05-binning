@@ -129,9 +129,9 @@ Running this workflow means that we run four checkM commands in one go rather th
 ~~~
 {: .output}
 
-> ## Exercise 1: Explore the quality of the obtained MAGs
+> ## Exercise 1: Downloading the tsv file.
 >
-> Fill in the blanks to complete the code you need to download the `quality_JP4D.tsv` to your local computer:
+> Fill in the blanks to complete the code you need to download the `MAGs_checkm.tsv` to your local computer:
 > ~~~
 > ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv ____
 > ~~~
@@ -145,13 +145,32 @@ Running this workflow means that we run four checkM commands in one go rather th
 >>{: .bash}
 >>
 > {: .solution}
-> Open the spreadsheet in excel and think about  which of the parameters in the table you find useful.
 {: .challenge}
 
 The question of how much contamination we can tolerate and how much completeness do we need depends a lot on the scientific question being tackled.
 
+In the Minimum information about a metagenome-assembled genome (MIMAG) microbial standards [Bowers, R., Kyrpides, N., Stepanauskas, R. et al., 2017](https://www.nature.com/articles/nbt.3893). A framework to determine MAG quality from statistics is outlined. Three different metrics to be assigned as either; High, Medium or Low quality draft metagenome assembled genomes.
+See the table below for an overview of each category.
 
+| Quality Category | Completeness | Contamination | rRNA/tRNA encoded|
+| ----------- | ----------- | -----------| -----------|
+| High      | > 90%       | ≤ 5% | Yes (≥ 18 tRNA and all rRNA)|
+| Medium   | ≥ 50%        | ≤ 10% | No |
+| Low   | < 50%      | ≤ 10%| No |
 
+Using CheckM we have determined the Completeness and Contamination of each of our MAGs. We will be using a program in the next episode to determine which rRNA and tRNAs are present in each MAG. However, due to the difficulty in assembly of short-read metagenomes often just a completeness >90% and a contamination ≤ 5% is treated as a good quality MAG.
 
+> ## Exercise 2: Explore the quality of the obtained MAGs
+>
+> Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see the file [here]()
+> Looking at this file what category would each of our MAGs fall into (we will ignore the tRNA and rRNA requirement for now)
+> {: .bash}
+>
+>> ## Solution
+>>
+>>{: .bash}
+>>
+> {: .solution}
+{: .challenge}
 
 {% include links.md %}
