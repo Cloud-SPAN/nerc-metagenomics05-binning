@@ -118,9 +118,9 @@ bin.1.fa  bin.2.fa  bin.3.fa  bin.4.fa  bin.5.fa  bin.6.fa
 ~~~
 {: .output}
 
-Note these output files have the file extensions of `.fa` - this is exactly the same format as a `.fasta` file it is just a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions. 
+Note these output files have the file extensions of `.fa` - this is exactly the same format as a `.fasta` file it is just a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions.
 
-We can then run seqkit stats on all 6 of these bins to see how they compare.
+Ideally, we would like to get only one contig per bin, with a length similar the genome size of the corresponding taxa. Since this would require knowing what species are in the mixed community along with knowing their genome size - which for many species in metagenomic samples is challenging as they make up the "microbial dark matter". As knowing this information for a lot of metagenomic samples is rare we can use other statistics that show us how good our assembly and binning have been. One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. As we covered in [Metagenomics 01 - 05 QC Polished Assembly](https://cloud-span.github.io/metagenomics01-qc-assembly/05-QC-polished-assembly/index.html), we can use `seqkit stats` to get these statistics on all six of the bins.
 
 ~~~
 seqkit stats -a *.fa
@@ -135,6 +135,7 @@ seqkit stats -a *.fa
 | bin.4.fa | FASTA  | DNA  | 5        | 574132  | 70348   | 114826.4  | 176715  | 78563.0   | 98950.0   | 149556.0  | 0       | 149556  | 0.00   | 0.00   | 43.57 |
 | bin.5.fa | FASTA  | DNA  | 2        | 6812625 | 738110  | 3406312.5 | 6074515 | 738110.0  | 3406312.5 | 6074515.0 | 0       | 6074515 | 0.00   | 0.00   | 66.18 |
 | bin.6.fa | FASTA  | DNA  | 1        | 2992057 | 2992057 | 2992057.0 | 2992057 | 1496028.5 | 2992057.0 | 1496028.5 | 0       | 2992057 | 0.00   | 0.00   | 37.95 |
+
 
 
 > ## Optional Exercise:
