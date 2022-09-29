@@ -21,13 +21,41 @@ math: true
 
 ## How we perform functional annotation?
 
-We will be annotating each of our MAGs using [Prokka](https://github.com/tseemann/prokka) which does rapid prokaryotic genome annotation
-
+We will be annotating each of our MAGs using [Prokka](https://github.com/tseemann/prokka) for rapid prokaryotic genome annotation on the command line.
 
 > ## Software choices
 > We are using prokka here as it is still the software most commonly used. However, the program is no longer being updated. One recent alternative that is being actively developed is [Bakta](https://github.com/oschwengers/bakta).
+{: .callout}
 
-Something about prokka
+Prokka identifies candidate genes in a iterative process. First using Prodigal (another command line tool that prokka uses in the pipeline) to find candiate genes and then they are then compared against databases of known protein sequences in order to determine their function. You can read more about Prokka in the corresponding paper [Seeman, 2014](https://academic.oup.com/bioinformatics/article/30/14/2068/2390517).
+
+Prokka has been pre-installed on our instance and we can access the help documentation using
+~~~
+prokka -h
+~~~
+{: .bash}
+
+From this we can see build our command.
+~~~
+prokka --outdir mydir --prefix mygenome contigs.fa
+~~~
+{: .bash}
+
+We need to run prokka for each of our six MAGs. 
+
+| Suffix | Description of file contents                       |
+|--------|----------------------------------------------------|
+| .fna   | FASTA file of original input contigs (nucleotide)  |
+| .faa   | FASTA file of translated coding genes (protein)    |
+| .ffn   | FASTA file of all genomic features (nucleotide)    |
+| .fsa   | Contig sequences for submission (nucleotide)       |
+| .tbl   | Feature table for submission                       |
+| .sqn   | Sequin editable file for submission                |
+| .gbk   | Genbank file containing sequences and annotations  |
+| .gff   | GFF v3 file containing sequences and annotations   |
+| .log   | Log file of Prokka processing output               |
+| .txt   | Annotation summary statistics                      |
+
 
 Do we want to identify the 16S and then use this to make a tree?
 
