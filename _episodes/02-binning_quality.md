@@ -127,13 +127,7 @@ Running this workflow means that we run four checkM commands in one go rather th
   checkm qa <marker file> <output folder>
   checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
 ~~~
-{: .bash}
-
-The question of, how much contamination we can tolerate and how much completeness do we need, certainly depends on the scientific question being tackled, but in the [CheckM](https://genome.cshlp.org/content/25/7/1043) paper, there are some parameters that we can follow.
-
-## Other binning methods
-
-Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. You might find that a different binning method might result in better refined MAGs for your dataset. There are lots of other binning software methods, [CONCOCT](https://www.nature.com/articles/nmeth.3103) and [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) being two popular alternatives. There are also tools that can combine different binning methods and use them to refine, [DAS tool](https://www.nature.com/articles/s41564-018-0171-1) being one of them. DAS tool can also give completeness information, similarly to checkM.
+{: .output}
 
 > ## Exercise 1: Explore the quality of the obtained MAGs
 >
@@ -154,5 +148,10 @@ Generating metagenome bins can be challenging, especially in complex community s
 > Open the spreadsheet in excel and think about  which of the parameters in the table you find useful.
 {: .challenge}
 
-{: .bash}
+The question of how much contamination we can tolerate and how much completeness do we need depends a lot on the scientific question being tackled.
+
+
+
+
+
 {% include links.md %}
