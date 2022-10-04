@@ -105,15 +105,13 @@ checkm lineage_wf  -x fasta metabat2/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS
 
 The run will end with our results in a file called which we can open with `less MAGs_checkm.tsv`
 ~~~
---------------------------------------------------------------------------------------------------------------------------------------------------------
-  Bin Id     Marker lineage   # genomes   # markers   # marker sets   0    1    2    3    4   5+   Completeness   Contamination   Strain heterogeneity  
---------------------------------------------------------------------------------------------------------------------------------------------------------
-  JP4D.002      Bacteria         5449        104            58        3    34   40   21   5   1       94.83           76.99              11.19          
-  JP4D.004      Bacteria         5449        104            58        12   40   46   6    0   0       87.30           51.64               3.12          
-  JP4D.001      Bacteria         5449        104            58        24   65   11   3    1   0       70.48           13.09               0.00          
-  JP4D.003      Bacteria         5449        104            58        44   49   11   0    0   0       64.44           10.27               0.00          
---------------------------------------------------------------------------------------------------------------------------------------------------------
-
+Bin Id  Marker lineage  # genomes       # markers       # marker sets   0       1       2       3       4       5+      Completeness    Contamination   Strain heterogeneity
+bin.1   k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       2.19    0.00    0.00
+bin.2   k__Bacteria (UID203)    5449    104     58      57      47      0       0       0       0       70.69   0.00    0.00
+bin.3   root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
+bin.4   g__Bacillus (UID864)    93      711     241     595     116     0       0       0       0       6.42    0.00    0.00
+bin.5   o__Pseudomonadales (UID4488)    185     813     308     1       807     5       0       0       0       99.68   0.61    0.00
+bin.6   c__Bacilli (UID285)     586     325     181     1       324     0       0       0       0       99.45   0.00    0.00
 ~~~
 {: .output}
 
