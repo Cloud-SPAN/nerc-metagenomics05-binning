@@ -160,7 +160,7 @@ Using CheckM we have determined the Completeness and Contamination of each of ou
 
 > ## Exercise 2: Explore the quality of the obtained MAGs
 >
-> Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see the file [here]()
+> Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see or download the file [here](https://drive.google.com/file/d/11vJr5uHBx6J57sazLoU7oOl1peB9OxxJ/view?usp=sharing).
 > Looking at this file what category would each of our MAGs fall into (we will ignore the tRNA and rRNA requirement for now)
 > {: .bash}
 >
