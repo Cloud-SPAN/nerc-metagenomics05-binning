@@ -165,8 +165,8 @@ Using CheckM we have determined the Completeness and Contamination of each of ou
 > {: .bash}
 >
 >> ## Solution
->>
->>{: .bash}
+>> From the file above, we can see there are two potential high quality draft metagenome assembled genomes which are bin.5 and bin.6. We also have one medium quality draft MAG in bin.2. Finally there are three low quality MAGs in bin.1, bin.3 and bin.4.
+Your bins may have a different name/number to these but you should still have seen similar results. 
 >>
 > {: .solution}
 {: .challenge}
