@@ -57,7 +57,7 @@ Prokka produces multiple different file types which you can see in the table bel
 | .log   | Log file of Prokka processing output               |
 | .txt   | Annotation summary statistics                      |
 
-
+Pick one MAG...
 
 
 Do we want to identify the 16S and then use this to make a tree?
