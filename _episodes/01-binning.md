@@ -161,8 +161,7 @@ seqkit stats -a *.fa
 >Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
 >Bin 5 = Pseudomonas aeruginosa
 >Bin 6 = Listeria monocytogenes
->
-{: .solution}
+> {: .solution}
 {: .challenge}
 
 > ## Recommended reading:
