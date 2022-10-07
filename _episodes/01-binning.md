@@ -155,6 +155,7 @@ seqkit stats -a *.fa
 > In a later lesson we will be using a program for taxonomic assignment so you can see then how your answers compare to the results.  
 >
 >> ## Solution
+~~~
 | file     | sum_len | GC(%) |
 |----------|---------|-------|
 | bin.1.fa | 833410  | 38.16 |
@@ -163,7 +164,8 @@ seqkit stats -a *.fa
 | bin.4.fa | 574132  | 43.57 |
 | bin.5.fa | 6812625 | 66.18 |
 | bin.6.fa | 2992057 | 37.95 |
-
+~~~
+> {: .output}
 >Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
 >Bin 2 = Bacillus subtilis
 >Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
