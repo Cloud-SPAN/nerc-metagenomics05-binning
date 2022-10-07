@@ -155,12 +155,12 @@ seqkit stats -a *.fa
 > In a later lesson we will be using a program for taxonomic assignment so you can see then how your answers compare to the results.  
 >
 >> ## Solution
->Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
->Bin 2 = Bacillus subtilis
->Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
->Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
->Bin 5 = Pseudomonas aeruginosa
->Bin 6 = Listeria monocytogenes
+>> Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
+>> Bin 2 = Bacillus subtilis
+>> Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
+>> Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
+>> Bin 5 = Pseudomonas aeruginosa
+>> Bin 6 = Listeria monocytogenes
 > {: .solution}
 {: .challenge}
 
