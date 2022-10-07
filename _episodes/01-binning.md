@@ -149,12 +149,13 @@ seqkit stats -a *.fa
 > {: .solution}
 {: .challenge}
 
-> ## Other binning methods
-> Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths.  
-> You might find that a different binning method might result in better refined MAGs for your dataset.  
-> There are lots of other binning software methods, [CONCOCT](https://www.nature.com/articles/nmeth.3103) and [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) being two popular alternatives.  
+> ## Recommended reading:
+> Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. You might find that a different binning method might result in better refined MAGs for your dataset.  There are lots of other binning software methods
+> * [CONCOCT] (https://www.nature.com/articles/nmeth.3103) Clustering cOntigs with COverage and ComposiTion, the manual for running this is [here](https://github.com/BinPro/CONCOCT)
+> * [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) uses an expectation-maximization algorithm to form bins. The link to installing maxbin2 as a conda package is [here](https://anaconda.org/bioconda/maxbin2)
 > There are also tools that can combine different binning methods and use them to refine, [DAS tool](https://www.nature.com/articles/s41564-018-0171-1) being one of them. DAS tool can also give completeness information, similarly to checkM.
-{: .callout}
 
+
+{: .callout}
 
 {% include links.md %}
