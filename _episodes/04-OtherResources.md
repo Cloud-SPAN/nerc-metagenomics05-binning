@@ -43,6 +43,19 @@ are dedicated to metabolism.
 
 MG-RAST has it's own specific pipeline, so it is a very useful tool to have a quick look of your data, and also to store it and share it!, but it does not keep you from making your own personalized analysis like we just learn!
 
+### Krona for visualization
+
+[Krona](https://github.com/marbl/Krona/wiki) is a hierarchical
+data visualization software. Krona allows data to be explored with zooming,
+multi-layered pie charts and includes support for several bioinformatics
+tools and raw data formats. It allows you to generate html reports on the taxonomy in your metagenome, an example is shown beneath.
+
+<a href="{{ page.root }}/fig/03-06-03.png">
+  <img src="{{ page.root }}/fig/03-06-03.png" alt="Krona displays a circled-shape bacterial taxonomy plot with abundance percentages of each taxa " />
+</a>
+
+
+
 <!-- [Evomics](http://evomics.org/learning/genomics/), [Data Carpentry in 16S Metagenomics](https://datacarpentry.org/blog/2017/11/16s-dc)  -->
 
 > ## Discussion: Exploring more resources
