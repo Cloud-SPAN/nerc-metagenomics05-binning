@@ -14,9 +14,7 @@ keypoints:
 ---
 
 ## Metagenomic binning
-To analyze each of the species inside our sample individually, the original genomes in the sample can be separated with a process called binning.
-We call these genomes reconstructed from metagenomic assembly MAGs (Metagenome-Assembled Genomes).  
-In this process, the assembled contigs from the metagenome will be assigned to different bins (FASTA files that contain certain contigs). Ideally, each bin corresponds to only one original genome (a MAG).
+To analyze each of the species inside our sample individually, the original genomes in the sample can be separated with a process called binning. We call these genomes reconstructed from metagenomic assembly MAGs (Metagenome-Assembled Genomes).  In this process, the assembled contigs from the metagenome will be assigned to different bins (FASTA files that contain certain contigs). Ideally, each bin corresponds to only one original genome (a MAG). As we covered in the [assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/03-assembly/index.html), assembling the pieces of a metagenome so that we can reconstruct the multiple genomes that exist in the community, is more difficult compared to a single genome assembly. Most assemblers are not able to reconstruct complete genomes for the organisms that are represented in the metagenome. As a result there will be multiple contigs after assembly and polishing that will correspond to a single organism. This means that we need to be able to seperate these contigs so we can identify which belong to each organism in our metagenome. This is where binning comes in.
 
 <a href="{{ page.root }}/fig/03-05-01.png">
   <img src="{{ page.root }}/fig/03-05-01.png" width="435" height="631" alt="Diagram depicting the DNA sequences  in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned"/>
@@ -24,7 +22,19 @@ In this process, the assembled contigs from the metagenome will be assigned to d
 
 Although an obvious way to separate contigs that correspond to a different species is by their taxonomic assignation, this can be time consuming and require a lot of computational power.
 There are easier methods that do the binning to a high quality using
-characteristics of the contigs, such as their GC content, the use of tetranucleotides (composition), or their coverage (abundance).
+characteristics of the contigs, such as their GC content, their tetranucleotide frequencies (TNF), their coverage (abundance), sets of marker genes, taxonomic aligments are their preferred codons.
+
+Most binning tools use short reads for the binning, a few use Hi-C sequencing. This is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique). Different tools use different algorithms for performing the binning, a few popular tools using short reads and the algorithm method they use are summarised below.  For further information see this recent review which explains this in further detail in [section 2.4 Tools for metagenome binning](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
+
+| Tool | Core algorithm | Publication | Website |
+| ----------- | ----------- | -----------| -----------|
+| MaxBin2      | Expectation-maximization      | http://sourceforge.net/projects/maxbin/ | (Wu et al, 2016)[https://academic.oup.com/bioinformatics/article/32/4/605/1744462] |
+| CONCOCT   | GaussiAN Mixture Models     | https://github.com/BinPro/CONCOCT | (Alneberg et al, 2014)[https://www.nature.com/articles/nmeth.3103] |
+| MetaBAT2   | Label propagation    | https://bitbucket.org/berkeleylab/metabat | (Kang et al, 2019)[https://peerj.com/articles/7359/] |
+
+There are other tools that use binning performed by several methods and then they further refine these bins. (DAStool)[https://www.nature.com/articles/s41564-018-0171-1], (MetaWRAP)[https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1] and Metagenome Assembled Genomes Orchestra (MAGO)[https://academic.oup.com/mbe/article/37/2/593/5601623], are capable of doing this.
+
+
 
 [Metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm
 that distinguishes between contigs that belong to different bins according to their
