@@ -165,8 +165,6 @@ seqkit stats -a *.fa
 > * [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) uses an expectation-maximization algorithm to form bins. The link to installing maxbin2 as a conda package is [here](https://anaconda.org/bioconda/maxbin2)
 > There are also tools that can combine different binning methods and use them to refine, [DAS tool](https://www.nature.com/articles/s41564-018-0171-1) being one of them. DAS tool can also give completeness information, similarly to checkM.
 > This [review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) gives a thorough look at the pros and cons of different tools used for generating MAGs and including binning .
-
-
 {: .callout}
 
 {% include links.md %}
