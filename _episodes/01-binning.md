@@ -26,7 +26,7 @@ characteristics of the contigs, such as their GC content, their tetranucleotide 
 
 Most binning tools use short reads for the binning, a few use Hi-C sequencing. This is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique). Different tools use different algorithms for performing the binning, a few popular tools using short reads and the algorithm method they use are summarised below.  For further information see this recent review which explains this in further detail in [section 2.4 Tools for metagenome binning](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
 
-| Tool | Core algorithm | Publication | Website |
+| Tool | Core algorithm | Website | Publication |
 | ----------- | ----------- | -----------| -----------|
 | MaxBin2      | Expectation-maximization      | http://sourceforge.net/projects/maxbin/ | (Wu et al, 2016)[https://academic.oup.com/bioinformatics/article/32/4/605/1744462] |
 | CONCOCT   | GaussiAN Mixture Models     | https://github.com/BinPro/CONCOCT | (Alneberg et al, 2014)[https://www.nature.com/articles/nmeth.3103] |
