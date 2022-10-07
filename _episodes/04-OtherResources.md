@@ -56,14 +56,6 @@ tools and raw data formats. It allows you to generate html reports on the taxono
 
 
 
-<!-- [Evomics](http://evomics.org/learning/genomics/), [Data Carpentry in 16S Metagenomics](https://datacarpentry.org/blog/2017/11/16s-dc)  -->
-
-> ## Discussion: Exploring more resources
->
-> Explore one of the suggested resources and discuss your findings with a neighbor.
-{: .discussion}
-
-
 ## Carpentries Philosophy
 A good lesson should be as complete and clear that becomes easy to teach by any instructor.
 Carpentries lessons are developed for the community, and now you are part of us.
