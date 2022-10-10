@@ -28,11 +28,11 @@ Most binning tools use short reads for the binning, a few use Hi-C sequencing. T
 
 | Tool | Core algorithm | Website | Publication |
 | ----------- | ----------- | -----------| -----------|
-| MaxBin2      | Expectation-maximization      | http://sourceforge.net/projects/maxbin/ | (Wu et al, 2016)[https://academic.oup.com/bioinformatics/article/32/4/605/1744462] |
-| CONCOCT   | GaussiAN Mixture Models     | https://github.com/BinPro/CONCOCT | (Alneberg et al, 2014)[https://www.nature.com/articles/nmeth.3103] |
-| MetaBAT2   | Label propagation    | https://bitbucket.org/berkeleylab/metabat | (Kang et al, 2019)[https://peerj.com/articles/7359/] |
+| MaxBin2      | Expectation-maximization      | http://sourceforge.net/projects/maxbin/ | [Wu et al, 2016](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) |
+| CONCOCT   | GaussiAN Mixture Models     | https://github.com/BinPro/CONCOCT | [Alneberg et al, 2014](https://www.nature.com/articles/nmeth.3103) |
+| MetaBAT2   | Label propagation    | https://bitbucket.org/berkeleylab/metabat | [Kang et al, 2019](https://peerj.com/articles/7359/) |
 
-There are other tools that use binning performed by several methods and then they further refine these bins. (DAStool)[https://www.nature.com/articles/s41564-018-0171-1], (MetaWRAP)[https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1] and Metagenome Assembled Genomes Orchestra (MAGO)[https://academic.oup.com/mbe/article/37/2/593/5601623], are capable of doing this.
+There are other tools that use binning performed by several methods and then they further refine these bins. [DAStool](https://www.nature.com/articles/s41564-018-0171-1), [MetaWRAP](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1) and Metagenome Assembled Genomes Orchestra [MAGO](https://academic.oup.com/mbe/article/37/2/593/5601623), are capable of doing this.
 
 
 
