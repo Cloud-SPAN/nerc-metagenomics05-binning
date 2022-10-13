@@ -27,7 +27,7 @@ CheckM has multiple different workflows available which are appropriate for diff
 We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
 
 ~~~
-cd ~/analysis/
+cd ~/cs_course/analysis/
 ~~~
 {: .bash}
 
@@ -99,7 +99,7 @@ checkm lineage_wf -h
 From this we can see that along with the directory that contains the bins and an output directory we also need to add a flag to tell CheckM the format of our bins, which in our case is `.fa`. We also need to pass the `--reduced_tree` flag which limits the memory requirements so we can successfully run it on the amount of compute we have. The flag `-f` will specify and output file and we also want to use the flag `--tab_table` so the output is in a tab-separated format. Finally, we want to use `-t 4` to set the number of threads used to four, which is the number we have on our instance.
 
 ~~~
-checkm lineage_wf  -x fasta metabat2/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf  -x fa mbinning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 8 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
@@ -166,7 +166,7 @@ Using CheckM we have determined the Completeness and Contamination of each of ou
 >
 >> ## Solution
 >> From the file above, we can see there are two potential high quality draft metagenome assembled genomes which are bin.5 and bin.6. We also have one medium quality draft MAG in bin.2. Finally there are three low quality MAGs in bin.1, bin.3 and bin.4.
-Your bins may have a different name/number to these but you should still have seen similar results. 
+Your bins may have a different name/number to these but you should still have seen similar results.
 >>
 > {: .solution}
 {: .challenge}
