@@ -43,14 +43,14 @@ coverage levels and the tetranucleotide frequencies they have.
 We are going to index the polished reference first with the following command, and then use `bwa mem` command again to align our short reads to the polished assembly in order to determine the abundance of each contig.
 
 ~~~
-cd analysis/pilon/
+cd ~/cs_course/analysis/pilon/
 bwa index pilon.fasta
 ~~~
 {: .bash}
 
 We will then make a directory for the output of our binning.
 ~~~
-cd ~/analysis/
+cd ~/cs_course/analysis/
 mkdir binning
 cd binning
 ~~~
