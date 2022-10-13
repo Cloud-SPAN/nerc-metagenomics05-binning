@@ -66,7 +66,7 @@ We can then run the following command (we are adapting the `bwa mem` command we'
 In order to use this new BAM with metabat2 we also need to index the alignment using the command `samtools index`
 
 ~~~
-samtools index pilon_short_read_alignment_sort.bam
+samtools index pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
