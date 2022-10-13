@@ -189,9 +189,9 @@ ADELAPPEKDNE
 
 ## Building a tree from the 16S sequence
 
-Prokka is able to identify any 16S sequences present in our MAGs. This is useful to build a quick taxonomic tree to see what other organisms our MAG relates to.
+Prokka is able to identify any 16S sequences present in our MAGs. This is useful to build a quick taxonomic tree to see what other organisms our MAG relates to.  
 We will first search for the presence of 16S seqences in the prokka output.
-While still logged into the instance, navigate to the prokka output directory you generated earlier.
+While still logged into the instance, navigate to the prokka output directory you generated earlier.  
 Once in that directory we can use grep to search for 16S in the tsv file with the following command:
 ~~~
 grep 16S *.tsv
@@ -207,14 +207,14 @@ JODGFBLK_00417	rRNA	1546				16S ribosomal RNA
 ~~~
 {: .output}
 
-Note: if you don't get an output here it may be that your MAG doesn't have any 16S sequences present, which means you may have run Prokka on a less complete MAG. You should double check your output from CheckM and pick a MAG that is highly complete to run through Prokka instead.
+Note: if you don't get an output here it may be that your MAG doesn't have any 16S sequences present, which means you may have run Prokka on a less complete MAG. You should double check your output from CheckM and pick a MAG that is highly complete to run through Prokka instead.  
 
-From our output we can see that there are 4 full size 16S ribosomal RNA genes present in our data and one partial one.  
+From our output we can see that there are 4 full size 16S ribosomal RNA genes present in our data and one partial one.   
 
 The next step is to pull out the sequence of this 16S rRNA gene and run it through a BLAST database.  
-Using the program `seqkit` with the `grep` option (see [seqkit grep](https://bioinf.shenwei.me/seqkit/usage/#grep)) we can pull out the sequence from the *.ffn file. (Note we are using the *.ffn file here as this will give our 16S sequences in nucleotide format).
+Using the program `seqkit` with the `grep` option (see [seqkit grep](https://bioinf.shenwei.me/seqkit/usage/#grep)) we can pull out the sequence from the `*.ffn` file. (Note we are using the `*.ffn` file here as this will give our 16S sequences in nucleotide format).  
 
-The basic format of this command is the following, -p indicates the pattern to search which in our case is the prokka ID. This is the alphanumeric string that is in the first column from the grep output above.
+The basic format of this command is the following, `-p` indicates the pattern to search which in our case is the prokka ID. This is the alphanumeric string that is in the first column from the grep output above.
 ~~~
 seqkit grep -p <prokka_id> <prokka.ffn>
 ~~~
@@ -222,11 +222,11 @@ seqkit grep -p <prokka_id> <prokka.ffn>
 So in our case this command would be:
 
 ~~~
-seqkit grep -p JODGFBLK_00069 bin.6.ffn
+$ seqkit grep -p JODGFBLK_00069 bin.6.ffn
 ~~~
 {: .bash}
 
-You can see the output for this command below
+You can see the output of our command below:
 
 > ## 16S sequence
 > ~~~
@@ -260,5 +260,7 @@ You can see the output for this command below
 > ~~~
 > {: output}
 {: .solution}
+
+Now we have the 16S rRNA sequence we can upload this to BLAST and search the 16S database to see what organisms this MAG relates to.
 
 {% include links.md %}
