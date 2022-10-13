@@ -31,18 +31,20 @@ Prokka identifies candidate genes in a iterative process. First using Prodigal (
 
 Prokka has been pre-installed on our instance and we can access the help documentation using
 ~~~
+cd ~/cs_course/analysis/
+mkdir prokka
+cd prokka
 prokka -h
 ~~~
 {: .bash}
 
-From this we can build our command.
+From this we can build our basic command.
 ~~~
 prokka --outdir mydir --prefix mygenome contigs.fa
 ~~~
-{: .bash}
+{: .output}
 
-We need to run prokka for each of our six MAGs.
-Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.txt` but many of the other files are useful for
+Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.txt` but many of the other files are useful for submission to different databases.
 
 | Suffix | Description of file contents                       |
 |--------|----------------------------------------------------|
@@ -57,7 +59,16 @@ Prokka produces multiple different file types which you can see in the table bel
 | .log   | Log file of Prokka processing output               |
 | .txt   | Annotation summary statistics                      |
 
-Pick one MAG...
+We are going to use Prokka to initially annotate one MAG.
+
+In the previous episode we saw we'd produced 6 MAGs of differing quality.
+In our example, we are going to start with the MAG `bin.6.fa` as it was assessed by CheckM as being 99.45% complete and 0% contaminated.
+
+```
+prokka --outdir bin.6 --prefix bin.6 contigs.fa
+```
+
+
 
 
 Do we want to identify the 16S and then use this to make a tree?
