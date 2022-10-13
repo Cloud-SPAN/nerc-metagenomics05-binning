@@ -44,7 +44,7 @@ prokka --outdir mydir --prefix mygenome contigs.fa
 ~~~
 {: .output}
 
-Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.txt` but many of the other files are useful for submission to different databases.
+Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.tsv` but many of the other files are useful for submission to different databases.
 
 | Suffix | Description of file contents                       |
 |--------|----------------------------------------------------|
@@ -58,6 +58,7 @@ Prokka produces multiple different file types which you can see in the table bel
 | .gff   | GFF v3 file containing sequences and annotations   |
 | .log   | Log file of Prokka processing output               |
 | .txt   | Annotation summary statistics                      |
+| .tsv	 | Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product |
 
 We are going to use Prokka to initially annotate one MAG.
 
@@ -112,7 +113,7 @@ And you should see the following when the command has finished:
 ~~~
 {: .output}
 
-If we navigate into the output file created by Prokka we can then list and see that Prokka has generated
+If we navigate into the output file created by Prokka we can then list and see that Prokka has generated many files.
 
 ~~~
 cd bin.6
@@ -127,29 +128,137 @@ bin.6.err  bin.6.faa  bin.6.ffn  bin.6.fna  bin.6.fsa  bin.6.gbk  bin.6.gff  bin
 
 If we refer back to the Prokka documentation, we can remind ourselves what each of these files are for.
 
-| Extension |                                                                                              Description                                                                                              |                                                                                                                             What does this mean?                                                                                                                            |
-|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| .gff      | This is the master annotation in GFF3 format, containing both sequences and annotations. It can be viewed directly in Artemis or IGV.                                                                 | This is a standard bioinformatics format used to collate genome features of an annotation. As it suggests you can view this in IGV. You will need this file later on for CIRCOS.                                                                                            |
-| .gbk      | This is a standard Genbank file derived from the master .gff. If the input to prokka was a multi-FASTA, then this will be a multi-Genbank, with one record for each sequence.                         | A file that is created in order to upload your sequence to Genbank. We don’t want to do this at this point so you can just ignore this.                                                                                                                                     |
-| .fna      | Nucleotide FASTA file of the input contig sequences.                                                                                                                                                  | FASTA file of the sequences you passed to prokka (this should be basically identical to the MAG FASTA file)                                                                                                                                                                 |
-| .faa      | Protein FASTA file of the translated CDS sequences.                                                                                                                                                   | The protein sequences (i.e. amino acid code) of all identified CDS (i.e. open reading frames/ genes)                                                                                                                                                                        |
-| .ffn      | Nucleotide FASTA file of all the prediction transcripts (CDS, rRNA, tRNA, tmRNA, misc_RNA)                                                                                                            | Similar to the *.faa file but it is nucleotide (i.e. ACTG) rather than protein and this one contains the rRNA (16s etc), tRNA etc sequences identified.                                                                                                                     |
-| .sqn      | An ASN1 format "Sequin" file for submission to Genbank. It needs to be edited to set the correct taxonomy, authors, related publication etc.                                                          | Only relevant if this was going to be directly uploaded to Genbank, which it isn’t.                                                                                                                                                                                         |
-| .fsa      | Nucleotide FASTA file of the input contig sequences, used by "tbl2asn" to create the .sqn file. It is mostly the same as the .fna file, but with extra Sequin tags in the sequence description lines. | An intermediate file needed for one of the Prokka steps.                                                                                                                                                                                                                    |
-| .tbl      | Feature Table file, used by "tbl2asn" to create the .sqn file.                                                                                                                                        | Another intermediate file needed for one of the Prokka steps.                                                                                                                                                                                                               |
-| .err      | Unacceptable annotations - the NCBI discrepancy report.                                                                                                                                               | This is only relevant if you wanted to upload the prokka output to NCBI (which we don’t…)                                                                                                                                                                                   |
-| .log      | Contains all the output that Prokka produced during its run. This is a record of what settings you used, even if the --quiet option was enabled.                                                      | This file outlines all the steps Prokka has gone through. Useful to know what Prokka has actually done and also identified.                                                                                                                                                 |
-| .txt      | Statistics relating to the annotated features found.                                                                                                                                                  | Basic output stats (i.e. counts of what have been generated) for the genome.                                                                                                                                                                                                |
-| .tsv      | Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product                                                                                                                 | This is a tsv file (think a simple version of an excel spreadsheet where different cells are indicated by tabs and new lines) containing all the annotations prokka has generated. This might be useful downstream if, for example, you’re looking for a specific protein.  |
+As we said earlier the two files we are mainly interested in are those with the extension `.tsv` and `.faa`. The tsv file will contain information about every gene identified by Prokka, including its length and name. The faa file is a FASTA file containing the amino acid sequence of every gene that has been identified.
 
-Do we want to identify the 16S and then use this to make a tree?
+We can take a look at the output of both using `head`
+~~~
+head bin.6.tsv
+~~~
+{: .bash}
+
+~~~
+locus_tag	ftype	length_bp	gene	EC_number	COG	product
+JODGFBLK_00001	CDS	768	lysS	6.1.1.6		Lysine--tRNA ligase
+JODGFBLK_00002	CDS	1002	dusB	1.3.1.-	COG0042	tRNA-dihydrouridine synthase B
+JODGFBLK_00003	CDS	219				hypothetical protein
+JODGFBLK_00004	CDS	504	folK	2.7.6.3	COG0801	2-amino-4-hydroxy-6-hydroxymethyldihydropteridine pyrophosphokinase
+JODGFBLK_00005	CDS	363	folB	4.1.2.25	COG1539	Dihydroneopterin aldolase
+JODGFBLK_00006	CDS	858	folP	2.5.1.15		Dihydropteroate synthase
+JODGFBLK_00007	CDS	882	pabC	4.1.3.38	COG0115	Aminodeoxychorismate lyase
+JODGFBLK_00008	CDS	585	pabA	2.6.1.85	COG0512	Aminodeoxychorismate/anthranilate synthase component 2
+JODGFBLK_00009	CDS	1410	pabB	2.6.1.85	COG0147	Aminodeoxychorismate synthase component 1
+~~~
+{: .output}
+
+Something here about what each column means.
+
+We can then see the sequence of these genes by looking at the `.faa` file.
+~~~
+head bin.6.faa
+~~~
+{: .bash}
+
+~~~
+>JODGFBLK_00001 Lysine--tRNA ligase
+MSQEEHNHEELNDQLQVRRDKMNQLRDNGIDPFGARFERTHQSQEVISAYQDLTKEELEE
+KAIEVTIAGRMMTKRGKGKAGFAHLQDLEGQIQIYVRKDSVGDDQYEIFKSSDLGDLIGV
+TGKVFKTNVGELSVKATSFELLTKALRPLPDKYHGLKDVEQRYRQRYLDLIVNPDSKHTF
+IARSKIIQAMRRYLDDHGYLEVETPTMHSIPGGASARPFITHHNALDIPLYMRIAIELHL
+KRLIVGGLEKYMNNT
+>JODGFBLK_00002 tRNA-dihydrouridine synthase B
+MFKIGDIQLKNRVVLAPMAGVCNSAFRLTVKEFGAGLVCAEMVSDKAILYNNARTMGMLY
+IDEREKPLSLQIFGGKKETLVEAAKFVDQNTTADIIDINMGCPVPKITKCDAGAKWLLDP
+DKIYEMVSAVVDAVDKPVTVKMRMGWDEDHIFAVENAKAVERAGGKAVALHGRTRVQMYE
+GTANWDIIKDVKQSVSIPVIGNGDVKTPQDAKRMLDETGVDGVMIGRAALGNPWMIYRTV
+QYLETGELKEEPQVREKMAVCKLHLDRLINLKGENVAVREMRKHAAWYLKGVRGNANVRN
+EINHCETREEFVQLLDAFTVEVEAKELQNAKVG
+>JODGFBLK_00003 hypothetical protein
+MEAEIWGRRIRAFRKLKGYTQEGFAKALGISVSILGEIERGNRLPSAAIIQGAADVLNIS
+ADELAPPEKDNE
+~~~
+{: .output}
 
 
-How we can use kofamscan to generate KEGG ids
+## Relating these genes to an online database
 
-How to use KEGG decoder to plot the pathways in your assembly
+* Download the *.faa file.
+* Upload the *.faa file to BlastKOALA
+* Wait for the emails...
+* Wait for the output...
 
 
+## Building a tree from the 16S sequence
 
+Prokka is able to identify any 16S sequences present in our MAGs. This is useful to build a quick taxonomic tree to see what other organisms our MAG relates to.
+We will first search for the presence of 16S seqences in the prokka output.
+While still logged into the instance, navigate to the prokka output directory you generated earlier.
+Once in that directory we can use grep to search for 16S in the tsv file with the following command:
+~~~
+grep 16S *.tsv
+~~~
+{: .bash}
+Depending on the MAG you have run this on you should see similar to the below:
+~~~
+JODGFBLK_00069	rRNA	1547				16S ribosomal RNA
+JODGFBLK_00089	rRNA	1553				16S ribosomal RNA
+JODGFBLK_00259	rRNA	1547				16S ribosomal RNA
+JODGFBLK_00414	rRNA	583				16S ribosomal RNA (partial)
+JODGFBLK_00417	rRNA	1546				16S ribosomal RNA
+~~~
+{: .output}
+
+Note: if you don't get an output here it may be that your MAG doesn't have any 16S sequences present, which means you may have run Prokka on a less complete MAG. You should double check your output from CheckM and pick a MAG that is highly complete to run through Prokka instead.
+
+From our output we can see that there are 4 full size 16S ribosomal RNA genes present in our data and one partial one.  
+
+The next step is to pull out the sequence of this 16S rRNA gene and run it through a BLAST database.  
+Using the program `seqkit` with the `grep` option (see [seqkit grep](https://bioinf.shenwei.me/seqkit/usage/#grep)) we can pull out the sequence from the *.ffn file. (Note we are using the *.ffn file here as this will give our 16S sequences in nucleotide format).
+
+The basic format of this command is the following, -p indicates the pattern to search which in our case is the prokka ID. This is the alphanumeric string that is in the first column from the grep output above.
+~~~
+seqkit grep -p <prokka_id> <prokka.ffn>
+~~~
+{: .bash}
+So in our case this command would be:
+
+~~~
+seqkit grep -p JODGFBLK_00069 bin.6.ffn
+~~~
+{: .bash}
+
+You can see the output for this command below
+
+> ## 16S sequence
+> ~~~
+> >JODGFBLK_00069 16S ribosomal RNA
+> TCGGAGAGTTTGATCCTGGCTCAGGACGAACGCTGGCGGCGTGCCTAATACATGCAAGTC
+> GAGCGGACAGATGGGAGCTTGCTCCCTGATGTTAGCGGCGGACGGGTGAGTAACACGTGG
+> GTAACCTGCCTGTAAGACTGGGATAACTCCGGGAAACCGGGGCTAATACCGGATGCTTGT
+> TTGAACCGCATGGTTCAAACATAAAAGGTGGCTTCGGCTACCACTTACAGATGGACCCGC
+> GGCGCATTAGCTAGTTGGTGAGGTAATGGCTCACCAAGGCAACGATGCGTAGCCGACCTG
+> AGAGGGTGATCGGCCACACTGGGACTGAGACACGGCCCAGACTCCTACGGGAGGCAGCAG
+> TAGGGAATATTCCGCAATGGACGAAAGTCTGACGGAGCAACGCCGCGTGAGTGATGAAGG
+> TTTTCGGATCGTAAAGCTCTGTTGTTAGGGAAGAACAAGTACCGTTCGAATAGGGCGGTA
+> CCTTGACGGTACCTAACCAGAAAGCCACGGCTAACTACGTGCCAGCAGCCGCGGTAATAC
+> GTAGGTGGCAAGCGTTGTCCGGAATTATTGGGCGTAAAGGGCTCGCAGGCGGTTCCTTAA
+> GTCTGATGTGAAAGCCCCCGGCTCAACCGGGGAGGGTCATTGGAAACTGGGGAACTTGAG
+> TGCAGAAGAGGAGAGTGGAATTCCACGTGTAGCGGTGAAATGCGTAGAGATGTGGAGGAA
+> CACCAGTGGCGAAGGCGACTCTCTGGTCTGTAACTGACGCTGAGGAGCGAAAGCGTGGGG
+> AGCGAACAGGATTAGATACCCTGGTAGTCCACGCCGTAAACGATGAGTGCTAAGTGTTAG
+> GGGTTTCCGCCCCTTAGTGCTGCAGCTAACGCATTAAGCACTCCGCCTGGGGAGTACGGT
+> CGCAAGACTGAAACTCAAAGGAATTGACGGGGGCCCGCACAAGCGGTGGAGCATGTGGTT
+> TAATTCGAAGCAACGCGAAGAACCTTACCAGGTCTTGACATCCTCTGACAATCCTAGAGA
+> TAGGACGTCCCCTTCGGGGGCAGAGTGACAGGTGGTGCATGGTTGTCGTCAGCTCGTGTC
+> GTGAGATGTTGGGTTAAGTCCCGCAACGAGCGCAACCCTTGATCTTAGTTGCCAGCATTC
+> AGTTGGGCACTCTAAGGTGACTGCCGGTGACAAACCGGAGGAAGGTGGGGATGACGTCAA
+> ATCATCATGCCCCTTATGACCTGGGCTACACACGTGCTACAATGGACAGAACAAAGGGCA
+> GCGAAACCGCGAGGTTAAGCCAATCCCACAAATCTGTTCTCAGTTCGGATCGCAGTCTGC
+> AACTCGACTGCGTGAAGCTGGAATCGCTAGTAATCGCGGATCAGCATGCCGCGGTGAATA
+> CGTTCCCGGGCCTTGTACACACCGCCCGTCACACCACGAGAGTTTGTAACACCCGAAGTC
+> GGTGAGGTAACCTTTTTAGGAGCCAGCCGCCGAAGGTGGGACAGATGATTGGGGTGAAGT
+> CGTAACAAGGTAGCCGTATCGGAAGGTGCGGCTGGATCACCTCCTTT
+> ~~~
+> {: output}
+{: .solution}
 
 {% include links.md %}
