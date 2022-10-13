@@ -67,7 +67,7 @@ In our example, we are going to start with the MAG `bin.6.fa` as it was assessed
 ~~~
 prokka --outdir bin.6 --prefix bin.6 ../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa
 ~~~
-{: .code}
+{: .bash}
 
 This should take around a minute on the instance so we will not be running the command in the background.
 
@@ -111,6 +111,36 @@ And you should see the following when the command has finished:
 [15:45:59] Thank you, come again.
 ~~~
 {: .output}
+
+If we navigate into the output file created by Prokka we can then list and see that Prokka has generated
+
+~~~
+cd bin.6
+ls
+~~~
+{: .bash}
+
+~~~
+bin.6.err  bin.6.faa  bin.6.ffn  bin.6.fna  bin.6.fsa  bin.6.gbk  bin.6.gff  bin.6.log  bin.6.sqn  bin.6.tbl  bin.6.tsv  bin.6.txt
+~~~
+{: .output}
+
+If we refer back to the Prokka documentation, we can remind ourselves what each of these files are for.
+
+| Extension |                                                                                              Description                                                                                              |                                                                                                                             What does this mean?                                                                                                                            |
+|:---------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| .gff      | This is the master annotation in GFF3 format, containing both sequences and annotations. It can be viewed directly in Artemis or IGV.                                                                 | This is a standard bioinformatics format used to collate genome features of an annotation. As it suggests you can view this in IGV. You will need this file later on for CIRCOS.                                                                                            |
+| .gbk      | This is a standard Genbank file derived from the master .gff. If the input to prokka was a multi-FASTA, then this will be a multi-Genbank, with one record for each sequence.                         | A file that is created in order to upload your sequence to Genbank. We don’t want to do this at this point so you can just ignore this.                                                                                                                                     |
+| .fna      | Nucleotide FASTA file of the input contig sequences.                                                                                                                                                  | FASTA file of the sequences you passed to prokka (this should be basically identical to the MAG FASTA file)                                                                                                                                                                 |
+| .faa      | Protein FASTA file of the translated CDS sequences.                                                                                                                                                   | The protein sequences (i.e. amino acid code) of all identified CDS (i.e. open reading frames/ genes)                                                                                                                                                                        |
+| .ffn      | Nucleotide FASTA file of all the prediction transcripts (CDS, rRNA, tRNA, tmRNA, misc_RNA)                                                                                                            | Similar to the *.faa file but it is nucleotide (i.e. ACTG) rather than protein and this one contains the rRNA (16s etc), tRNA etc sequences identified.                                                                                                                     |
+| .sqn      | An ASN1 format "Sequin" file for submission to Genbank. It needs to be edited to set the correct taxonomy, authors, related publication etc.                                                          | Only relevant if this was going to be directly uploaded to Genbank, which it isn’t.                                                                                                                                                                                         |
+| .fsa      | Nucleotide FASTA file of the input contig sequences, used by "tbl2asn" to create the .sqn file. It is mostly the same as the .fna file, but with extra Sequin tags in the sequence description lines. | An intermediate file needed for one of the Prokka steps.                                                                                                                                                                                                                    |
+| .tbl      | Feature Table file, used by "tbl2asn" to create the .sqn file.                                                                                                                                        | Another intermediate file needed for one of the Prokka steps.                                                                                                                                                                                                               |
+| .err      | Unacceptable annotations - the NCBI discrepancy report.                                                                                                                                               | This is only relevant if you wanted to upload the prokka output to NCBI (which we don’t…)                                                                                                                                                                                   |
+| .log      | Contains all the output that Prokka produced during its run. This is a record of what settings you used, even if the --quiet option was enabled.                                                      | This file outlines all the steps Prokka has gone through. Useful to know what Prokka has actually done and also identified.                                                                                                                                                 |
+| .txt      | Statistics relating to the annotated features found.                                                                                                                                                  | Basic output stats (i.e. counts of what have been generated) for the genome.                                                                                                                                                                                                |
+| .tsv      | Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product                                                                                                                 | This is a tsv file (think a simple version of an excel spreadsheet where different cells are indicated by tabs and new lines) containing all the annotations prokka has generated. This might be useful downstream if, for example, you’re looking for a specific protein.  |
 
 Do we want to identify the 16S and then use this to make a tree?
 
