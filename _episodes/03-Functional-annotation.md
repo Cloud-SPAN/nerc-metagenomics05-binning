@@ -64,12 +64,53 @@ We are going to use Prokka to initially annotate one MAG.
 In the previous episode we saw we'd produced 6 MAGs of differing quality.
 In our example, we are going to start with the MAG `bin.6.fa` as it was assessed by CheckM as being 99.45% complete and 0% contaminated.
 
-```
-prokka --outdir bin.6 --prefix bin.6 contigs.fa
-```
+~~~
+prokka --outdir bin.6 --prefix bin.6 ../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa
+~~~
+{: .code}
 
+This should take around a minute on the instance so we will not be running the command in the background.
 
+When you initially run the command you should see similar to the following.
+~~~
+[15:45:37] This is prokka 1.14.6
+[15:45:37] Written by Torsten Seemann <torsten.seemann@gmail.com>
+[15:45:37] Homepage is https://github.com/tseemann/prokka
+[15:45:37] Local time is Thu Oct 13 15:45:37 2022
+[15:45:37] You are csuser
+[15:45:37] Operating system is linux
+[15:45:37] You have BioPerl 1.7.8
+Argument "1.7.8" isn't numeric in numeric lt (<) at /home/csuser/.miniconda3/envs/prokka/bin/prokka line 259.
+[15:45:37] System has 8 cores.
+[15:45:37] Will use maximum of 8 cores.
+[15:45:37] Annotating as >>> Bacteria <<<
+[15:45:37] Generating locus_tag from 'bin.6.fa' contents.
+~~~
+{: .output}
+And you should see the following when the command has finished:
 
+~~~
+[15:45:59] Output files:
+[15:45:59] bin.6/bin.6.txt
+[15:45:59] bin.6/bin.6.log
+[15:45:59] bin.6/bin.6.tsv
+[15:45:59] bin.6/bin.6.fsa
+[15:45:59] bin.6/bin.6.fna
+[15:45:59] bin.6/bin.6.sqn
+[15:45:59] bin.6/bin.6.faa
+[15:45:59] bin.6/bin.6.gbk
+[15:45:59] bin.6/bin.6.ffn
+[15:45:59] bin.6/bin.6.err
+[15:45:59] bin.6/bin.6.tbl
+[15:45:59] bin.6/bin.6.gff
+[15:45:59] Annotation finished successfully.
+[15:45:59] Walltime used: 0.37 minutes
+[15:45:59] If you use this result please cite the Prokka paper:
+[15:45:59] Seemann T (2014) Prokka: rapid prokaryotic genome annotation. Bioinformatics. 30(14):2068-9.
+[15:45:59] Type 'prokka --citation' for more details.
+[15:45:59] Thank you, come again.
+~~~
+{: .output}
 
 Do we want to identify the 16S and then use this to make a tree?
 
