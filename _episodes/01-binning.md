@@ -59,7 +59,7 @@ cd binning
 We can then run the following command (we are adapting the `bwa mem` command we've used previously).
 
 ~~~
-( bwa mem -t 4 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam ) &> binning.out &
+( bwa mem -t 8 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam ) &> binning.out &
 ~~~
 {: .bash}
 
