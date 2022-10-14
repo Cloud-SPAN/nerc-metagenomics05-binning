@@ -49,7 +49,7 @@ tools and raw data formats. It allows you to generate html reports on the taxono
 
 ### iTOL the interactive tree of life
 
-[iTOL](https://itol.embl.de/)
+[iTOL](https://itol.embl.de/) is a free website which can be used to generate publication quality phylogenetic trees. Below shows the tree of life and the flexibility in the parts of the plot that you can edit. There are also several [video tutorials](https://itol.embl.de/video_tutorial.cgi) to show you how to get started. You can also share your trees with other people easily. This would be useful if you wanted to make a tree based on the 16S sequence for several genomes in your metagenome, which will be annotated by prokka, or if you are interested in a particular set of genes within a genome. 
 
 <a href="{{ page.root }}/fig/03-06-03.png">
   <img src="{{ page.root }}/fig/iTOL.png" alt="iTOL displays a circular plot with the phylogeny of different bacteria, eukaryotes and archaea, representing the tree of life  " />
