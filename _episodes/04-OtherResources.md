@@ -4,11 +4,10 @@ teaching: 5
 exercises: 0
 questions:
 - "Where are other metagenomic resources?"
-- "How can lessons be previewed?"
 objectives:
 - "Know some places where to find more information."
 keypoints:
-- "Enjoy metagenomics."
+- "Metagenomes are complicated to analyse, there are lots of tools available, and the best ones to use change frequently. Do you research and look for what are the most suitable tools to use for your analysis."
 ---
 
 ## Other resources
