@@ -55,14 +55,16 @@ tools and raw data formats. It allows you to generate html reports on the taxono
   <img src="{{ page.root }}/fig/iTOL.png" alt="iTOL displays a circular plot with the phylogeny of different bacteria, eukaryotes and archaea, representing the tree of life  " />
 </a>
 
-### KAIJU alternative classifcation tool for metagenomics
+### KAIJU alternative classification tool for metagenomics
 Kraken2 is a very popular command line tool for annotating the short reads in your metagenome, however KAIJU is another popular alternative that has both a [command line version](https://github.com/bioinformatics-centre/kaiju) and a [web based version](https://kaiju.binf.ku.dk/server) you can run jobs from. It has databases for microbial eukaryotes and viruses as well as bacterial and archaeal refseq genomes. The website version looks as shown below
 
 <a href="{{ page.root }}/fig/KAIJU_website.png">
   <img src="{{ page.root }}/fig/iTOL.png" alt="iTOL displays a circular plot with the phylogeny of different bacteria, eukaryotes and archaea, representing the tree of life  " />
 </a>
 
+### MetaPhlAn for taxonomic profiling
 
+[MetaPhlAn 4](http://segatalab.cibio.unitn.it/tools/metaphlan/index.html) is another very popular tool for profiling taxonomy in microbial communities. The latest associated paper is [here](https://www.biorxiv.org/content/10.1101/2022.08.22.504593v1). One benefit of MetaPhlAn is that it has an actively updated [github repository](https://github.com/biobakery/MetaPhlAn/), and there is active support [forum](https://forum.biobakery.org/c/microbial-community-profiling/metaphlan/7) from the people who have developed it as part of the [BioBakery](https://huttenhower.sph.harvard.edu/tools/), which also has many other excellent tools and resources available. 
 
 > ## Recommended reading:
 > These two reviews [Taş et al.,2021](https://www.sciencedirect.com/science/article/pii/S0958166921000240) [Yang et al., 2021](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) have comprehensive lists of different tools and databases to use for your metagenomic analysis.
