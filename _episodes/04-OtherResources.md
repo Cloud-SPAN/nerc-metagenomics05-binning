@@ -1,6 +1,6 @@
 ---
 title: "Other Resources"
-teaching: 5
+teaching: 15
 exercises: 0
 questions:
 - "Where are other metagenomic resources?"
@@ -76,7 +76,7 @@ If you are interested in identifying the functional domain of proteins of intere
 
 
 > ## Recommended reading:
-> These two reviews [Taş et al.,2021](https://www.sciencedirect.com/science/article/pii/S0958166921000240) [Yang et al., 2021](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) have comprehensive lists of different tools and databases to use for your metagenomic analysis.
+> These two reviews [Taş et al.,2021](https://www.sciencedirect.com/science/article/pii/S0958166921000240)  and [Yang et al., 2021](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) have comprehensive lists of different tools and databases to use for your metagenomic analysis.
 
 {: .callout}
 
