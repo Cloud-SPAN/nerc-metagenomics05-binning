@@ -181,10 +181,27 @@ ADELAPPEKDNE
 
 ## Relating these genes to an online database
 
+Introduction to KEGG
+
 * Download the *.faa file.
-* Upload the *.faa file to BlastKOALA
-* Wait for the emails...
-* Wait for the output...
+
+Once you have dowloaded the Prokka `*.faa` file onto your local computer you can upload this onto [BlastKOALA](https://www.kegg.jp/blastkoala/) in order to annotate the genes with K numbers to relate back to the KEGG database.
+
+<img src="{{ page.root }}/fig/04_03_blastkoala.png" alt="a screenshot of the blastKoala upload page" />
+
+<img src="{{ page.root }}/fig/04_03_blastkoala_upload.png" alt="a screenshot of the blastKoala upload button" />
+
+You should click on the "Choose file" button and navigate to where your `*.faa` file is located on your computer.
+
+We will leave all the options on default, but you need to add in your email address so BlastKOALA can email you to start the job.
+
+Once you have pressed submit you should be re-directed to a screen that says "Request accepted" you will also be sent an email with two links, one to submit the job and one to cancel. **Make sure you press the submit link as your job will not be running without it!** (& make sure to check your spam!)
+Once you have pressed the submit link in the email you should be redirected to a BlastKOALA page that says "Job submitted"
+
+As this is an online server your job will sit in a queue with other peoples jobs so it may take a bit of time (hours!) before it is run. You will recieve an email when the job has completed.  
+
+Once the job has been completed you will receive a link by email.  
+
 
 
 ## Building a tree from the 16S sequence
