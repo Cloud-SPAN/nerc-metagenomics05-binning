@@ -267,29 +267,28 @@ Now we have the 16S rRNA sequence we can upload this to BLAST and search the 16S
 
 We will be using BLAST (Basic Local Alignment Search Tool) which is an algorithm to find regions of similarity between biological sequences. BLAST is a very popular program in bioinformatics so you may be familiar with the online BLAST server NCBI runs.
 
-
 We will be using the server, available at [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi).
 
-screenshot Here
+<img src="{{ page.root }}/fig/04_01_blast.png" alt="Diagram of taxonomic tree" />
 
 Once you have navigated to the page you should select the button that says "Nucleotide BLAST".
 
 Once on this [website](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) you should select the rRNA/ITS database under the "Choose Search Set" and then you can paste in the 16S sequence in the box titled "Enter accession number(s), gi(s), or FASTA sequence(s)"
 
-Screenshot
+<img src="{{ page.root }}/fig/04_01_blast2.png" alt="Diagram of taxonomic tree" />
 
 Your screen should look something like the below.
 
-Screenshot
+<img src="{{ page.root }}/fig/04_01_blast3.png" alt="Diagram of taxonomic tree" />
 
 Once you have added in your sequence and selected the rRNA/ITS database you can click the blue BLAST button.
 This will then send your job off to the queue, how long it takes from here will depend how busy the NCBI server is - usually it will only take a couple of minutes as the sequence length and the size of the database we're using is small. You should make sure you leave the tab open as this will be where your results arrive.
 
 Once your job has finished you should see an output like below.
 
-Screenshot
+<img src="{{ page.root }}/fig/04_01_blast4.png" alt="Diagram of taxonomic tree" />
 
-From here you can explore what sequences have been aligned to your 16S sequence, in the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to the others. 
+From here you can explore what sequences have been aligned to your 16S sequence, in the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to the others.
 
 
 
