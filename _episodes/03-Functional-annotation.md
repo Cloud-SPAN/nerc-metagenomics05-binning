@@ -202,7 +202,7 @@ As this is an online server your job will sit in a queue with other peoples jobs
 
 Once the job has been completed you will receive a link by email.  
 
-
+<img src="{{ page.root }}/fig/04_03_blastkoala_out.png" alt="a screenshot of the blastKoala output" />
 
 ## Building a tree from the 16S sequence
 
