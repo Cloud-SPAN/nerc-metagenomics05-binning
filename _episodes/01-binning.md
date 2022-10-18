@@ -14,17 +14,21 @@ keypoints:
 ---
 
 ## Metagenomic binning
-To analyze each of the species inside our sample individually, the original genomes in the sample can be separated with a process called binning. We call these genomes reconstructed from metagenomic assembly MAGs (Metagenome-Assembled Genomes).  In this process, the assembled contigs from the metagenome will be assigned to different bins (FASTA files that contain certain contigs). Ideally, each bin corresponds to only one original genome (a MAG). As we covered in the [assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/03-assembly/index.html), assembling the pieces of a metagenome so that we can reconstruct the multiple genomes that exist in the community, is more difficult compared to a single genome assembly. Most assemblers are not able to reconstruct complete genomes for the organisms that are represented in the metagenome. As a result there will be multiple contigs after assembly and polishing that will correspond to a single organism. This means that we need to be able to seperate these contigs so we can identify which belong to each organism in our metagenome. This is where binning comes in.
+Now we have an assembly we can start to separate out the individual genomes using a process called binning. This will allow us to analyse each of the species inside our sample individually. We call these genomes metagenome-assembled genomes (MAGs). 
+
+The assembled contigs that make up the metagenome will be assigned to different "bins" (FASTA files that contain certain contigs). Ideally, each bin will correspond to only one original genome (a MAG). 
+
+As we covered in the [assembly section](https://cloud-span.github.io/metagenomics01-qc-assembly/03-assembly/index.html), assembling the pieces of a metagenome is more difficult compared to a single genome assembly. Most assemblers are not able to reconstruct complete genomes for the organisms that are represented in the metagenome. As a result each organism wil be represented by multiple contigs following assembly and polishing. This means that we need to be able to separate these contigs so we can identify which belong to each organism in our metagenome. This is where binning comes in.
 
 <a href="{{ page.root }}/fig/03-05-01.png">
   <img src="{{ page.root }}/fig/03-05-01.png" width="435" height="631" alt="Diagram depicting the DNA sequences  in the original sample as circular chromosomes, then the DNA fragmented into reads, then assembled into contigs, and then binned"/>
 </a>
 
-Although an obvious way to separate contigs that correspond to a different species is by their taxonomic assignation, this can be time consuming and require a lot of computational power.
-There are easier methods that do the binning to a high quality using
-characteristics of the contigs, such as their GC content, their tetranucleotide frequencies (TNF), their coverage (abundance), sets of marker genes, taxonomic aligments are their preferred codons.
+One way to separate contigs that belong to different species is by their taxonomic assignation. However, this can be time consuming and require a lot of computational power.
+There are easier methods that perform binning to a high quality using
+characteristics of the contigs, such as their GC content, their tetranucleotide frequencies (TNF), their coverage (abundance), sets of marker genes, taxonomic aligments and their preferred codons.
 
-Most binning tools use short reads for the binning, a few use Hi-C sequencing. This is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique). Different tools use different algorithms for performing the binning, a few popular tools using short reads and the algorithm method they use are summarised below.  For further information see this recent review which explains this in further detail in [section 2.4 Tools for metagenome binning](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
+Most binning tools use short reads for the binning; only a few use Hi-C sequencing. Hi-C is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique). Different tools use different algorithms for performing the binning. A few popular tools are summarised below.  For more information see section 2.4 (Tools for metagenome binning) of [this review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
 
 | Tool | Core algorithm | Website | Publication |
 | ----------- | ----------- | -----------| -----------|
@@ -32,23 +36,23 @@ Most binning tools use short reads for the binning, a few use Hi-C sequencing. T
 | CONCOCT   | GaussiAN Mixture Models     | https://github.com/BinPro/CONCOCT | [Alneberg et al, 2014](https://www.nature.com/articles/nmeth.3103) |
 | MetaBAT2   | Label propagation    | https://bitbucket.org/berkeleylab/metabat | [Kang et al, 2019](https://peerj.com/articles/7359/) |
 
-There are other tools that use binning performed by several methods and then they further refine these bins. [DAStool](https://www.nature.com/articles/s41564-018-0171-1), [MetaWRAP](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1) and Metagenome Assembled Genomes Orchestra [MAGO](https://academic.oup.com/mbe/article/37/2/593/5601623), are capable of doing this.
+There are other tools that bin MAGs using several different methods and then further refine these bins. [DAStool](https://www.nature.com/articles/s41564-018-0171-1), [MetaWRAP](https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-018-0541-1) and Metagenome Assembled Genomes Orchestra [MAGO](https://academic.oup.com/mbe/article/37/2/593/5601623) are capable of doing this.
 
-
-
-[Metabat2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm
+[MetaBAT2](https://bitbucket.org/berkeleylab/metabat/src/master/) is a binning algorithm
 that distinguishes between contigs that belong to different bins according to their
-coverage levels and the tetranucleotide frequencies they have.
+coverage levels and the tetranucleotide frequencies they have. We will be using this algorithm for our binning today, but first we need to prepare our assembly.
 
-We are going to index the polished reference first with the following command, and then use `bwa mem` command again to align our short reads to the polished assembly in order to determine the abundance of each contig.
+## Preparation for binning
 
+First we index the polished reference using `bwa index`.
 ~~~
 cd ~/cs_course/analysis/pilon/
 bwa index pilon.fasta
 ~~~
 {: .bash}
 
-We will then make a directory for the output of our binning.
+We then make a directory for the output of our binning.
+
 ~~~
 cd ~/cs_course/analysis/
 mkdir binning
@@ -56,21 +60,23 @@ cd binning
 ~~~
 {: .bash}
 
-We can then run the following command (we are adapting the `bwa mem` command we've used previously).
+We can then use an adapted form of the `bwa mem` command we used earlier to align our short reads to the polished assembly and determine the abundance of each contig.
 
 ~~~
 ( bwa mem -t 8 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam ) &> binning.out &
 ~~~
 {: .bash}
 
-In order to use this new BAM with metabat2 we also need to index the alignment using the command `samtools index`
+In order to use this new BAM with metaBAT2 we also need to index the alignment using the command `samtools index`.
 
 ~~~
 samtools index pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-When we have the sorted and indexed BAM file we are then ready to use Metabat2
+When we have the sorted and indexed BAM file we are then ready to use Metabat2.
+
+## Binning using MetaBAT2
 
 Metabat2 has been pre-installed on your instance. From the documentation [README.md file](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) we can see how to run Metabat2 on the command line in the section "MetaBAT 2 USAGE: running on command line".
 This tells us the "easy" way to run metabat2 is using `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`, this will generate a depth file and then do the binning for us.
