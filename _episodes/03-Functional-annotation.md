@@ -204,6 +204,8 @@ Once the job has been completed you will receive a link by email.
 
 <img src="{{ page.root }}/fig/04_03_blastkoala_out.png" alt="a screenshot of the blastKoala output" />
 
+From this you can explore the annotated MAG. You can view or download the data and use the KEGG mapper reconstruct pathway option to see how these genes interact with each other. 
+
 ## Building a tree from the 16S sequence
 
 Prokka is able to identify any 16S sequences present in our MAGs. This is useful to build a quick taxonomic tree to see what other organisms our MAG relates to.  
