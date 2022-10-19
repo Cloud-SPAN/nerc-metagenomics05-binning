@@ -9,7 +9,7 @@ objectives:
 - "Understand that there are multiple methods that can be used to perform binning"  
 keypoints:
 - "Metagenome-Assembled Genomes (MAGs) sometimes are obtained from curated contigs grouped into bins."
-- "Use Metabat2 to assign the contigs to bins of different taxa."
+- "Use MetaBAT2 to assign the contigs to bins of different taxa."
 - "Other programmes are available that are generating other bins, and these can be rationalised using tools such as DAStools"
 ---
 
@@ -74,20 +74,20 @@ samtools index pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-When we have the sorted and indexed BAM file we are then ready to use Metabat2.
+When we have the sorted and indexed BAM file we are then ready to use metaBAT2.
 
 ## Binning using MetaBAT2
 
-Metabat2 has been pre-installed on your instance. From the documentation [README.md file](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) we can see how to run Metabat2 on the command line in the section "MetaBAT 2 USAGE: running on command line".
-This tells us the "easy" way to run metabat2 is using `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`, this will generate a depth file and then do the binning for us.
+MetaBAT2 has been pre-installed on your instance. From the documentation [README.md file](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) we can see how to run MetaBAT2 on the command line in the section "MetaBAT 2 USAGE: running on command line".
+This tells us the "easy" way to run metaBAT2 is using `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`, this will generate a depth file and then do the binning for us.
 We're also going to add the flag `-m 1500`, which sets the minimum contig length it will try to bin to 1500bp
 ~~~
 runMetaBat.sh -m 1500 ../pilon/pilon.fasta pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-When you run this, `metabat2` will first read in the bam file then generate bins. This should take around 5 minutes.
-You will first see the following when metabat2 is processing the bam file. It will likely stay at this point for a few minutes while the bam file is processed.
+When you run this, `metaBAT2` will first read in the bam file then generate bins. This should take around 5 minutes.
+You will first see the following when metaBAT2 is processing the bam file. It will likely stay at this point for a few minutes while the bam file is processed.
 ~~~
 Executing: 'jgi_summarize_bam_contig_depths --outputDepth pilon.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta ../pilon/pilon.fasta pilon_short_read_alignment.bam' at Wed 28 Sep 16:45:13 BST 2022
 Output depth matrix to pilon.fasta.depth.txt
@@ -122,7 +122,7 @@ Finished metabat2 at Wed 28 Sep 16:46:25 BST 2022
 
 From the final line we can see that MetaBAT has produced 6 bins `6 bins (14598015 bases in total) formed.`
 
-If you `ls` you can see that metabat2 has generated a depth file `pilon.fasta.depth.txt` and a directory `pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`. Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
+If you `ls` you can see that metaBAT2 has generated a depth file `pilon.fasta.depth.txt` and a directory `pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`. Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
 ~~~
 cd pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/
 ls
