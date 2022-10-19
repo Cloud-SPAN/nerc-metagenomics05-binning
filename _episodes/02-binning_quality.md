@@ -3,9 +3,9 @@ title: "QC of metagenome bins"
 teaching: 50
 exercises: 10
 questions:
-- "How can be assess the quality of the metagenome bins?"
+- "How can we assess the quality of the metagenome bins?"
 objectives:
-- "Check the quality of the Metagenome-Assembled genomes."
+- "Check the quality of the Metagenome-Assembled Genomes (MAGs)."
 - "Understanding MIMAG quality standards."  
 keypoints:
 - "CheckM can be used to evaluate the quality of each Metagenomics-Assembled Genome."
@@ -16,22 +16,29 @@ keypoints:
 
 ## Quality check
 
-The quality of a metagenome-assembled genome (MAG) or bin is highly dependent on the depth of sequencing, the abundance of the organism in the community and and how successful the assembly and polishing (if any) was.
+The quality of a metagenome-assembled genome (MAG) or bin is highly dependent on several things:
+- the depth of sequencing
+- the abundance of the organism in the community
+- how successful the assembly was
+- how successful the polishing (if used) was
 
-In order to determine the quality of a MAG we can look at two different metrics. These are the completeness (i.e. how much of the genome is captured in the MAG) and contamination (i.e. do all the sequences in the MAG belong to the same organism).
+In order to determine the quality of a MAG we can look at two different metrics. These are:
+1. completeness (i.e. how much of the genome is captured in the MAG?) and 
+2. contamination (i.e. do all the sequences in the MAG belong to the same organism?).
 
-We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determine the quality of MAGs. CheckM uses a collection of domain and lineage-specific markers to estimate completeness and contamination of a MAG. Here is a [short youtube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards that explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
+We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determine the quality of MAGs. CheckM uses a collection of domain and lineage-specific markers to estimate completeness and contamination of a MAG. This [short YouTube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
 
-CheckM has multiple different workflows available which are appropriate for different datasets, see [CheckM documentation on Workflows](https://github.com/Ecogenomics/CheckM/wiki/Workflows) for more information.
+CheckM has multiple different workflows available which are appropriate for different datasets. See [CheckM documentation on Workflows](https://github.com/Ecogenomics/CheckM/wiki/Workflows) for more information.
 
-We will be using the lineage workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to in order to use the appropriate marker genes to estimate the quality parameters.
+We will be using the lineage-specific workflow here. `lineage_wf` places your bins in a reference tree to determine which lineage it corresponds to. This allows it to use the appropriate marker genes to estimate quality parameters.
 
+First let's move into our analysis folder.
 ~~~
 cd ~/cs_course/analysis/
 ~~~
 {: .bash}
 
-CheckM has been pre-installed on the instance so we can check the help documentation for the lineage_wf.  
+CheckM has been pre-installed on the instance so we can check the help documentation for the lineage-specific workflow using the `'h` tag..  
 
 ~~~
 checkm lineage_wf -h
@@ -96,14 +103,26 @@ checkm lineage_wf -h
 > {: .output}
 {: .solution}
 
-From this we can see that along with the directory that contains the bins and an output directory we also need to add a flag to tell CheckM the format of our bins, which in our case is `.fa`. We also need to pass the `--reduced_tree` flag which limits the memory requirements so we can successfully run it on the amount of compute we have. The flag `-f` will specify and output file and we also want to use the flag `--tab_table` so the output is in a tab-separated format. Finally, we want to use `-t 4` to set the number of threads used to four, which is the number we have on our instance.
+This readout tells us what we need to include in the command:
+- the directory that contains the bins (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)` 
+- the `x` flag telling CheckM the format of our bins
+- the `--reduced_tree` flag to limit the memory requirements 
+- the `-f` flag to specify an output file name/format
+- the `--tab_table` flag  so the output is in a tab-separated format
+- the  `-t` flag to set the number of threads used to four, which is the number we have on our instance
 
+As a result our command looks like this:
 ~~~
 checkm lineage_wf  -x fa mbinning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 8 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
-The run will end with our results in a file called which we can open with `less MAGs_checkm.tsv`
+When the run ends our results we can open our results file.
+~~~
+less MAGs_checkm.tsv
+~~~
+{: .bash}
+
 ~~~
 Bin Id  Marker lineage  # genomes       # markers       # marker sets   0       1       2       3       4       5+      Completeness    Contamination   Strain heterogeneity
 bin.1   k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       2.19    0.00    0.00
@@ -115,21 +134,11 @@ bin.6   c__Bacilli (UID285)     586     325     181     1       324     0       
 ~~~
 {: .output}
 
-Running this workflow means that we run four checkM commands in one go rather than individually. This is outlined [here](https://github.com/Ecogenomics/CheckM/wiki/Workflows), which shows lineage_wf is equivalent to running the following commands:
-
-~~~
-  checkm tree <bin folder> <output folder>
-  checkm tree_qa <output folder>
-  checkm lineage_set <output folder> <marker file>
-  checkm analyze <marker file> <bin folder> <output folder>
-  checkm qa <marker file> <output folder>
-  checkm qa checkM/checkM.ms checkM/ --file checkM/MAGs_checkm.tsv --tab_table -o 2
-~~~
-{: .output}
+Running this workflow is equivalent to running six separate CheckM commands. The [CheckM documentation](https://github.com/Ecogenomics/CheckM/wiki/Workflows) explains this is more detail.
 
 > ## Exercise 1: Downloading the tsv file.
 >
-> Fill in the blanks to complete the code you need to download the `MAGs_checkm.tsv` to your local computer:
+> Fill in the blanks to complete the code you need to download the `MAGs_checkm.tsv` to your local computer using SCP:
 > ~~~
 > ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv ____
 > ~~~
@@ -145,9 +154,12 @@ Running this workflow means that we run four checkM commands in one go rather th
 > {: .solution}
 {: .challenge}
 
-The question of how much contamination we can tolerate and how much completeness do we need depends a lot on the scientific question being tackled.
+How much contamination we can tolerate and how much completeness we need depends on the scientific question being tackled.
 
-In the Minimum information about a metagenome-assembled genome (MIMAG) microbial standards [Bowers, R., Kyrpides, N., Stepanauskas, R. et al., 2017](https://www.nature.com/articles/nbt.3893). A framework to determine MAG quality from statistics is outlined. Three different metrics to be assigned as either; High, Medium or Low quality draft metagenome assembled genomes.
+To help us, we can use a standard called Minimum Information about a Metagenome-Assembled Genome (MIMAG), developed by the Genomics Standard Consortium. You can read more about MIMAG in [this 2017 paper](https://www.nature.com/articles/nbt.3893).
+
+As part of the standard,a framework to determine MAG quality from statistics is outlined. A MAG can be assigned one of three different metrics: High, Medium or Low quality draft metagenome assembled genomes.
+
 See the table below for an overview of each category.
 
 | Quality Category | Completeness | Contamination | rRNA/tRNA encoded|
@@ -156,17 +168,21 @@ See the table below for an overview of each category.
 | Medium   | ≥ 50%        | ≤ 10% | No |
 | Low   | < 50%      | ≤ 10%| No |
 
-Using CheckM we have determined the Completeness and Contamination of each of our MAGs. We will be using a program in the next episode to determine which rRNA and tRNAs are present in each MAG. However, due to the difficulty in assembly of short-read metagenomes often just a completeness >90% and a contamination ≤ 5% is treated as a good quality MAG.
+We have already determined the **completeness** and **contamination** of each of our MAGs using CheckM. Next we will use a program to determine which rRNA and tRNAs are present in each MAG. 
+
+Note that due to the difficulty in assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
 
 > ## Exercise 2: Explore the quality of the obtained MAGs
 >
 > Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see or download our example file [here](https://drive.google.com/file/d/11vJr5uHBx6J57sazLoU7oOl1peB9OxxJ/view?usp=sharing).
-> Looking at this file what category would each of our MAGs fall into (we will ignore the tRNA and rRNA requirement for now)
+>
+> Looking at the results of our quality checks, what category would each of our MAGs fall into (ignore the tRNA and rRNA requirement for now)?
 > {: .bash}
 >
 >> ## Solution
->> From the file above, we can see there are two potential high quality draft metagenome assembled genomes which are bin.5 and bin.6. We also have one medium quality draft MAG in bin.2. Finally there are three low quality MAGs in bin.1, bin.3 and bin.4.
-Your bins may have a different name/number to these but you should still have seen similar results.
+>> There are two potential high quality draft metagenome assembled genomes in bin.5 and bin.6. We also have one medium quality draft MAG in bin.2. Finally, there are three low quality MAGs in bin.1, bin.3 and bin.4.
+>>
+>> Your bins may have different names/numbers to these but you should still see similar results.
 >>
 > {: .solution}
 {: .challenge}
