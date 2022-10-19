@@ -67,27 +67,28 @@ We can then use an adapted form of the `bwa mem` command we used earlier to alig
 ~~~
 {: .bash}
 
-In order to use this new BAM with metaBAT2 we also need to index the alignment using the command `samtools index`.
+In order to use this new BAM with MetaBAT2 we also need to index the alignment using the command `samtools index`.
 
 ~~~
 samtools index pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-When we have the sorted and indexed BAM file we are then ready to use metaBAT2.
+When we have the sorted and indexed BAM file we are then ready to use MetaBAT2.
 
 ## Binning using MetaBAT2
 
-MetaBAT2 has been pre-installed on your instance. From the documentation [README.md file](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) we can see how to run MetaBAT2 on the command line in the section "MetaBAT 2 USAGE: running on command line".
-This tells us the "easy" way to run metaBAT2 is using `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`, this will generate a depth file and then do the binning for us.
-We're also going to add the flag `-m 1500`, which sets the minimum contig length it will try to bin to 1500bp
+MetaBAT2 has been pre-installed on your instance. The [documentation](https://bitbucket.org/berkeleylab/metabat/src/master/README.md) tells us how to run the program via the command line.
+
+The easiest way to run MetaBAT2 is using the command `runMetaBat.sh <options> assembly.fasta sample1.bam [sample2.bam ...]`. This will generate a depth file and then do the binning for us. In this example, we're also going to add the flag `-m 1500`, which sets the minimum contig length to 1500bp - any contigs shorter than this will not be binned.
 ~~~
 runMetaBat.sh -m 1500 ../pilon/pilon.fasta pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-When you run this, `metaBAT2` will first read in the bam file then generate bins. This should take around 5 minutes.
-You will first see the following when metaBAT2 is processing the bam file. It will likely stay at this point for a few minutes while the bam file is processed.
+MetaBAT2 first reads in the `.bam` file, then generates bins. This should take around 5 minutes.
+
+While MetaBAT2 is processing the `.bam` file you will see the following output:
 ~~~
 Executing: 'jgi_summarize_bam_contig_depths --outputDepth pilon.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta ../pilon/pilon.fasta pilon_short_read_alignment.bam' at Wed 28 Sep 16:45:13 BST 2022
 Output depth matrix to pilon.fasta.depth.txt
@@ -104,7 +105,7 @@ Processing bam files
 ~~~
 {: .output}
 
-Once the bam file has processed and binning has completed, you should see the following output.
+Once the `.bam` file has processed and binning has completed, the output will look like this:
 ~~~
 Thread 0 finished: pilon_short_read_alignment.bam with 97425751 reads and 95337444 readsWellMapped
 Creating depth matrix file: pilon.fasta.depth.txt
@@ -120,9 +121,9 @@ Finished metabat2 at Wed 28 Sep 16:46:25 BST 2022
 ~~~
 {: .output}
 
-From the final line we can see that MetaBAT has produced 6 bins `6 bins (14598015 bases in total) formed.`
+The penultimate line tells us that MetaBAT has produced 6 bins containing 14598015 bases.
 
-If you `ls` you can see that metaBAT2 has generated a depth file `pilon.fasta.depth.txt` and a directory `pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`. Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
+Using `ls` will show that MetaBAT2 has generated a depth file (`pilon.fasta.depth.txt`) and a directory (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`). Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
 ~~~
 cd pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/
 ls
@@ -134,9 +135,11 @@ bin.1.fa  bin.2.fa  bin.3.fa  bin.4.fa  bin.5.fa  bin.6.fa
 ~~~
 {: .output}
 
-Note these output files have the file extensions of `.fa` - this is exactly the same format as a `.fasta` file it is just a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions.
+Note these output files have the file extensions of `.fa`. This is exactly the same format as a `.fasta` file but with a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions.
 
-Ideally, we would like to get only one contig per bin, with a length similar the genome size of the corresponding taxa. Since this would require knowing what species are in the mixed community along with knowing their genome size - which for many species in metagenomic samples is challenging as they make up the "microbial dark matter". As knowing this information for a lot of metagenomic samples is rare we can use other statistics that show us how good our assembly and binning have been. One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. As we covered in [Metagenomics 01 - 05 QC Polished Assembly](https://cloud-span.github.io/metagenomics01-qc-assembly/05-QC-polished-assembly/index.html), we can use `seqkit stats` to get these statistics on all six of the bins.
+Ideally we would like only one contig per bin, with a length similar the genome size of the corresponding taxa. This is challenging as this would require knowing what species are present in the mixed community, but all we have is "microbial dark matter". Instead, other statistics can demonstrate how effective our assembly and binning were.
+
+One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. In (Lesson 1)[Metagenomics 01 - 05 QC Polished Assembly](https://cloud-span.github.io/metagenomics01-qc-assembly/05-QC-polished-assembly/index.html), we got this statistic using `seqkit stats`. We can do the same again for each of the six bins.
 
 ~~~
 seqkit stats -a *.fa
@@ -156,22 +159,22 @@ seqkit stats -a *.fa
 
 > ## Optional Exercise:
 >
-> Using the GC content and total size from the seqkit stats output, which bin might correspond to which organism in our dataset? Give your reasoning for each bin / species.  
-> You might find it helpful to go to the section where we introduce the dataset ([Metagenomics 01 - 00 Introduction](https://cloud-span.github.io/metagenomics01-qc-assembly/00-introduction-meta/index.html)) and also do some additional reading about each species.  
+> Using the GC content and total size from the seqkit stats output, which bin might correspond to which organism in our dataset? Give your reasoning for each bin/species. (You might find it helpful to go to the section where we introduce the dataset ([Metagenomics 01 - 00 Introduction](https://cloud-span.github.io/metagenomics01-qc-assembly/00-introduction-meta/index.html)) and also do some additional reading about each species.
+>
 > In a later lesson we will be using a program for taxonomic assignment so you can see then how your answers compare to the results.  
 >
 >> ## Solution
->> Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
->> Bin 2 = Bacillus subtilis
->> Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
->> Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
->> Bin 5 = Pseudomonas aeruginosa
->> Bin 6 = Listeria monocytogenes
+>> - Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
+>> - Bin 2 = Bacillus subtilis
+>> - Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
+>> - Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
+>> - Bin 5 = Pseudomonas aeruginosa
+>> - Bin 6 = Listeria monocytogenes
 > {: .solution}
 {: .challenge}
 
 > ## Recommended reading:
-> Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. You might find that a different binning method might result in better refined MAGs for your dataset.  There are lots of other binning software methods
+> Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. This workflow for binning might not work for you, and you might find that a different binning method might result in better refined MAGs for your dataset.  There are lots of other binning software methods inlcuding:
 > * [CONCOCT](https://www.nature.com/articles/nmeth.3103) Clustering cOntigs with COverage and ComposiTion, the manual for running this is [here](https://github.com/BinPro/CONCOCT)
 > * [Maxbin2](https://academic.oup.com/bioinformatics/article/32/4/605/1744462) uses an expectation-maximization algorithm to form bins. The link to installing maxbin2 as a conda package is [here](https://anaconda.org/bioconda/maxbin2)
 > * There are also tools that can combine different binning methods and use them to refine, [DAS tool](https://www.nature.com/articles/s41564-018-0171-1) being one of them. DAS tool can also give completeness information, similarly to checkM.
