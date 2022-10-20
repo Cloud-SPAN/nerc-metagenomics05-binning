@@ -360,12 +360,8 @@ From here you can explore the sequences that were aligned to your 16S sequence u
 > {: .bash}
 >
 >> ## Solution
->> 1. This will be different depending on the MAG you have picked, but it will be one >> of the first hits in the output. The "closest" match will probably be the one with >> the highest total score. However these are not the only columns worth using to
->> identify the best hit
->> 2. Other columns worth looking at (because the top hit may not be the best) are the >> query cover, percent identity and the e-value. The query cover is important because >> if there is a high percentage identity but it only covers a low percentage of the
->> query, then even if the total score is higher, this is not as good a hit. The e-
->> value is also important. There is not a strict limit, but lower is better, but this >> is the chance that this hit will occur in the database by chance. This is dependent >> on the size of the database and so the e-value can change. If we are comparing this >> to the default database which is large, the e-value can be higher compared to a
->> small database because we are more likely by chance to have the same hit occuring. 
+>> 1. This will be different depending on the MAG you have picked, but it will be one of the first hits in the output. The "closest" match will probably be the one with the highest total score. However these are not the only columns worth using to identify the best hit
+>> 2. Other columns worth looking at (because the top hit may not be the best) are the  query cover, percent identity and the e-value. The query cover is important because if there is a high percentage identity but it only covers a low percentage of the query, then even if the total score is higher, this is not as good a hit. The e-value is also important. There is not a strict limit, but lower is better, but this is the chance that this hit will occur in the database by chance. This is dependent on the size of the database and so the e-value can change. If we are comparing this to the default database which is large, the e-value can be higher compared to a small database because we are more likely by chance to have the same hit occuring. 
 >>
 > {: .solution}
 {: .challenge}
