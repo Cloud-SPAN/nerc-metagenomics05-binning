@@ -17,7 +17,13 @@ math: true
 ---
 
 ## What is functional annotation?
-Now we have our binned MAGs, we can start to think about what they actually do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. 
+Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. Unlike taxonomic annotation we covered [previously](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. The way that we do this is by predicting what genes are in our MAGs because there are features in DNA sequences which means software can predict where these genes start and end.
+
+- A high quality functional annotation is important because it is very useful for lots of downstream analyses. For instance if we are looking for genes that have a particular function, we would only be able to do that if we were able to predict the location of the genes in these assemblies.
+- We can also use these predicted genes as an input to identify domains associated with well characterised proteins/structures using [interproscan](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html) which is briefly covered in the other resources. Predicted genes also allow us to identify regions of the MAG that aren't coding regions and may be involved in gene regulation.
+- Predicted gene sequences can also be used as an input to generate metabolic pathway information from KEGG, we will cover how to do this using GhostKoala below.
+
+As with the taxonomic annotation, the effectiveness of the annotation is determined by the database that the MAG sequence is being compared to. If you are using a database that is inappropriate, then you may end up with many sequences not being annotated. In particular, prokka which we are going to use below annotates archaea and bacterial genomes. If you are trying to annotate a fungal genome or a eukaryote, you will need to use something different.
 
 ## How we perform functional annotation?
 
@@ -88,7 +94,7 @@ This should take around a minute on the instance so we will not be running the c
 > 1. `--outdir bin.6`
 > 2. `--prefix bin.6`
 > 3. `../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa`
-> 
+>
 > {: .bash}
 >
 >> ## Solution
@@ -153,8 +159,8 @@ bin.6.err  bin.6.faa  bin.6.ffn  bin.6.fna  bin.6.fsa  bin.6.gbk  bin.6.gff  bin
 ~~~
 {: .output}
 
-As mentioned previously, the two files we are most interested in are those with the extension `.tsv` and `.faa`: 
-- the `.tsv` file contains information about every gene identified by Prokka, including its length and name 
+As mentioned previously, the two files we are most interested in are those with the extension `.tsv` and `.faa`:
+- the `.tsv` file contains information about every gene identified by Prokka, including its length and name
 - the `.faa` file is a FASTA file containing the amino acid sequence of every gene that has been identified.
 
 We can take a look at the `.tsv` file using `head`.
@@ -213,7 +219,7 @@ ADELAPPEKDNE
 Start by downloading the `bin.6.faa` file to your local machine using `scp`.
 
 ~~~
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/prokka/bin.6/bin.6.faa 
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/prokka/bin.6/bin.6.faa
 ~~~
 {: .bash}
 
@@ -231,7 +237,7 @@ Once you have pressed submit you should be re-directed to a screen that says "Re
 
 Once you have pressed the submit link in the email you should be redirected to a BlastKOALA page that says "Job submitted". This is an online server shared by lots of people, so your job has to queue with other jobs before it can be executed. This may take a while. You will recieve an email when the job has completed.  
 
-Once the job has been completed you will receive a link by email. From this you can explore the annotated MAG. You can view/download the data and use the KEGG mapper reconstruct pathway option to see how these genes interact with each other. 
+Once the job has been completed you will receive a link by email. From this you can explore the annotated MAG. You can view/download the data and use the KEGG mapper reconstruct pathway option to see how these genes interact with each other.
 
 <img src="{{ page.root }}/fig/04_03_blastkoala_out.png" alt="a screenshot of the blastKoala output" />
 
