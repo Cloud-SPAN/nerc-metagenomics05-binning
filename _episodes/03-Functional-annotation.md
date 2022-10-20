@@ -20,10 +20,10 @@ math: true
 Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. Unlike when we covered taxonomic annotation [previously](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. The way that we do this is by predicting what genes are in our MAGs because there are features in DNA sequences which means software can predict where these genes start and end.
 
 - A high quality functional annotation is important because it is very useful for lots of downstream analyses. For instance if we are looking for genes that have a particular function, we would only be able to do that if we were able to predict the location of the genes in these assemblies.
-- We can also use these predicted genes as an input to identify domains associated with well characterised proteins/structures using [interproscan](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html) which is briefly covered in the other resources. Predicted genes also allow us to identify regions of the MAG that aren't coding regions and may be involved in gene regulation.
-- Predicted gene sequences can also be used as an input to generate metabolic pathway information from KEGG, we will cover how to do this using GhostKoala below.
+- We can also use these predicted genes as an input to identify domains associated with well characterised proteins/structures using [Interproscan](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html) which is briefly covered in the other resources. Predicted genes also allow us to identify regions of the MAG that aren't coding regions and may be involved in gene regulation.
+- Predicted gene sequences can also be used as an input to generate metabolic pathway information from KEGG, we will cover how to do this using [BlastKOALA](https://www.kegg.jp/blastkoala/) below.
 
-As with the taxonomic annotation, the effectiveness of the annotation is determined by the database that the MAG sequence is being compared to. If you are using a database that is inappropriate, then you may end up with many sequences not being annotated. In particular, prokka which we are going to use below annotates archaea and bacterial genomes. If you are trying to annotate a fungal genome or a eukaryote, you will need to use something different.
+As with the taxonomic annotation, the effectiveness of the annotation is determined by the database that the MAG sequence is being compared to. If you are using a database that is inappropriate, then you may end up with many sequences not being annotated. In particular, [Prokka](https://github.com/tseemann/prokka) which we are going to use below annotates archaea and bacterial genomes. If you are trying to annotate a fungal genome or a eukaryote, you will need to use something different.
 
 ## How we perform functional annotation?
 
@@ -347,5 +347,27 @@ Your ouput should look like this:
 <img src="{{ page.root }}/fig/04_03_blast4.png" alt="Output of a BLAST search" />
 
 From here you can explore the sequences that were aligned to your 16S sequence using the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to other species.
+
+> ## Exercise 2: Understand the blast output
+> You will now have a 16S sequence from the MAG that you have chosen. This will be
+> different depending on which one you picked.
+> 1. When you have ran the search in blast. What do you think is the most likely
+> annotation for your MAG? ?
+> 2. What columns in the blast output do you think are the most important for selecting
+> which is the best hit?
+> 3. Now you have identified this MAG why don't you try this with the other bins and see
+> which organisms they belong to. Which are the best hits for these MAGs?
+> {: .bash}
+>
+>> ## Solution
+>> 1. This will be different depending on the MAG you have picked, but it will be one >> of the first hits in the output. The "closest" match will probably be the one with >> the highest total score. However these are not the only columns worth using to
+>> identify the best hit
+>> 2. Other columns worth looking at (because the top hit may not be the best) are the >> query cover, percent identity and the e-value. The query cover is important because >> if there is a high percentage identity but it only covers a low percentage of the
+>> query, then even if the total score is higher, this is not as good a hit. The e-
+>> value is also important. There is not a strict limit, but lower is better, but this >> is the chance that this hit will occur in the database by chance. This is dependent >> on the size of the database and so the e-value can change. If we are comparing this >> to the default database which is large, the e-value can be higher compared to a
+>> small database because we are more likely by chance to have the same hit occuring. 
+>>
+> {: .solution}
+{: .challenge}
 
 {% include links.md %}
