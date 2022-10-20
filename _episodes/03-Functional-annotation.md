@@ -6,8 +6,8 @@ questions:
 - "How can we add functional annotation to our bins?"
 - "How can we identify what pathways these are involved with?"
 objectives:
-- "What is functional annotation"
-- "How to use prokka for functional annotation"
+- "Define what funtional annotation is"
+- "Know how to use prokka for functional annotation"
 
 keypoints:
 - "Functional annotation allows us to look at the metabolic capacity of a metagenome"  
@@ -17,34 +17,45 @@ math: true
 ---
 
 ## What is functional annotation?
-
+Now we have our binned MAGs, we can start to think about what they actually do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. 
 
 ## How we perform functional annotation?
 
 We will be annotating each of our MAGs using [Prokka](https://github.com/tseemann/prokka) for rapid prokaryotic genome annotation on the command line.
 
 > ## Software choices
-> We are using prokka here as it is still the software most commonly used. However, the program is no longer being updated. One recent alternative that is being actively developed is [Bakta](https://github.com/oschwengers/bakta).
+> We are using Prokka here as it is still the software most commonly used. However, the program is no longer being updated. One recent alternative that is being actively developed is [Bakta](https://github.com/oschwengers/bakta).
 {: .callout}
 
-Prokka identifies candidate genes in a iterative process. First using Prodigal (another command line tool that prokka uses in the pipeline) to find candiate genes and then they are then compared against databases of known protein sequences in order to determine their function. You can read more about Prokka in the corresponding paper [Seeman, 2014](https://academic.oup.com/bioinformatics/article/30/14/2068/2390517).
+Prokka identifies candidate genes in a iterative process. First it uses Prodigal (another command line tool) to find candidate genes.These are then compared against databases of known protein sequences in order to determine their function. If you like, you can read more about Prokka in [this 2014 paper](https://academic.oup.com/bioinformatics/article/30/14/2068/2390517).
 
-Prokka has been pre-installed on our instance and we can access the help documentation using
+Prokka has been pre-installed on our instance. First, let's create a directory inside `analysis` where we can store our outputs from Prokka.
 ~~~
 cd ~/cs_course/analysis/
 mkdir prokka
 cd prokka
+~~~
+{: .bash}
+
+Now let's take a look at the help page for Prokka using the `-h` flag.
+~~~
 prokka -h
 ~~~
 {: .bash}
 
-From this we can build our basic command.
+Looking at the help page tells us how to construct our basic command, which looks like this:
 ~~~
 prokka --outdir mydir --prefix mygenome contigs.fa
 ~~~
 {: .output}
 
-Prokka produces multiple different file types which you can see in the table below. We are mainly interested in `.faa` and `.tsv` but many of the other files are useful for submission to different databases.
+- `mydir` is the directory where Prokka should store its output
+
+- `--outdir mydir` tells Prokka that the 'output directory' is `mydir`
+- `--prefix mygenome` tells Prokka that the output files should all be labelled `mygenome`
+- `contigs.fa` is the file we want Prokka to annotate
+
+Prokka produces multiple different file types, which you can see in the table below. We are mainly interested in `.faa` and `.tsv` but many of the other files are useful for submission to different databases.
 
 | Suffix | Description of file contents                       |
 |--------|----------------------------------------------------|
@@ -60,10 +71,9 @@ Prokka produces multiple different file types which you can see in the table bel
 | .txt   | Annotation summary statistics                      |
 | .tsv	 | Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product |
 
-We are going to use Prokka to initially annotate one MAG.
-
-In the previous episode we saw we'd produced 6 MAGs of differing quality.
-In our example, we are going to start with the MAG `bin.6.fa` as it was assessed by CheckM as being 99.45% complete and 0% contaminated.
+Initially we will annotate just one MAG at a time with Prokka.
+In the previous episode we produced 6 MAGs of varying quality.
+In this example, we will start with the MAG `bin.6.fa`, as this MAG had the highest completeness (99.45%) and lowest contamination (0%).
 
 ~~~
 prokka --outdir bin.6 --prefix bin.6 ../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa
@@ -71,6 +81,23 @@ prokka --outdir bin.6 --prefix bin.6 ../binning/pilon.fasta.metabat-bins1500-YYY
 {: .bash}
 
 This should take around a minute on the instance so we will not be running the command in the background.
+
+> ## Exercise 1: Recap of Prokka command
+> Test yourself! What do each of these parts of the command signal?
+>
+> 1. `--outdir bin.6`
+> 2. `--prefix bin.6`
+> 3. `../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa`
+> 
+> {: .bash}
+>
+>> ## Solution
+>> 1. `bin.6` is the name of the directory where Prokka will place its output files
+>> 2. `bin.6` will be the name of each output file e.g. `bin.6.tsv` or `bin.6.faa`
+>> 3. This is the file path for the file we want Prokka to annotate
+>>
+> {: .solution}
+{: .challenge}
 
 When you initially run the command you should see similar to the following.
 ~~~
@@ -113,7 +140,7 @@ And you should see the following when the command has finished:
 ~~~
 {: .output}
 
-If we navigate into the output file created by Prokka we can then list and see that Prokka has generated many files.
+If we navigate into the `bin.6` output file we can use `ls` to see that Prokka has generated many files.
 
 ~~~
 cd bin.6
@@ -126,11 +153,11 @@ bin.6.err  bin.6.faa  bin.6.ffn  bin.6.fna  bin.6.fsa  bin.6.gbk  bin.6.gff  bin
 ~~~
 {: .output}
 
-If we refer back to the Prokka documentation, we can remind ourselves what each of these files are for.
+As mentioned previously, the two files we are most interested in are those with the extension `.tsv` and `.faa`: 
+- the `.tsv` file contains information about every gene identified by Prokka, including its length and name 
+- the `.faa` file is a FASTA file containing the amino acid sequence of every gene that has been identified.
 
-As we said earlier the two files we are mainly interested in are those with the extension `.tsv` and `.faa`. The tsv file will contain information about every gene identified by Prokka, including its length and name. The faa file is a FASTA file containing the amino acid sequence of every gene that has been identified.
-
-We can take a look at the output of both using `head`
+We can take a look at the `.tsv` file using `head`.
 ~~~
 head bin.6.tsv
 ~~~
@@ -152,7 +179,7 @@ JODGFBLK_00009	CDS	1410	pabB	2.6.1.85	COG0147	Aminodeoxychorismate synthase comp
 
 Something here about what each column means.
 
-We can then see the sequence of these genes by looking at the `.faa` file.
+We can then look at the `.faa` file to see the sequences of these genes.
 ~~~
 head bin.6.faa
 ~~~
@@ -181,11 +208,16 @@ ADELAPPEKDNE
 
 ## Relating these genes to an online database
 
-Introduction to KEGG
+### Introduction to KEGG
 
-* Download the *.faa file.
+Start by downloading the `bin.6.faa` file to your local machine using `scp`.
 
-Once you have dowloaded the Prokka `*.faa` file onto your local computer you can upload this onto [BlastKOALA](https://www.kegg.jp/blastkoala/) in order to annotate the genes with K numbers to relate back to the KEGG database.
+~~~
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/prokka/bin.6/bin.6.faa 
+~~~
+{: .bash}
+
+You can then upload this file onto [BlastKOALA](https://www.kegg.jp/blastkoala/). BlastKOALA is a tool which can annotate the sequences with K numbers. These then relate back to the KEGG database.
 
 <img src="{{ page.root }}/fig/04_03_blastkoala.png" alt="a screenshot of the blastKoala upload page" />
 
@@ -195,28 +227,27 @@ You should click on the "Choose file" button and navigate to where your `*.faa` 
 
 We will leave all the options on default, but you need to add in your email address so BlastKOALA can email you to start the job.
 
-Once you have pressed submit you should be re-directed to a screen that says "Request accepted" you will also be sent an email with two links, one to submit the job and one to cancel. **Make sure you press the submit link as your job will not be running without it!** (& make sure to check your spam!)
-Once you have pressed the submit link in the email you should be redirected to a BlastKOALA page that says "Job submitted"
+Once you have pressed submit you should be re-directed to a screen that says "Request accepted". You will also be sent an email with two links, one to submit the job and one to cancel. **Make sure you press the submit link as your job will not be running without it!** If you haven't received an email, check your spam.
 
-As this is an online server your job will sit in a queue with other peoples jobs so it may take a bit of time (hours!) before it is run. You will recieve an email when the job has completed.  
+Once you have pressed the submit link in the email you should be redirected to a BlastKOALA page that says "Job submitted". This is an online server shared by lots of people, so your job has to queue with other jobs before it can be executed. This may take a while. You will recieve an email when the job has completed.  
 
-Once the job has been completed you will receive a link by email.  
+Once the job has been completed you will receive a link by email. From this you can explore the annotated MAG. You can view/download the data and use the KEGG mapper reconstruct pathway option to see how these genes interact with each other. 
 
 <img src="{{ page.root }}/fig/04_03_blastkoala_out.png" alt="a screenshot of the blastKoala output" />
 
-From this you can explore the annotated MAG. You can view or download the data and use the KEGG mapper reconstruct pathway option to see how these genes interact with each other. 
-
 ## Building a tree from the 16S sequence
 
-Prokka is able to identify any 16S sequences present in our MAGs. This is useful to build a quick taxonomic tree to see what other organisms our MAG relates to.  
-We will first search for the presence of 16S seqences in the prokka output.
-While still logged into the instance, navigate to the prokka output directory you generated earlier.  
-Once in that directory we can use grep to search for 16S in the tsv file with the following command:
+Prokka is able to identify 16S sequences present in our MAGs. This can be used to build a quick taxonomic tree to see what organisms our MAG is related to.
+
+First we will search for the presence of 16S sequences in the Prokka output.
+
+While still logged into the instance, navigate to the Prokka output directory you generated earlier (`~/cs_course/analysis/prokka/bin.6`). Once in that directory we can search for sequenced identified as being 16S in the `.tsv file` using `grep`:
 ~~~
 grep 16S *.tsv
 ~~~
 {: .bash}
-Depending on the MAG you have run this on you should see similar to the below:
+
+You should get a result similar to the below. Yours may differ slightly depending on the MAG you ran.
 ~~~
 JODGFBLK_00079	rRNA	1547				16S ribosomal RNA
 JODGFBLK_00089	rRNA	1553				16S ribosomal RNA
@@ -226,20 +257,21 @@ JODGFBLK_00417	rRNA	1546				16S ribosomal RNA
 ~~~
 {: .output}
 
-Note: if you don't get an output here it may be that your MAG doesn't have any 16S sequences present, which means you may have run Prokka on a less complete MAG. You should double check your output from CheckM and pick a MAG that is highly complete to run through Prokka instead.  
+> ## Note:
+> If you don't get an output here it may be that your MAG doesn't have any 16S sequences present. In the case of this lesson, that means you have run Prokka on a less complete MAG than the one we used. You should double check your output from CheckM and pick a MAG that is highly complete to run through Prokka instead.  
+{: .callout}
 
-From our output we can see that there are 4 full size 16S ribosomal RNA genes present in our data and one partial one.   
+Our output shows that there are 4 full size 16S ribosomal RNA genes present in our data, and one partial one.   
 
-The next step is to pull out the sequence of this 16S rRNA gene and run it through a BLAST database.  
-Using the program `seqkit` with the `grep` option (see [seqkit grep](https://bioinf.shenwei.me/seqkit/usage/#grep)) we can pull out the sequence from the `*.ffn` file. (Note we are using the `*.ffn` file here as this will give our 16S sequences in nucleotide format).  
+The next step is to pull out the sequence of one of these 16S rRNA genes and run it through a BLAST database. This is possible using the `.ffn` file which gives the sequences in nucleotide format. We'll need to search the `.ffn` file for the tag associated with our gene of interest (the first column in the output above).
 
-The basic format of this command is the following, `-p` indicates the pattern to search which in our case is the prokka ID. This is the alphanumeric string that is in the first column from the grep output above.
+We do this using `seqkit` with a `grep` option, which you can read more about [here](https://bioinf.shenwei.me/seqkit/usage/#grep)). Here's the format of this command:
 ~~~
 seqkit grep -p <prokka_id> <prokka.ffn>
 ~~~
 {: .bash}
-So in our case this command would be:
 
+So in our case this command would be:
 ~~~
 $ seqkit grep -p JODGFBLK_00079 bin.6.ffn
 ~~~
@@ -284,32 +316,30 @@ Now we have the 16S rRNA sequence we can upload this to BLAST and search the 16S
 
 ## BLAST
 
-We will be using BLAST (Basic Local Alignment Search Tool) which is an algorithm to find regions of similarity between biological sequences. BLAST is a very popular program in bioinformatics so you may be familiar with the online BLAST server NCBI runs.
+We will be using BLAST (Basic Local Alignment Search Tool) which is an algorithm to find regions of similarity between biological sequences. BLAST is a very popular program in bioinformatics so you may be familiar with the online BLAST server run by NCBI.
 
 We will be using the online server, available at [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi).
 
 <img src="{{ page.root }}/fig/04_03_blast.png" alt="a screenshot of the blast website" />
 
-Once you have navigated to the page you should select the button that says "Nucleotide BLAST".
+Select the button that says "Nucleotide BLAST".
 
 <img src="{{ page.root }}/fig/04_03_blast2.png" alt="a screenshot of the submission page" />
 
-Once on this [website](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) you should select the rRNA/ITS database under the "Choose Search Set" and then you can paste in the 16S sequence in the box titled "Enter accession number(s), gi(s), or FASTA sequence(s)"
+Under "Choose Search Set" set the database to "rRNA/ITS database". Then, you paste the 16S sequence into the box at the toptitled "Enter accession number(s), gi(s), or FASTA sequence(s)"
 
 Your screen should look something like the below:
 
 <img src="{{ page.root }}/fig/04_03_blast3.png" alt="a screenshot of the query sequence and 16S/ITS rRNA selected" />
 
-Once you have added in your sequence and selected the rRNA/ITS database you can click the blue BLAST button.
-This will then send your job off to the queue, how long it takes from here will depend how busy the NCBI server is - usually it will only take a couple of minutes as the sequence length and the size of the database we're using is small. You should make sure you leave the tab open as this will be where your results arrive.
+Now, click the blue BLAST button!
 
-Once your job has finished you should see an output like below.
+Your job will then be added to a queue of other jobs until there is space for it to run. Usually this is only a couple of minutes, especially as the sequence length and database size we are using are small. Make sure you leave the tab open while you wait so you can see your results when they arrive.
+
+Your ouput should look like this:
 
 <img src="{{ page.root }}/fig/04_03_blast4.png" alt="Output of a BLAST search" />
 
-From here you can explore what sequences have been aligned to your 16S sequence, in the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to the others.
-
-
-
+From here you can explore the sequences that were aligned to your 16S sequence using the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to other species.
 
 {% include links.md %}
