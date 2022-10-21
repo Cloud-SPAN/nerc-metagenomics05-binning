@@ -3,11 +3,12 @@ title: "Other Resources"
 teaching: 15
 exercises: 0
 questions:
-- "Where are other metagenomic resources?"
+- "Where can I find other metagenomic resources?"
 objectives:
 - "Know some places where to find more information."
 keypoints:
-- "Metagenomes are complicated to analyse, there are lots of tools available, and the best ones to use change frequently. Do you research and look for what are the most suitable tools to use for your analysis."
+- "Metagenomes are complicated to analyse. Luckily, there are lots of tools available!"
+- "The best tools to use change frequently. Do your research when looking for the most suitable tools to use for your analysis."
 ---
 
 ## Other resources
@@ -16,9 +17,9 @@ We hope that you have found these lessons useful. However, this course is only t
 A quick roundup of useful learning resources:
 - This [Phyloseq tutorial](https://joey711.github.io/phyloseq/) contains many more examples of metagenome data manipulation. 
 - A'nvio developer Meren has a blog entry about [History of metagenomics](http://merenlab.org/2020/07/27/history-of-metagenomics/)
-- The same developer also has several videos explaining [Metapangenomics: A nexus between pangenomes and metagenomes](https://youtu.be/C3fHlccFxJw), [The power of metagenomic read recruitment](https://youtu.be/MqD4aN1p1qA) and [Genome-resolved metagenomics: key concepts in reconstructing genomes from metagenomes](https://youtu.be/RjNdHGK4ruo). 
+- The same developer also has several videos explaining topics such as [Metapangenomics: A nexus between pangenomes and metagenomes](https://youtu.be/C3fHlccFxJw), [The power of metagenomic read recruitment](https://youtu.be/MqD4aN1p1qA) and [Genome-resolved metagenomics: key concepts in reconstructing genomes from metagenomes](https://youtu.be/RjNdHGK4ruo). 
 
-There are also some great non command line resources out there that may be great to get you started. This is not an exhaustive list but are some of our suggestions.
+There are also some great non-command line resources out there that may be great to get you started. Here are some of our suggestions, although this is by no means an exhaustive list.
 
 ### MG-RAST
 
@@ -45,24 +46,28 @@ MG-RAST has is a very useful tool for taking a quick look at your data, as well 
 ### Krona for visualization
 
 [Krona](https://github.com/marbl/Krona/wiki) is a hierarchical
-data visualization software. It allows data to be explored with zooming,
+data visualisation software. It allows data to be explored with zooming,
 multi-layered pie charts and includes support for several bioinformatics
-tools and raw data formats. It allows you to generate HTML reports on the taxonomy in your metagenome like the one below.
+tools and raw data formats. Using Krona you can generate HTML reports on the taxonomy in your metagenome like the one below.
 
 <a href="{{ page.root }}/fig/03-06-03.png">
   <img src="{{ page.root }}/fig/03-06-03.png" alt="Krona displays a circled-shape bacterial taxonomy plot with abundance percentages of each taxa " />
 </a>
 
-### iTOL the interactive tree of life
+### iTOL, the interactive tree of life
 
-[iTOL](https://itol.embl.de/) is a free website which can be used to generate publication quality phylogenetic trees. Below shows the tree of life and the flexibility in the parts of the plot that you can edit. There are also several [video tutorials](https://itol.embl.de/video_tutorial.cgi) to show you how to get started. You can also share your trees with other people easily. This would be useful if you wanted to make a tree based on the 16S sequence for several genomes in your metagenome, which will be annotated by prokka, or if you are interested in a particular set of genes within a genome.
+[iTOL](https://itol.embl.de/) is a free website which can be used to generate publication quality phylogenetic trees. Below shows the interface you can use to customise parts of the plot. There are also several [video tutorials](https://itol.embl.de/video_tutorial.cgi) to show you how to get started. You can also share your trees with other people easily. 
+
+This tool is useful if you want to make a tree based on the 16S sequence for several genomes in your metagenome (annotated by Prokka), or if you are interested in a particular set of genes within a genome.
 
 <a href="{{ page.root }}/fig/iTOL.png">
   <img src="{{ page.root }}/fig/iTOL.png" alt="iTOL displays a circular plot with the phylogeny of different bacteria, eukaryotes and archaea, representing the tree of life  " />
 </a>
 
-### KAIJU alternative classification tool for metagenomics
-Kraken2 is a very popular command line tool for annotating the short reads in your metagenome, however KAIJU is another popular alternative that has both a [command line version](https://github.com/bioinformatics-centre/kaiju) and a [web based version](https://kaiju.binf.ku.dk/server) you can run jobs from. It has databases for microbial eukaryotes and viruses as well as bacterial and archaeal refseq genomes. The website version looks as shown below
+### KAIJU - alternative classification tool
+Kraken2 (the tool we used) is a very popular command line tool for annotating the short reads in your metagenome. KAIJU is another popular tool which has both a [command line version](https://github.com/bioinformatics-centre/kaiju) and a [web based version](https://kaiju.binf.ku.dk/server). It has databases for microbial eukaryotes and viruses as well as bacterial and archaeal refseq genomes. 
+
+Here's what the web version looks like:
 
 <a href="{{ page.root }}/fig/KAIJU_website.png">
   <img src="{{ page.root }}/fig/KAIJU_website.png" alt="iTOL displays a circular plot with the phylogeny of different bacteria, eukaryotes and archaea, representing the tree of life  " />
@@ -70,20 +75,22 @@ Kraken2 is a very popular command line tool for annotating the short reads in yo
 
 ### MetaPhlAn for taxonomic profiling
 
-[MetaPhlAn 4](http://segatalab.cibio.unitn.it/tools/metaphlan/index.html) is another very popular tool for profiling taxonomy in microbial communities. The latest associated paper is [here](https://www.biorxiv.org/content/10.1101/2022.08.22.504593v1). One benefit of MetaPhlAn is that it has an actively updated [github repository](https://github.com/biobakery/MetaPhlAn/), and there is active support [forum](https://forum.biobakery.org/c/microbial-community-profiling/metaphlan/7) from the people who have developed it as part of the [BioBakery](https://huttenhower.sph.harvard.edu/tools/), which also has many other excellent tools and resources available.
+[MetaPhlAn 4](http://segatalab.cibio.unitn.it/tools/metaphlan/index.html) is another very popular tool for profiling taxonomy in microbial communities. The latest associated paper is [here](https://www.biorxiv.org/content/10.1101/2022.08.22.504593v1). 
+
+One benefit of MetaPhlAn is that it has an actively updated [github repository](https://github.com/biobakery/MetaPhlAn/) as well as an active support [forum](https://forum.biobakery.org/c/microbial-community-profiling/metaphlan/7).It was developed as part of the [BioBakery](https://huttenhower.sph.harvard.edu/tools/), which also has many other excellent tools and resources.
 
 ### Identifying functional domains with InterProScan
 
-If you are interested in identifying the functional domain of proteins of interest, InterProScan should be the first tool to use. This has both a [command line version](https://interproscan-docs.readthedocs.io/en/latest/HowToRun.html) for annotating many proteins at once, and a website version for predicting individual, or a small number of proteins. This will give you a graphic output you can export as shown below
+If you are interested in identifying the functional domain of proteins, InterProScan should be the first tool you use. It has both a [command line version](https://interproscan-docs.readthedocs.io/en/latest/HowToRun.html) for annotating many proteins at once, and a [website version](http://www.ebi.ac.uk/interpro/search/sequence/) for predicting smaller numbers of proteins. It produces an exportable graphical output as shown below.
 
 <a href="{{ page.root }}/fig/interproscan.png">
   <img src="{{ page.root }}/fig/interproscan.png" alt="Screenshot from InterProScan which shows domains that have been identified in a protein sequence " />
 </a>
 
-
 > ## Recommended reading:
-> These two reviews [Taş et al.,2021](https://www.sciencedirect.com/science/article/pii/S0958166921000240)  and [Yang et al., 2021](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055) have comprehensive lists of different tools and databases to use for your metagenomic analysis.
-
+> Review articles can be a useful source of information and some contain comprehensive lists of different tools and databases to use for your metagenomic analysis. Here are two we recommend:
+> - [Taş et al.,2021](https://www.sciencedirect.com/science/article/pii/S0958166921000240)
+> - [Yang et al., 2021](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0055)
 {: .callout}
 
 {% include links.md %}

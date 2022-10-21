@@ -17,15 +17,19 @@ math: true
 ---
 
 ## What is functional annotation?
-Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. Unlike taxonomic annotation we covered [previously](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. The way that we do this is by predicting what genes are in our MAGs because there are features in DNA sequences which means software can predict where these genes start and end.
+Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. 
 
-- A high quality functional annotation is important because it is very useful for lots of downstream analyses. For instance if we are looking for genes that have a particular function, we would only be able to do that if we were able to predict the location of the genes in these assemblies.
-- We can also use these predicted genes as an input to identify domains associated with well characterised proteins/structures using [interproscan](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html) which is briefly covered in the other resources. Predicted genes also allow us to identify regions of the MAG that aren't coding regions and may be involved in gene regulation.
-- Predicted gene sequences can also be used as an input to generate metabolic pathway information from KEGG, we will cover how to do this using GhostKoala below.
+Unlike [taxonomic annotation](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. This is possible because there is software avaiable which uses features in DNA sequences to predict where genes start and end, allowing us to predict which genes are in our MAGs.
 
-As with the taxonomic annotation, the effectiveness of the annotation is determined by the database that the MAG sequence is being compared to. If you are using a database that is inappropriate, then you may end up with many sequences not being annotated. In particular, prokka which we are going to use below annotates archaea and bacterial genomes. If you are trying to annotate a fungal genome or a eukaryote, you will need to use something different.
+A high quality functional annotation is important because it is very useful for lots of downstream analyses. For instance, if we were looking for genes that have a particular function, we would only be able to do that if we were able to predict the location of the genes in these assemblies.
 
-## How we perform functional annotation?
+Predicted gene sequences can also be used to generate metabolic pathway information using the [KEGG database](https://www.genome.jp/kegg/). We will cover how to do this using a tool called [BlastKOALA](https://www.kegg.jp/blastkoala/).
+
+We could additionally use these predicted genes to identify domains associated with well-characterised proteinsor structures using tools such as [InterProScan](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html). Predicting genes allows us to identify regions of the MAG that aren't coding regions and may be involved in gene regulation. We will not be covering these topics in this lesson but we will briefly discuss InterProScan in the [final episode of this lesson](https://cloud-span.github.io/metagenomics04-binning_funa/04-OtherResources/index.html).
+
+As with taxonomic annotation, effectiveness is determined by the database that the MAG sequence is being compared to. If you do not use the appropriate database you may not end up with many annotated sequences. In particular, [Prokka](https://github.com/tseemann/prokka) (the tool we will use in this episode) annotates archaea and bacterial genomes. If you are trying to annotate a fungal genome or a eukaryote, you will need to use something different.
+
+## How do we perform functional annotation?
 
 We will be annotating each of our MAGs using [Prokka](https://github.com/tseemann/prokka) for rapid prokaryotic genome annotation on the command line.
 
@@ -347,5 +351,24 @@ Your ouput should look like this:
 <img src="{{ page.root }}/fig/04_03_blast4.png" alt="Output of a BLAST search" />
 
 From here you can explore the sequences that were aligned to your 16S sequence using the "Descriptions", "Graphic Summary", "Alignments" and "Taxonomy" tabs. You can also browse the "Distance tree of results" to see where your 16S sequence lies in relation to other species.
+
+> ## Exercise 2: Understand the blast output
+> You will now have a 16S sequence from the MAG that you have chosen. Use the output from your BLAST search to answer these questions.
+> 1. What do you think is the most likely
+> annotation for your MAG? ?
+> 2. Which columns in the BLAST output do you think are the most important for selecting
+> which is the best hit?
+> 3. Now you have identified this MAG, try repeating the process for the other bins and see
+> which organisms they belong to. Which are the best hits for these MAGs?
+> {: .bash}
+>
+>> ## Solution
+>> 1. This will vary depending on the MAG you have picked but it will be one of the first hits in the output. The "closest" match will probably be the one with the highest total score. However these are not the only columns worth using to identify the best hit.
+>> 2. Other columns worth looking at (because the top hit may not be the best) are the query cover, percent identity and the E-value. 
+>>      - percent identity is how similar the query sequence (your input) is to the target AKA how many characters are identical. Higher percent identity = more similar sequences
+>>      - query coverage is the percentage of the query sequence that overlaps the target. If there is only a small overlap then the match is less significant, even if it has a very high percent identity. We want as much of the two sequences to be identical as possible.
+>>      - E-value is the number of matches you would expect to see by chance. This is dependent on the size of the database. Lower E-value = less likely to be by chance = a better match.
+> {: .solution}
+{: .challenge}
 
 {% include links.md %}
