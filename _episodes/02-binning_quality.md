@@ -23,7 +23,7 @@ The quality of a metagenome-assembled genome (MAG) or bin is highly dependent on
 - how successful the polishing (if used) was
 
 In order to determine the quality of a MAG we can look at two different metrics. These are:
-1. completeness (i.e. how much of the genome is captured in the MAG?) and 
+1. completeness (i.e. how much of the genome is captured in the MAG?) and
 2. contamination (i.e. do all the sequences in the MAG belong to the same organism?).
 
 We can use the program [CheckM](https://github.com/Ecogenomics/CheckM) to determine the quality of MAGs. CheckM uses a collection of domain and lineage-specific markers to estimate completeness and contamination of a MAG. This [short YouTube video](https://youtu.be/sLtSDs3sh6k) by Dr Robert Edwards explains how CheckM uses a hidden Markov model to calculate the level of contamination and completeness of bins, based on marker gene sets.
@@ -104,16 +104,16 @@ checkm lineage_wf -h
 {: .solution}
 
 This readout tells us what we need to include in the command:
-- the directory that contains the bins (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)` 
+- the directory that contains the bins (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)`
 - the `x` flag telling CheckM the format of our bins
-- the `--reduced_tree` flag to limit the memory requirements 
+- the `--reduced_tree` flag to limit the memory requirements
 - the `-f` flag to specify an output file name/format
 - the `--tab_table` flag  so the output is in a tab-separated format
 - the  `-t` flag to set the number of threads used to four, which is the number we have on our instance
 
 As a result our command looks like this:
 ~~~
-checkm lineage_wf  -x fa mbinning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 8 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf  -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 8 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
@@ -168,7 +168,7 @@ See the table below for an overview of each category.
 | Medium   | ≥ 50%        | ≤ 10% | No |
 | Low   | < 50%      | ≤ 10%| No |
 
-We have already determined the **completeness** and **contamination** of each of our MAGs using CheckM. Next we will use a program to determine which rRNA and tRNAs are present in each MAG. 
+We have already determined the **completeness** and **contamination** of each of our MAGs using CheckM. Next we will use a program to determine which rRNA and tRNAs are present in each MAG.
 
 Note that due to the difficulty in assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
 
