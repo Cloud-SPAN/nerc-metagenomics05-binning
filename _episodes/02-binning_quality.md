@@ -118,7 +118,7 @@ checkm lineage_wf -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ che
 ~~~
 {: .bash}
 
-When the run ends our results we can open our results file.
+When the run ends (it should take around 8 minutes) we can open our results file.
 ~~~
 less MAGs_checkm.tsv
 ~~~
