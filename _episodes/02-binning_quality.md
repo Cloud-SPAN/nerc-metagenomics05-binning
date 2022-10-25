@@ -104,8 +104,9 @@ checkm lineage_wf -h
 {: .solution}
 
 This readout tells us what we need to include in the command:
+- the `x` flag telling CheckM the format of our bins (`fa`)
 - the directory that contains the bins (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)`
-- the `x` flag telling CheckM the format of our bins
+- the directory that we want the output to be saved in (`checkm/`)
 - the `--reduced_tree` flag to limit the memory requirements
 - the `-f` flag to specify an output file name/format
 - the `--tab_table` flag  so the output is in a tab-separated format
@@ -113,7 +114,7 @@ This readout tells us what we need to include in the command:
 
 As a result our command looks like this:
 ~~~
-checkm lineage_wf  -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 8 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv
 ~~~
 {: .bash}
 
