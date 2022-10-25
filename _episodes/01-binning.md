@@ -66,8 +66,42 @@ We can then use an adapted form of the `bwa mem` command we used earlier to alig
 ( bwa mem -t 8 ../pilon/pilon.fasta ../../data/illumina_fastq/ERR2935805.fastq | samtools view - -Sb | samtools sort - -@4 -o pilon_short_read_alignment.bam ) &> binning.out &
 ~~~
 {: .bash}
+This should take around 60 minutes to complete.
 
-In order to use this new BAM with MetaBAT2 we also need to index the alignment using the command `samtools index`.
+Once the file is created, we can take a quick look inside.  We are already in the `binning` directory where the output file is stored so all we need to do is use the command `less` on `binning.out`.
+
+~~~ 
+less binning.out
+~~~
+{: .bash}
+
+The start of the file should look like this:
+~~~
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 396040 sequences (80000080 bp)...
+[M::process] read 396040 sequences (80000080 bp)...
+[M::mem_process_seqs] Processed 396040 reads in 97.374 CPU sec, 14.114 real sec
+[M::mem_process_seqs] Processed 396040 reads in 94.057 CPU sec, 14.927 real sec
+[M::process] read 396040 sequences (80000080 bp)...
+[M::mem_process_seqs] Processed 396040 reads in 96.829 CPU sec, 15.646 real sec
+[M::process] read 396040 sequences (80000080 bp)...
+[M::mem_process_seqs] Processed 396040 reads in 92.853 CPU sec, 14.992 real sec
+[M::process] read 396040 sequences (80000080 bp)...
+[M::mem_process_seqs] Processed 396040 reads in 94.947 CPU sec, 15.328 real sec
+[M::process] read 396040 sequences (80000080 bp)...
+~~~
+{: .output}
+
+If we scroll down, the end should look like this:
+~~~
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa mem -t 8 ../pilon/pilon.fasta ../../../data/illumina_fastq/ERR2935805.fastq
+[main] Real time: 3460.681 sec; CPU: 11813.877 sec
+[bam_sort_core] merging from 12 files and 4 in-memory blocks...
+~~~
+{: .output}
+
+In order to use this new BAM with MetaBAT2 we also need to index the alignment using the command `samtools index`. This only takes 2-3 minutes.
 
 ~~~
 samtools index pilon_short_read_alignment.bam
@@ -86,7 +120,7 @@ runMetaBat.sh -m 1500 ../pilon/pilon.fasta pilon_short_read_alignment.bam
 ~~~
 {: .bash}
 
-MetaBAT2 first reads in the `.bam` file, then generates bins. This should take around 5 minutes.
+MetaBAT2 first reads in the `.bam` file, then generates bins. This should take around 2 or 3 minutes.
 
 While MetaBAT2 is processing the `.bam` file you will see the following output:
 ~~~
