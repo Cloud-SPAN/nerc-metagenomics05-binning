@@ -28,7 +28,7 @@ One way to separate contigs that belong to different species is by their taxonom
 There are easier methods that perform binning to a high quality using
 characteristics of the contigs, such as their GC content, their tetranucleotide frequencies (TNF), their coverage (abundance), sets of marker genes, taxonomic aligments and their preferred codons.
 
-Most binning tools use short reads for the binning; only a few use Hi-C sequencing. Hi-C is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique). Different tools use different algorithms for performing the binning. A few popular tools are summarised below.  For more information see section 2.4 (Tools for metagenome binning) of [this review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
+Most binning tools use short reads for the binning; only a few use Hi-C sequencing. Hi-C is a method of sequencing that gives spatial proximity information, as described [here](https://en.wikipedia.org/wiki/Hi-C_(genomic_analysis_technique)). Different tools use different algorithms for performing the binning. A few popular tools are summarised below.  For more information see Section 2.4 (Tools for metagenome binning) of [this review](https://www.sciencedirect.com/science/article/pii/S2001037021004931#s0045).
 
 | Tool | Core algorithm | Website | Publication |
 | ----------- | ----------- | -----------| -----------|
