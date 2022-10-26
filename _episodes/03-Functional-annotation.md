@@ -17,7 +17,11 @@ math: true
 ---
 
 ## What is functional annotation?
+<<<<<<< HEAD
+Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence.
+=======
 Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. 
+>>>>>>> f3ba940cc57206f659a9f3cbdbdc466664c8bb9c
 
 Unlike [taxonomic annotation](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. This is possible because there is software avaiable which uses features in DNA sequences to predict where genes start and end, allowing us to predict which genes are in our MAGs.
 
@@ -46,6 +50,32 @@ mkdir prokka
 cd prokka
 ~~~
 {: .bash}
+
+Initially we will annotate just one MAG at a time with Prokka.In the previous episode we produced 6 MAGs of varying quality. In this example, we will start with the MAG `bin.6.fa`, as this MAG had the highest completeness (99.45%) and lowest contamination (0%). However first we will need to use a `conda environment` we have prepared in order to run the software.
+
+### Activating an environment
+
+Environments are a way of installing a piece of software so that is isolated so that things installed within it do not effect the other software installed at a system wide level. For some pieces of software, the requirements for different dependency versions, such different versions of `python` mean this is an easy way to have multiple pieces of software installed without conflicts. One popular way to manage environments is to use [`conda`](https://docs.conda.io/en/latest/) which is a popular environment manager. We will not discuss using conda in detail, so for further information of how to use it, here is a carpentries course that covers how to use conda in [more detail](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). For this course we have created a conda environment containing prokka, in order to use this we will need to use the `conda activate` command
+
+~~~
+conda activate prokka
+~~~
+{: .bash}
+
+You will be able to tell you have activated your envrionment because your prompt should go from looking like this, with `base` at the beginning:
+
+~~~
+(base) csuser@metagenomicsT3instance04:~ $
+~~~
+{: .bash}
+
+To having `prokka` at the beginning. If you forget whether you are in an the prokka environment, look back to see what the prompt looks like.
+
+~~~
+(prokka) csuser@metagenomicsT3instance04:~ $
+~~~
+{: .bash}
+
 
 Now let's take a look at the help page for Prokka using the `-h` flag.
 ~~~
@@ -81,9 +111,7 @@ Prokka produces multiple different file types, which you can see in the table be
 | .txt   | Annotation summary statistics                      |
 | .tsv	 | Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product |
 
-Initially we will annotate just one MAG at a time with Prokka.
-In the previous episode we produced 6 MAGs of varying quality.
-In this example, we will start with the MAG `bin.6.fa`, as this MAG had the highest completeness (99.45%) and lowest contamination (0%).
+
 
 ~~~
 prokka --outdir bin.6 --prefix bin.6 ../binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/bin.6.fa
@@ -149,6 +177,28 @@ And you should see the following when the command has finished:
 [15:45:59] Thank you, come again.
 ~~~
 {: .output}
+
+Now prokka has finished running, we can exit the conda environment and our prompt should return to `base`. In order to do this we need to use the `conda deactivate` command, which is as follows:
+
+~~~
+conda deactivate
+~~~
+{: .bash}
+
+Your prompt should return from something like this:
+
+~~~
+(prokka) csuser@metagenomicsT3instance04:~ $ conda deactivate
+~~~
+{: .bash}
+
+to this:
+
+~~~
+(base) csuser@metagenomicsT3instance04:~ $
+~~~
+{: .bash}
+
 
 If we navigate into the `bin.6` output file we can use `ls` to see that Prokka has generated many files.
 
@@ -364,7 +414,11 @@ From here you can explore the sequences that were aligned to your 16S sequence u
 >
 >> ## Solution
 >> 1. This will vary depending on the MAG you have picked but it will be one of the first hits in the output. The "closest" match will probably be the one with the highest total score. However these are not the only columns worth using to identify the best hit.
+<<<<<<< HEAD
+>> 2. Other columns worth looking at (because the top hit may not be the best) are the query cover, percent identity and the E-value.
+=======
 >> 2. Other columns worth looking at (because the top hit may not be the best) are the query cover, percent identity and the E-value. 
+>>>>>>> f3ba940cc57206f659a9f3cbdbdc466664c8bb9c
 >>      - percent identity is how similar the query sequence (your input) is to the target AKA how many characters are identical. Higher percent identity = more similar sequences
 >>      - query coverage is the percentage of the query sequence that overlaps the target. If there is only a small overlap then the match is less significant, even if it has a very high percent identity. We want as much of the two sequences to be identical as possible.
 >>      - E-value is the number of matches you would expect to see by chance. This is dependent on the size of the database. Lower E-value = less likely to be by chance = a better match.
