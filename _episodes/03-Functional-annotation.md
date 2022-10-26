@@ -17,7 +17,11 @@ math: true
 ---
 
 ## What is functional annotation?
+<<<<<<< HEAD
 Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence.
+=======
+Now we have our binned MAGs, we can start to think about what functions genes contained within their genomes do. We can do this via functional annotation - a way to collect information about and describe a DNA sequence. 
+>>>>>>> f3ba940cc57206f659a9f3cbdbdc466664c8bb9c
 
 Unlike [taxonomic annotation](https://cloud-span.github.io/metagenomics03-taxonomic-anno/), which tells us which organisms are present in the metagenome assembly, functional annotation tells us the potential metabolic capacity of the organism we are annotating. This is possible because there is software avaiable which uses features in DNA sequences to predict where genes start and end, allowing us to predict which genes are in our MAGs.
 
@@ -410,7 +414,11 @@ From here you can explore the sequences that were aligned to your 16S sequence u
 >
 >> ## Solution
 >> 1. This will vary depending on the MAG you have picked but it will be one of the first hits in the output. The "closest" match will probably be the one with the highest total score. However these are not the only columns worth using to identify the best hit.
+<<<<<<< HEAD
 >> 2. Other columns worth looking at (because the top hit may not be the best) are the query cover, percent identity and the E-value.
+=======
+>> 2. Other columns worth looking at (because the top hit may not be the best) are the query cover, percent identity and the E-value. 
+>>>>>>> f3ba940cc57206f659a9f3cbdbdc466664c8bb9c
 >>      - percent identity is how similar the query sequence (your input) is to the target AKA how many characters are identical. Higher percent identity = more similar sequences
 >>      - query coverage is the percentage of the query sequence that overlaps the target. If there is only a small overlap then the match is less significant, even if it has a very high percent identity. We want as much of the two sequences to be identical as possible.
 >>      - E-value is the number of matches you would expect to see by chance. This is dependent on the size of the database. Lower E-value = less likely to be by chance = a better match.
