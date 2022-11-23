@@ -269,7 +269,7 @@ ADELAPPEKDNE
 Start by downloading the `bin.6.faa` file to your local machine using `scp`.
 
 ~~~
-scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/prokka/bin.6/bin.6.faa
+scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/prokka/bin.6/bin.6.faa
 ~~~
 {: .bash}
 
