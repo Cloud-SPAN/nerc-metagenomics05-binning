@@ -142,13 +142,14 @@ Running this workflow is equivalent to running six separate CheckM commands. The
 > Fill in the blanks to complete the code you need to download the `MAGs_checkm.tsv` to your local computer using SCP:
 > ~~~
 > ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv ____
+> scp -i ___ csuser@instanceNNN.cloud-span.aws.york.ac.uk.:___/cs_course/analysis/MAGs_checkm.tsv ____
 > ~~~
 > {: .bash}
 >
 >> ## Solution
 >>In a terminal logged into your local machine type:
 >> ```
->>$ scp csuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv <the destination directory of your choice>
+>> scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/MAGs_checkm.tsv <the destination directory of your choice>
 >> ```
 >>{: .bash}
 >>
