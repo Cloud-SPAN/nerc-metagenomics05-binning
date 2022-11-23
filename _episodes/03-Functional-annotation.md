@@ -61,14 +61,14 @@ conda activate prokka
 You will be able to tell you have activated your envrionment because your prompt should go from looking like this, with `base` at the beginning:
 
 ~~~
-(base) csuser@metagenomicsT3instance04:~ $
+(base) csuser@instance001:~ $
 ~~~
 {: .bash}
 
 To having `prokka` at the beginning. If you forget whether you are in an the prokka environment, look back to see what the prompt looks like.
 
 ~~~
-(prokka) csuser@metagenomicsT3instance04:~ $
+(prokka) csuser@instance001:~ $
 ~~~
 {: .bash}
 
