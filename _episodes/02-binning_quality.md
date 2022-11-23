@@ -137,11 +137,10 @@ bin.6   c__Bacilli (UID285)     586     325     181     1       324     0       
 
 Running this workflow is equivalent to running six separate CheckM commands. The [CheckM documentation](https://github.com/Ecogenomics/CheckM/wiki/Workflows) explains this is more detail.
 
-> ## Exercise 1: Downloading the tsv file.
+> ## Exercise 1: Downloading the tsv file
 >
 > Fill in the blanks to complete the code you need to download the `MAGs_checkm.tsv` to your local computer using SCP:
 > ~~~
-> ____ csuser____ec2-18-207-132-236.compute-1.amazonaws.com____/home/csuser/cs_workshop/mags/checkM/MAGs_checkm.tsv ____
 > scp -i ___ csuser@instanceNNN.cloud-span.aws.york.ac.uk.:___/cs_course/analysis/MAGs_checkm.tsv ____
 > ~~~
 > {: .bash}
@@ -149,7 +148,7 @@ Running this workflow is equivalent to running six separate CheckM commands. The
 >> ## Solution
 >>In a terminal logged into your local machine type:
 >> ```
->> scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk.:~/cs_course/analysis/MAGs_checkm.tsv <the destination directory of your choice>
+>> scp -i login-key-instanceNNN.pem csuser@instanceNNN.cloud-span.aws.york.ac.uk:~/cs_course/analysis/MAGs_checkm.tsv <the destination directory of your choice>
 >> ```
 >>{: .bash}
 >>
