@@ -13,6 +13,29 @@ keypoints:
 - "Other programmes are available that are generating other bins, and these can be rationalised using tools such as DAStools"
 ---
 
+Now we are ready to start doing analysis of our metagenomic assembly!
+
+##
+In the last two lessons we constructed and polished an assembly based on a subset of a bigger dataset. That's why our `nano_fastq` file was called ERR5000342_**sub15**.fastq - it contained a randomly chosen 15% subset of the original dataset. We did this because the full `nano_fastq` dataset contains over 2 million reads, and the instance doesn't have enough computing power to cope with that much data.
+
+Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 15% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies last lesson. Only about 0.2-0.3% of the genomes were complete.
+
+Fortunately, we have access to an assembly that was generated from the full `ERR5000342.fastq` long read dataset. The process to generate it was exactly the same; we just started with a larger dataset (2 million reads compared to 300,000 reads). Now that we are onto analysis, which relies on having a strong assembly, we will switch to using this bigger assembly.
+
+### Where to find the new assembly
+The new assembly is stored in a hidden file in our `data` directory. Let's take a look using the `-a` flag for `ls`.
+
+~~~
+cd ~/cs_course/data
+ls -a
+~~~
+{: .bash}
+
+~~~
+illumina_fastq/   nano_fastq/   .hidden/   .assembly_ERR5000342.fasta
+~~~
+{: .output}
+
 ## Metagenomic binning
 Now we have an assembly we can start to separate out the individual genomes using a process called binning. This will allow us to analyse each of the species inside our sample individually. We call these genomes metagenome-assembled genomes (MAGs). 
 
