@@ -214,7 +214,7 @@ Finished metabat2 at Tue 14 Mar 2023 05:40:46 PM UTC
 ~~~
 {: .output}
 
-The penultimate line tells us that MetaBAT has produced 81 bins containing 203557079 bases.
+The penultimate line tells us that MetaBAT has produced 81 bins containing 203557079 bases (your number might vary slightly depending on how the algorithm has analysed your assembly).
 
 Using `ls` will show that MetaBAT2 has generated a depth file (`assembly_ERR5000342.fasta.depth.txt`) and a directory (`assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`). Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
 ~~~
@@ -240,7 +240,7 @@ Note these output files have the file extensions of `.fa`. This is exactly the s
 
 Ideally we would like only one contig per bin, with a length similar the genome size of the corresponding taxa. This is challenging as this would require knowing what species are present in the mixed community, but all we have is "microbial dark matter". Instead, other statistics can demonstrate how effective our assembly and binning were.
 
-One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. In (Lesson 1)[Metagenomics 01 - 05 QC Polished Assembly](https://cloud-span.github.io/metagenomics01-qc-assembly/05-QC-polished-assembly/index.html), we got this statistic using `seqkit stats`. We can do the same again for each of the bins.
+One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. We looked at this statistic [previously](https://cloud-span.github.io/nerc-metagenomics04-polishing/02-QC-polished-assembly/index.html) when we were quality checking our assemblies, using `seqkit stats`. We can do the same again for each of the bins.
 
 ~~~
 seqkit stats -a *.fa
@@ -256,22 +256,20 @@ seqkit stats -a *.fa
 |bin.14.fa | FASTA  | DNA  |        3 |    223,315 |  24,737 |  74,438.3 | 102,871 |   60,222  |  95,707  |   99,289  |     0   | 95,707 |       0|       0 | 68.68|
 |bin.15.fa | FASTA  | DNA  |        5 |    213,572 |  12,037 |  42,714.4 |  73,055 |   17,762  |  41,611  |   69,107  |     0   | 69,107 |      0 |      0  | 65.89|
 
+The table is quite long as we have 81 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
 
-> ## Optional Exercise:
->
-> Using the GC content and total size from the seqkit stats output, which bin might correspond to which organism in our dataset? Give your reasoning for each bin/species. (You might find it helpful to go to the section where we introduce the dataset ([Metagenomics 01 - 00 Introduction](https://cloud-span.github.io/metagenomics01-qc-assembly/00-introduction-meta/index.html)) and also do some additional reading about each species.
->
-> In a later lesson we will be using a program for taxonomic assignment so you can see then how your answers compare to the results.  
->
->> ## Solution
->> - Bin 1 = maybe Enterococcus faecalis but again this one is open for interpretation as the bin is small.
->> - Bin 2 = Bacillus subtilis
->> - Bin 3 = probably Escherichia coli - but GC content is low. This one is open for interpretation as the bin is small.  
->> - Bin 4 = Saccharomyces cerevisiae (could be B subtilis but that's more abundant so probably more complete in assembly)
->> - Bin 5 = Pseudomonas aeruginosa
->> - Bin 6 = Listeria monocytogenes
-> {: .solution}
-{: .challenge}
+- ### Google Sheets
+  - Copy the data from the shell and paste it into the top left cell of a sheet.
+  - With all of the leftmost column selected, go to **Data** > **Split text to columns**.
+  - Your data should magically split so that each value has its own cell. If you are prompted to choose the type of separator, select 'Space' from the drop-down list.
+- ### Excel
+  - Copy the data from the shell and paste it into the top left cell of a sheet.
+  - With all of the leftmost column selected, go to **Data** > **Text to columns**.
+  - A 'Wizard' popup will ask you to select either 'Delimited' or 'Fixed width' - choose 'Fixed width' and click Next.
+  - Check that the column breaks are correct (they should be fine).
+  - Click Finish and your data should be split so each value has its own cell.
+
+You can now peruse your bins at your leisure. In the next section we will be doing more analysis of our bins and deciding which are highest quality.
 
 > ## Recommended reading:
 > Generating metagenome bins can be challenging, especially in complex community samples or where degradation of the DNA has resulted in a very incomplete assembly and short contig lengths. This workflow for binning might not work for you, and you might find that a different binning method might result in better refined MAGs for your dataset.  There are lots of other binning software methods inlcuding:
