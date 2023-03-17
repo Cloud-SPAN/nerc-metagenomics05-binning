@@ -114,11 +114,13 @@ This readout tells us what we need to include in the command:
 
 As a result our command looks like this:
 ~~~
-checkm lineage_wf -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf -x fa binning/assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv &> checkm.out &
 ~~~
 {: .bash}
 
-When the run ends (it should take around 8 minutes) we can open our results file.
+As always you can check the command's progress by looking inside the `checkm.out` file or using `jobs` (as long as you haven't logged out of your instance since starting the command running)
+
+When the run ends (it should take around 20 minutes) we can open our results file.
 ~~~
 less MAGs_checkm.tsv
 ~~~
@@ -126,12 +128,13 @@ less MAGs_checkm.tsv
 
 ~~~
 Bin Id  Marker lineage  # genomes       # markers       # marker sets   0       1       2       3       4       5+      Completeness    Contamination   Strain heterogeneity
-bin.1   k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       2.19    0.00    0.00
-bin.2   k__Bacteria (UID203)    5449    104     58      57      47      0       0       0       0       70.69   0.00    0.00
-bin.3   root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
-bin.4   g__Bacillus (UID864)    93      711     241     595     116     0       0       0       0       6.42    0.00    0.00
-bin.5   o__Pseudomonadales (UID4488)    185     813     308     1       807     5       0       0       0       99.68   0.61    0.00
-bin.6   c__Bacilli (UID285)     586     325     181     1       324     0       0       0       0       99.45   0.00    0.00
+bin.1   k__Bacteria (UID203)    5449    104     58      95      9       0       0       0       0       1.79    0.00    0.00
+bin.10  k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       3.45    0.00    0.00
+bin.11  root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
+bin.12  k__Bacteria (UID203)    5449    102     57      93      9       0       0       0       0       12.28   0.00    0.00
+bin.13  root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
+bin.14  k__Bacteria (UID203)    5449    104     58      92      12      0       0       0       0       10.11   0.00    0.00
+bin.15  root (UID1)     5656    56      24      55      1       0       0       0       0       4.17    0.00    0.00
 ~~~
 {: .output}
 
