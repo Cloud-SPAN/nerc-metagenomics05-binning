@@ -55,7 +55,7 @@ illumina_fastq/   nano_fastq/  .assembly_ERR5000342.fasta
 ~~~
 {: .output}
 
-Let's rename the file to get rid of the `.` at the start and put it into it's own directory called `full_assembly`.
+Let's rename the file to get rid of the `.` at the start and put it into its own directory called `full_assembly`.
 
 ~~~
 mv .assembly_ERR5000342.fasta assembly_ERR5000342.fasta
@@ -69,7 +69,7 @@ Now we're ready to start binning!
 ## Metagenomic binning
 Now we can start to separate out the individual genomes using a process called binning. This will allow us to analyse each of the species inside our sample individually. We call these genomes metagenome-assembled genomes (MAGs). 
 
-The assembled contigs that make up the metagenome will be assigned to different "bins" (FASTA files that contain certain contigs). Ideally, each bin will correspond to only one original genome (a MAG). 
+The assembled contigs that make up the metagenome will be assigned to different "bins" (FASTA files that contain certain contigs). Ideally, each bin will correspond to one original genome only (a MAG). 
 
 As we covered in the [assembly section](https://cloud-span.github.io/nerc-metagenomics03-qc-assembly/02-assembly/index.html), assembling the pieces of a metagenome is more difficult compared to single genome assembly. Most assemblers are not able to reconstruct complete genomes for the organisms that are represented in the metagenome - even using our new bigger dataset. As a result each organism will be represented by multiple contigs following assembly and polishing. This means that we need to be able to separate these contigs so we can identify which belong to each organism in our metagenome. This is where binning comes in.
 
@@ -117,15 +117,15 @@ cd binning
 We can then use an adapted form of the `bwa mem` command we used earlier to align our short reads to the polished assembly and determine the abundance of each contig.
 
 ~~~
-( bwa mem -t 8 ../../data/full_assembly/assembly_ERR5000342.fasta ../../data/illumina_fastq/ERR4998593_1.fastq ../../data/illumina_fastq/ERR4998593_2.fastq | samtools view - -Sb | samtools sort - -@4 -o assembly_short_read_alignment.bam ) &> binning.out &
+( bwa mem -t 8 ../../data/full_assembly/assembly_ERR5000342.fasta ../../data/illumina_fastq/ERR4998593_1.fastq ../../data/illumina_fastq/ERR4998593_2.fastq | samtools view - -Sb | samtools sort - -@4 -o assembly_short_read_alignment.bam ) &> alignment.out &
 ~~~
 {: .bash}
 This should take around 80 minutes to complete.
 
-Once the file is created, we can take a quick look inside.  We are already in the `binning` directory where the output file is stored so all we need to do is use the command `less` on `binning.out`.
+Once the file is created, we can take a quick look inside.  We are already in the `binning` directory where the output file is stored so all we need to do is use the command `less` on `alignment.out`.
 
 ~~~ 
-less binning.out
+less alignment.out
 ~~~
 {: .bash}
 
