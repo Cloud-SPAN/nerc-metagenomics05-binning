@@ -126,15 +126,15 @@ less MAGs_checkm.tsv
 ~~~
 {: .bash}
 
-~~~
-Bin Id  Marker lineage  # genomes       # markers       # marker sets   0       1       2       3       4       5+      Completeness    Contamination   Strain heterogeneity
-bin.1   k__Bacteria (UID203)    5449    104     58      95      9       0       0       0       0       1.79    0.00    0.00
-bin.10  k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       3.45    0.00    0.00
-bin.11  root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
-bin.12  k__Bacteria (UID203)    5449    102     57      93      9       0       0       0       0       12.28   0.00    0.00
-bin.13  root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
-bin.14  k__Bacteria (UID203)    5449    104     58      92      12      0       0       0       0       10.11   0.00    0.00
-bin.15  root (UID1)     5656    56      24      55      1       0       0       0       0       4.17    0.00    0.00
+| Bin Id | Marker lineage       | # genomes | # markers | # marker sets | 0   | 1  | 2 | 3 | 4 | 5+ | Completeness | Contamination | Strain heterogeneity |
+|--------|----------------------|-----------|-----------|---------------|-----|----|---|---|---|----|--------------|---------------|----------------------|
+| bin.1  | k__Bacteria (UID203) | 5449      | 104       | 58            | 95  | 9  | 0 | 0 | 0 | 0  | 1.79         | 0.00          | 0.00                 |
+| bin.10 | k__Bacteria (UID203) | 5449      | 104       | 58            | 100 | 4  | 0 | 0 | 0 | 0  | 3.45         | 0.00          | 0.00                 |
+| bin.11 | root (UID1)          | 5656      | 56        | 24            | 56  | 0  | 0 | 0 | 0 | 0  | 0.00         | 0.00          | 0.00                 |
+| bin.12 | k__Bacteria (UID203) | 5449      | 102       | 57            | 93  | 9  | 0 | 0 | 0 | 0  | 12.28        | 0.00          | 0.00                 |
+| bin.13 | root (UID1)          | 5656      | 56        | 24            | 56  | 0  | 0 | 0 | 0 | 0  | 0.00         | 0.00          | 0.00                 |
+| bin.14 | k__Bacteria (UID203) | 5449      | 104       | 58            | 92  | 12 | 0 | 0 | 0 | 0  | 10.11        | 0.00          | 0.00                 |
+| bin.15 | root (UID1)          | 5656      | 56        | 24            | 55  | 1  | 0 | 0 | 0 | 0  | 4.17         | 0.00          | 0.00                 |
 ~~~
 {: .output}
 
@@ -175,6 +175,37 @@ See the table below for an overview of each category.
 We have already determined the **completeness** and **contamination** of each of our MAGs using CheckM. Next we will use a program to determine which rRNA and tRNAs are present in each MAG.
 
 Note that due to the difficulty in assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
+
+To best examine your bins, you might want to import it into a spreadsheet software program (like we did in the previous lesson). Then, you can use "filter" (Google Sheets) or "format as table (Excel) to sort your bins by completeness and/or contamination.
+
+<a href="{{ page.root }}/fig/checkm_results_excel.png">
+  <img src="{{ page.root }}/fig/checkm_results_excel.png" width="700" alt="Spreadsheet with checkm output formatted as a table"/>
+</a>
+
+Here the bins are sorted by completeness. Completeness is evaluated by looking for the presence of a set of marker genes - 100% complete means all the genes were found. Contamination is determined by the fraction of marker genes that occur as duplicates, indicating that more than one genome is present.
+
+Other columns to consider:
+- `marker lineage` tells you what taxa your MAG might belong to (even if this is as broad as just "bacteria")
+- `# genomes` tells you how many genomes were used to generate each marker set (which is based on the marker lineage, so if CheckM couldn't work out what your MAG was beyond "bacteria" it uses marker genes from 5449 different species)
+- `# markers' tells you how many markers were needed for the genome to be 100% complete
+- numbers `0` to `5` tell you how many times marker genes were identified e.g.
+    - `0` tells you how many markers were not found at all
+    - `1` tells you how many marker were found once only
+    - `2` tells you how mnay markers were found twice
+    - and so on.
+- `strain heterogeneity` tells you how much of the contamination is likely to come from another strain of the same species.
+
+For example, in the CheckM output shown above, Bin 5 is 100% complete. However, it has 400% contamination, meaning the markers were present multiple times instead of just once. Indeed we can see that 52 markers were present 5 or more times, 17 present 4 times etc. The strain heterogeneity is quite low suggesting that this contamination is not due to having several strains of one species present. Likely as a result of this contamination, CheckM was only able to classify the MAG as "Bacteria" and could not be more specific.
+
+Alternatively, Bin 46 is 86.77% complete and only has 16% contamination. We can see that 263 marker genes were present once only - this indicates that this is mostly one genome, with a bit of contamination mixed in. CheckM classified this MAG as belonging to order Rhodospirallales and subsequently used 63 genomes from this lineage to generate the marker sets. It has 40% strain heterogeneity so we can assume that some of the contamination comes from very similar strains being mixed together.
+
+### Things to bear in mind
+It is important to remember that the "completeness" metric relies on having well-characterised lineages present in CheckM's database. If the MAG belongs to a poorly-characterised lineage, the results may not be accurate.
+
+You will notice that none of our bins satisfy the requirements for a "high quality" bin. That's okay! 
+
+
+
 
 > ## Exercise 2: Explore the quality of the obtained MAGs
 >
