@@ -79,7 +79,8 @@ prokka -h
 ~~~
 {: .bash}
 
-~~~
+> ## Prokka Help documentation
+> ~~~
 > Name:
 >  Prokka 1.12 by Torsten Seemann <torsten.seemann@gmail.com>
 > Synopsis:
