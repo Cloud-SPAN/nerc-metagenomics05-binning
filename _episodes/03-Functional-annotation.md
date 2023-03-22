@@ -135,7 +135,7 @@ Computation:
 >  --norrna          Don't run rRNA search (default OFF)
 >  --notrna          Don't run tRNA search (default OFF)
 >  --rnammer         Prefer RNAmmer over Barrnap for rRNA prediction (default OFF)
->~~~
+> ~~~
 > {: .output}
 {: .solution}
 
