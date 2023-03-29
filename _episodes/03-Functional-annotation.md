@@ -4,7 +4,7 @@ teaching: 40
 exercises: 10
 questions:
 - "How can we add functional annotation to our bins?"
-- "How can we identify what pathways these are involved with?"
+- "How can we identify what pathways our bins are involved with?"
 objectives:
 - "Define what funtional annotation is"
 - "Know how to use prokka for functional annotation"
