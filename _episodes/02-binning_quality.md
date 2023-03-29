@@ -114,24 +114,30 @@ This readout tells us what we need to include in the command:
 
 As a result our command looks like this:
 ~~~
-checkm lineage_wf -x fa binning/pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv
+checkm lineage_wf -x fa binning/assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv &> checkm.out &
 ~~~
 {: .bash}
 
-When the run ends (it should take around 8 minutes) we can open our results file.
+As always you can check the command's progress by looking inside the `checkm.out` file or using `jobs` (as long as you haven't logged out of your instance since starting the command running)
+
+When the run ends (it should take around 20 minutes) we can open our results file.
 ~~~
 less MAGs_checkm.tsv
 ~~~
 {: .bash}
 
 ~~~
-Bin Id  Marker lineage  # genomes       # markers       # marker sets   0       1       2       3       4       5+      Completeness    Contamination   Strain heterogeneity
-bin.1   k__Bacteria (UID203)    5449    104     58      100     4       0       0       0       0       2.19    0.00    0.00
-bin.2   k__Bacteria (UID203)    5449    104     58      57      47      0       0       0       0       70.69   0.00    0.00
-bin.3   root (UID1)     5656    56      24      56      0       0       0       0       0       0.00    0.00    0.00
-bin.4   g__Bacillus (UID864)    93      711     241     595     116     0       0       0       0       6.42    0.00    0.00
-bin.5   o__Pseudomonadales (UID4488)    185     813     308     1       807     5       0       0       0       99.68   0.61    0.00
-bin.6   c__Bacilli (UID285)     586     325     181     1       324     0       0       0       0       99.45   0.00    0.00
+
+| Bin Id | Marker lineage       | # genomes | # markers | # marker sets | 0   | 1  | 2 | 3 | 4 | 5+ | Completeness | Contamination | Strain heterogeneity |
+|--------|----------------------|-----------|-----------|---------------|-----|----|---|---|---|----|--------------|---------------|----------------------|
+| bin.1  | k__Bacteria (UID203) | 5449      | 104       | 58            | 95  | 9  | 0 | 0 | 0 | 0  | 1.79         | 0.00          | 0.00                 |
+| bin.10 | k__Bacteria (UID203) | 5449      | 104       | 58            | 100 | 4  | 0 | 0 | 0 | 0  | 3.45         | 0.00          | 0.00                 |
+| bin.11 | root (UID1)          | 5656      | 56        | 24            | 56  | 0  | 0 | 0 | 0 | 0  | 0.00         | 0.00          | 0.00                 |
+| bin.12 | k__Bacteria (UID203) | 5449      | 102       | 57            | 93  | 9  | 0 | 0 | 0 | 0  | 12.28        | 0.00          | 0.00                 |
+| bin.13 | root (UID1)          | 5656      | 56        | 24            | 56  | 0  | 0 | 0 | 0 | 0  | 0.00         | 0.00          | 0.00                 |
+| bin.14 | k__Bacteria (UID203) | 5449      | 104       | 58            | 92  | 12 | 0 | 0 | 0 | 0  | 10.11        | 0.00          | 0.00                 |
+| bin.15 | root (UID1)          | 5656      | 56        | 24            | 55  | 1  | 0 | 0 | 0 | 0  | 4.17         | 0.00          | 0.00                 |
+
 ~~~
 {: .output}
 
@@ -173,15 +179,51 @@ We have already determined the **completeness** and **contamination** of each of
 
 Note that due to the difficulty in assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
 
+To best examine your bins, you might want to import it into a spreadsheet software program (like we did in the previous lesson). Then, you can use "filter" (Google Sheets) or "format as table (Excel) to sort your bins by completeness and/or contamination.
+
+<a href="{{ page.root }}/fig/checkm_results_excel.png">
+  <img src="{{ page.root }}/fig/checkm_results_excel.png" width="700" alt="Spreadsheet with checkm output formatted as a table"/>
+</a>
+
+Here the bins are sorted by completeness. Completeness is evaluated by looking for the presence of a set of marker genes - 100% complete means all the genes were found. Contamination is determined by the fraction of marker genes that occur as duplicates, indicating that more than one genome is present.
+
+Other columns to consider:
+- `marker lineage` tells you what taxa your MAG might belong to (even if this is as broad as just "bacteria" or even "root" i.e. )
+- `# genomes` tells you how many genomes were used to generate each marker set (which is based on the marker lineage, so if CheckM couldn't work out what your MAG was beyond "bacteria" it uses marker genes from 5449 different species)
+- `# markers' tells you how many markers were needed for the genome to be 100% complete
+- numbers `0` to `5+` tell you how many times marker genes were identified e.g.
+    - `0` tells you how many markers were not found at all
+    - `1` tells you how many marker were found once only
+    - `2` tells you how many markers were found twice
+    - and so on.
+- `strain heterogeneity` tells you how much of the contamination is likely to come from another strain of the same species.
+
+For example, in the CheckM output shown above, Bin 5 is 100% complete. However, it has 400% contamination, meaning the markers were present multiple times instead of just once. Indeed we can see that 52 markers were present 5 or more times, 17 present 4 times etc. The strain heterogeneity is quite low suggesting that this contamination is not due to having several strains of one species present. Likely as a result of this contamination, CheckM was only able to classify the MAG as "Bacteria" and could not be more specific.
+
+Alternatively, Bin 46 is 86.77% complete and only has 16% contamination. We can see that 263 marker genes were present once only - this indicates that this is mostly one genome, with a bit of contamination mixed in. CheckM classified this MAG as belonging to order Rhodospirallales and subsequently used 63 genomes from this lineage to generate the marker sets. It has 40% strain heterogeneity so we can assume that some of the contamination comes from very similar strains being mixed together. This is a much better bin than Bin 5, even though it is ostensibly less complete.
+
+### Things to bear in mind
+It is important to remember that the "completeness" metric relies on having well-characterised lineages present in CheckM's database. If the MAG belongs to a poorly-characterised lineage, the results may not be accurate.
+
+You will find that none of our bins satisfy the requirements for a "high quality" bin. That's okay! Binning is still quite an inexact science and while various tools exist to do the job of binning, all of them need to be taken with a pinch of salt. 
+
+So how can you make your bin outputs more reliable? 
+- there are ways of combining outputs from different binning tools which can help crosscheck results and refine your bins
+- kraken-tools
+- more here from Sarah
+
+
 > ## Exercise 2: Explore the quality of the obtained MAGs
 >
-> Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see or download our example file [here](https://drive.google.com/file/d/11vJr5uHBx6J57sazLoU7oOl1peB9OxxJ/view?usp=sharing).
+> Once you have downloaded the `MAGs_checkm.tsv` file, you can open it in Excel or another spreadsheet program. If you didn't manage to download the file, or do not have an appropriate program to view it in you can see or download our example file [here](https://docs.google.com/spreadsheets/d/1lOoApeQ8sTzUh8i2OA3m50GgPIgqxyfJnpmmGsTCo5s/edit?usp=sharing).
 >
-> Looking at the results of our quality checks, what category would each of our MAGs fall into (ignore the tRNA and rRNA requirement for now)?
-> {: .bash}
+> Looking at the results of our quality checks, which MAGs could be classified as medium quality? Use the table above to remind yourself of the quality requirements.
+> 
 >
 >> ## Solution
->> There are two potential high quality draft metagenome assembled genomes in bin.5 and bin.6. We also have one medium quality draft MAG in bin.2. Finally, there are three low quality MAGs in bin.1, bin.3 and bin.4.
+>> Bins 22, 45 and 50 all have completeness more than or equal to 50%, and contamination below 10%, meaning they can be classed as medium quality.
+>>
+>> A much larger number of bins have completeness less than 50% and contamination below 10% (low quality). Notably, bin 56 is 48.9% complete with 7.7% contamination, meaning it comes very close to being classed as medium quality but technically should be considered low quality.
 >>
 >> Your bins may have different names/numbers to these but you should still see similar results.
 >>

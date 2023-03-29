@@ -186,35 +186,34 @@ Output depth matrix to assembly_ERR5000342.fasta.depth.txt
 Minimum percent identity for a mapped read: 0.97
 minContigLength: 1000
 minContigDepth: 1
-Reference fasta file ../../data/full_assembly/assembly_ERR5000342.fasta
+Reference fasta file /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta
 jgi_summarize_bam_contig_depths 2.15 (Bioconda) 2020-01-04T21:10:40
 Output matrix to assembly_ERR5000342.fasta.depth.txt
-Reading reference fasta file: ../../data/full_assembly/assembly_ERR5000342.fasta
+Reading reference fasta file: /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta
 ... 7250 sequences
 0: Opening bam: assembly_short_read_alignment.bam
 Processing bam files
-
 ~~~
 {: .output}
 
 Once the `.bam` file has processed and binning has completed, the output will look like this:
 ~~~
-Thread 0 finished: assembly_short_read_alignment.bam with 68809606 reads and 9884340 readsWellMapped
+Thread 0 finished: assembly_short_read_alignment.bam with 68793457 reads and 11049740 readsWellMapped
 Creating depth matrix file: assembly_ERR5000342.fasta.depth.txt
 Closing most bam files
 Closing last bam file
 Finished
-Finished jgi_summarize_bam_contig_depths at Tue 14 Mar 2023 05:40:41 PM UTC
-Creating depth file for metabat at Tue 14 Mar 2023 05:40:41 PM UTC
-Executing: 'metabat2  -m 1500 --inFile ../../data/full_assembly/assembly_ERR5000342.fasta --outFile assembly_ERR5000342.fasta.metabat-bins1500-20230314_174041/bin --abdFile assembly_ERR5000342.fasta.depth.txt' at Tue 14 Mar 2023 05:40:41 PM UTC
-MetaBAT 2 (2.15 (Bioconda)) using minContig 1500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, maxEdges 200 and minClsSize 200000. with random seed=1678815641
-81 bins (203557079 bases in total) formed.
+Finished jgi_summarize_bam_contig_depths at Fri 17 Mar 2023 12:24:35 PM UTC
+Creating depth file for metabat at Fri 17 Mar 2023 12:24:35 PM UTC
+Executing: 'metabat2  -m 1500 --inFile /home/csuser/cs_course/data/full_assembly/assembly_ERR5000342.fasta --outFile assembly_ERR5000342.fasta.metabat-bins1500-20230317_122435/bin --abdFile assembly_ERR5000342.fasta.depth.txt' at Fri 17 Mar 2023 12:24:35 PM UTC
+MetaBAT 2 (2.15 (Bioconda)) using minContig 1500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, maxEdges 200 and minClsSize 200000. with random seed=1679055875
+90 bins (212166000 bases in total) formed.
 Finished metabat2 at Tue 14 Mar 2023 05:40:46 PM UTC
 
 ~~~
 {: .output}
 
-The penultimate line tells us that MetaBAT has produced 81 bins containing 203557079 bases (your number might vary slightly depending on how the algorithm has analysed your assembly).
+The penultimate line tells us that MetaBAT has produced 90 bins containing 212166000 bases (your number might vary slightly depending on how the algorithm has analysed your assembly).
 
 Using `ls` will show that MetaBAT2 has generated a depth file (`assembly_ERR5000342.fasta.depth.txt`) and a directory (`assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/`). Our bins are in this directory so we should navigate into it and have a look at what files have been generated.
 ~~~
@@ -224,15 +223,19 @@ ls
 {: .bash}
 
 ~~~
-bin.10.fa  bin.19.fa  bin.27.fa  bin.35.fa  bin.43.fa  bin.51.fa  bin.5.fa   bin.68.fa  bin.76.fa
-bin.11.fa  bin.1.fa   bin.28.fa  bin.36.fa  bin.44.fa  bin.52.fa  bin.60.fa  bin.69.fa  bin.77.fa
-bin.12.fa  bin.20.fa  bin.29.fa  bin.37.fa  bin.45.fa  bin.53.fa  bin.61.fa  bin.6.fa   bin.78.fa
-bin.13.fa  bin.21.fa  bin.2.fa   bin.38.fa  bin.46.fa  bin.54.fa  bin.62.fa  bin.70.fa  bin.79.fa
-bin.14.fa  bin.22.fa  bin.30.fa  bin.39.fa  bin.47.fa  bin.55.fa  bin.63.fa  bin.71.fa  bin.7.fa
-bin.15.fa  bin.23.fa  bin.31.fa  bin.3.fa   bin.48.fa  bin.56.fa  bin.64.fa  bin.72.fa  bin.80.fa
-bin.16.fa  bin.24.fa  bin.32.fa  bin.40.fa  bin.49.fa  bin.57.fa  bin.65.fa  bin.73.fa  bin.81.fa
-bin.17.fa  bin.25.fa  bin.33.fa  bin.41.fa  bin.4.fa   bin.58.fa  bin.66.fa  bin.74.fa  bin.8.fa
-bin.18.fa  bin.26.fa  bin.34.fa  bin.42.fa  bin.50.fa  bin.59.fa  bin.67.fa  bin.75.fa  bin.9.fa
+bin.10.fa  bin.22.fa  bin.34.fa  bin.46.fa  bin.58.fa  bin.6.fa   bin.81.fa
+bin.11.fa  bin.23.fa  bin.35.fa  bin.47.fa  bin.59.fa  bin.70.fa  bin.82.fa
+bin.12.fa  bin.24.fa  bin.36.fa  bin.48.fa  bin.5.fa   bin.71.fa  bin.83.fa
+bin.13.fa  bin.25.fa  bin.37.fa  bin.49.fa  bin.60.fa  bin.72.fa  bin.84.fa
+bin.14.fa  bin.26.fa  bin.38.fa  bin.4.fa   bin.61.fa  bin.73.fa  bin.85.fa
+bin.15.fa  bin.27.fa  bin.39.fa  bin.50.fa  bin.62.fa  bin.74.fa  bin.86.fa
+bin.16.fa  bin.28.fa  bin.3.fa   bin.51.fa  bin.63.fa  bin.75.fa  bin.87.fa
+bin.17.fa  bin.29.fa  bin.40.fa  bin.52.fa  bin.64.fa  bin.76.fa  bin.88.fa
+bin.18.fa  bin.2.fa   bin.41.fa  bin.53.fa  bin.65.fa  bin.77.fa  bin.89.fa
+bin.19.fa  bin.30.fa  bin.42.fa  bin.54.fa  bin.66.fa  bin.78.fa  bin.8.fa
+bin.1.fa   bin.31.fa  bin.43.fa  bin.55.fa  bin.67.fa  bin.79.fa  bin.90.fa
+bin.20.fa  bin.32.fa  bin.44.fa  bin.56.fa  bin.68.fa  bin.7.fa   bin.9.fa
+bin.21.fa  bin.33.fa  bin.45.fa  bin.57.fa  bin.69.fa  bin.80.fa
 ~~~
 {: .output}
 
@@ -246,17 +249,16 @@ One useful statistic is the N50 which will give an indication of the size of the
 seqkit stats -a *.fa
 ~~~
 {: .bash}
+| file      | format | type | num_seqs | sum_len | min_len | avg_len  | max_len | Q1        | Q2      | Q3        | sum_gap | N50     | Q20(%) | Q30(%) | GC(%) |
+|-----------|--------|------|----------|---------|---------|----------|---------|-----------|---------|-----------|---------|---------|--------|--------|-------|
+| bin.10.fa | FASTA  | DNA  | 5        | 221,552 | 22,334  | 44,310.4 | 65,450  | 30,590    | 38,514  | 64,664    | 0       | 64,664  | 0      | 0      | 57.31 |
+| bin.11.fa | FASTA  | DNA  | 11       | 319,827 | 8,885   | 29,075.2 | 48,350  | 25,427.5  | 30,240  | 34,944.5  | 0       | 30,309  | 0      | 0      | 54.83 |
+| bin.12.fa | FASTA  | DNA  | 13       | 415,561 | 13,844  | 31,966.2 | 72,402  | 17,948    | 29,809  | 35,084    | 0       | 34,115  | 0      | 0      | 69.98 |
+| bin.13.fa | FASTA  | DNA  | 1        | 206,331 | 206,331 | 206,331  | 206,331 | 103,165.5 | 206,331 | 103,165.5 | 0       | 206,331 | 0      | 0      | 56.92 |
+| bin.14.fa | FASTA  | DNA  | 8        | 392,143 | 22,611  | 49,017.9 | 85,177  | 32,278.5  | 49,048  | 60,851    | 0       | 53,439  | 0      | 0      | 59.51 |
+| bin.15.fa | FASTA  | DNA  | 5        | 317,530 | 12,569  | 63,506   | 138,947 | 51,122    | 53,427  | 61,465    | 0       | 61,465  | 0      | 0      | 64.14 |
 
-|file      | format | type | num_seqs |    sum_len | min_len |   avg_len | max_len |       Q1  |       Q2 |        Q3 | sum_gap |   N50  | Q20(%) | Q30(%)  | GC(%)|
-|----------|--------|------|----------|------------|---------|-----------|---------|-----------|----------|-----------|---------|--------|--------|---------|------|
-|bin.10.fa | FASTA  | DNA  |        5 |    298,386 |  12,699 |  59,677.2 | 104,672 |   30,072  |  71,254  |   79,689  |     0   | 79,689 |      0 |      0  | 60.11|
-|bin.11.fa | FASTA  | DNA  |       11 |   363,969  | 13,828  | 33,088.1  | 72,458  | 22,134.5  | 29,828   |  39,662   |     0   | 35,122 |      0 |      0  | 70.21|
-|bin.12.fa | FASTA  | DNA  |    1,001 | 30,756,530 |   1,592 |  30,725.8 | 140,784 |   14,178  | 25,418   |  41,679   |     0   | 42,275 |      0 |      0  | 69.94|
-|bin.13.fa | FASTA  | DNA  |        7 |   227,105  | 14,963  | 32,443.6  | 61,137  |  20,903   | 30,167   |  39,516   |     0   | 33,703 |      0 |      0  | 58.08|
-|bin.14.fa | FASTA  | DNA  |        3 |    223,315 |  24,737 |  74,438.3 | 102,871 |   60,222  |  95,707  |   99,289  |     0   | 95,707 |       0|       0 | 68.68|
-|bin.15.fa | FASTA  | DNA  |        5 |    213,572 |  12,037 |  42,714.4 |  73,055 |   17,762  |  41,611  |   69,107  |     0   | 69,107 |      0 |      0  | 65.89|
-
-The table is quite long as we have 81 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
+The table is quite long as we have 90 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
 
 - ### Google Sheets
   - Copy the data from the shell and paste it into the top left cell of a sheet.
@@ -266,7 +268,7 @@ The table is quite long as we have 81 separate bins! It may also be hard to read
   - Copy the data from the shell and paste it into the top left cell of a sheet.
   - With all of the leftmost column selected, go to **Data** > **Text to columns**.
   - A 'Wizard' popup will ask you to select either 'Delimited' or 'Fixed width' - choose 'Fixed width' and click Next.
-  - Check that the column breaks are correct (they should be fine).
+  - Check that the column breaks are correct (they should be fine but worth checking anyway).
   - Click Finish and your data should be split so each value has its own cell.
 
 You can now peruse your bins at your leisure. In the next section we will be doing more analysis of our bins and deciding which are highest quality.
