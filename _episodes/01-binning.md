@@ -249,6 +249,7 @@ One useful statistic is the N50 which will give an indication of the size of the
 seqkit stats -a *.fa
 ~~~
 {: .bash}
+
 | file      | format | type | num_seqs | sum_len | min_len | avg_len  | max_len | Q1        | Q2      | Q3        | sum_gap | N50     | Q20(%) | Q30(%) | GC(%) |
 |-----------|--------|------|----------|---------|---------|----------|---------|-----------|---------|-----------|---------|---------|--------|--------|-------|
 | bin.10.fa | FASTA  | DNA  | 5        | 221,552 | 22,334  | 44,310.4 | 65,450  | 30,590    | 38,514  | 64,664    | 0       | 64,664  | 0      | 0      | 57.31 |
