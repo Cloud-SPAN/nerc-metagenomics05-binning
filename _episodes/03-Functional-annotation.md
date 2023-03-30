@@ -43,13 +43,13 @@ cd prokka
 ~~~
 {: .bash}
 
-For now we will annotate just one MAG at a time with Prokka.In the previous episode we produced 90 MAGs of varying quality. In this example, we will start with the MAG `bin.45.fa`, as this MAG had the fairly high completeness (57.76%) and only 1.72% contamination.
+For now we will annotate just one MAG at a time with Prokka. In the previous episode we produced 90 MAGs of varying quality. In this example, we will start with the MAG `bin.45.fa`, as this MAG had the fairly high completeness (57.76%) and only 1.72% contamination.
 
 Before we start we'll need to activate a `conda environment` to run the software.
 
 ### Activating an environment
 
-Environments are a way of installing a piece of software so that is isolated so that things installed within it do not effect the other software installed at a system wide level. For some pieces of software, the requirements for different dependency versions, such different versions of `python` mean this is an easy way to have multiple pieces of software installed without conflicts. One popular way to manage environments is to use [`conda`](https://docs.conda.io/en/latest/) which is a popular environment manager. We will not discuss using conda in detail, so for further information of how to use it, here is [a Carpentries course](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/) that covers how to use conda in more detail.
+Environments are a way of installing a piece of software so that it is isolated, so that things installed within an environment, do not affect other software installed at system wide level. For some pieces of software, the requirements for different dependency versions, such different versions of `python` mean this is an easy way to have multiple pieces of software installed without conflicts. One popular way to manage environments is to use [`conda`](https://docs.conda.io/en/latest/) which is a popular environment manager. We will not discuss using conda in detail, so for further information of how to use it, here is [a Carpentries course](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/) that covers how to use conda in more detail.
 
 For this course we have created a conda environment containing prokka. In order to use this we will need to use the `conda activate` command:
 
@@ -58,14 +58,14 @@ conda activate prokka
 ~~~
 {: .bash}
 
-You will be able to tell you have activated your environment because your prompt should go from looking like this, with `base` at the beginning...
+You will be able to tell you have activated your environment because your prompt should go from looking like this, with `(base)` at the beginning...
 
 ~~~
 (base) csuser@instance001:~ $
 ~~~
 {: .bash}
 
-...to having `prokka` at the beginning. If you forget whether you are in an the prokka environment, look back to see what the prompt looks like.
+...to having `(prokka)` at the beginning. If you forget whether you are in an the prokka environment, look back to see what the prompt looks like.
 
 ~~~
 (prokka) csuser@instance001:~ $

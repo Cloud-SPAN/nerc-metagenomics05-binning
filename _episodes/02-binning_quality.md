@@ -165,7 +165,7 @@ How much contamination we can tolerate and how much completeness we need depends
 
 To help us, we can use a standard called Minimum Information about a Metagenome-Assembled Genome (MIMAG), developed by the Genomics Standard Consortium. You can read more about MIMAG in [this 2017 paper](https://www.nature.com/articles/nbt.3893).
 
-As part of the standard,a framework to determine MAG quality from statistics is outlined. A MAG can be assigned one of three different metrics: High, Medium or Low quality draft metagenome assembled genomes.
+As part of the standard, a framework to determine MAG quality from statistics is outlined. A MAG can be assigned one of three different metrics: High, Medium or Low quality draft metagenome assembled genomes.
 
 See the table below for an overview of each category.
 
@@ -177,7 +177,7 @@ See the table below for an overview of each category.
 
 We have already determined the **completeness** and **contamination** of each of our MAGs using CheckM. Next we will use a program to determine which rRNA and tRNAs are present in each MAG.
 
-Note that due to the difficulty in assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
+Note that due to the difficulty in the assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
 
 To best examine your bins, you might want to import it into a spreadsheet software program (like we did in the previous lesson). Then, you can use "filter" (Google Sheets) or "format as table (Excel) to sort your bins by completeness and/or contamination.
 
