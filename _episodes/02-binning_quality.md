@@ -38,7 +38,7 @@ cd ~/cs_course/analysis/
 ~~~
 {: .bash}
 
-CheckM has been pre-installed on the instance so we can check the help documentation for the lineage-specific workflow using the `'h` tag..  
+CheckM has been pre-installed on the instance so we can check the help documentation for the lineage-specific workflow using the `-h` flag /option.  
 
 ~~~
 checkm lineage_wf -h

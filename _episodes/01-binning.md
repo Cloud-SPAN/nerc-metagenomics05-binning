@@ -18,7 +18,7 @@ Now we are ready to start doing analysis of our metagenomic assembly!
 ## A new assembly
 In the last two lessons we constructed and polished an assembly based on a subset of a bigger dataset. That's why our `nano_fastq` file was called ERR5000342_**sub15**.fastq - it contained a randomly chosen 15% subset of the original dataset. We did this because the full `nano_fastq` dataset contains over 2 million reads, and the instance doesn't have enough computing power to cope with that much data.
 
-Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 15% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies last lesson. Only about 0.2-0.3% of the genomes were complete.
+Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 15% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies in the last lesson. Only about 0.2-0.3% of the genomes were complete.
 
 Fortunately, we have access to an assembly that was generated from the full `ERR5000342.fastq` long read dataset. The process to generate and polish it was exactly the same; we just started with a larger dataset (2,000,000 reads compared to 300,000 reads). Now that we are onto analysis, which relies on having a strong assembly, we will switch to using this bigger assembly.
 
@@ -94,7 +94,7 @@ There are other tools that bin MAGs using several different methods and then fur
 
 ## Preparation for binning
 
-This preparation process follows exactly the same steps we used to prepare our long-read polished assembly for short-read polishing. We need to align our short reads to our assembly to determine **depth-of-coverage** - how many reads align to each portion of the assembly.
+This preparation process follows exactly the same steps we used to prepare our long-read polished assembly for short-read polishing. We need to align our short reads to our assembly to determine **depth-of-coverage** --- how many reads align to each portion of the assembly.
 
 First we index the polished reference using `bwa index`. Remember, we're using our new assembly which is in our `data/full_assembly` directory.
 ~~~
@@ -241,9 +241,9 @@ bin.21.fa  bin.33.fa  bin.45.fa  bin.57.fa  bin.69.fa  bin.80.fa
 
 Note these output files have the file extensions of `.fa`. This is exactly the same format as a `.fasta` file but with a shortened version of the extension. See the wikipedia page on [FASTA format - file](https://en.wikipedia.org/wiki/FASTA_format#FASTA_file) for some other examples of file extensions.
 
-Ideally we would like only one contig per bin, with a length similar the genome size of the corresponding taxa. This is challenging as this would require knowing what species are present in the mixed community, but all we have is "microbial dark matter". Instead, other statistics can demonstrate how effective our assembly and binning were.
+Ideally we would like only one contig per bin, with a length similar to the genome size of the corresponding taxa. This is challenging as this would require knowing what species are present in the mixed community, but all we have is "microbial dark matter". Instead, other statistics can demonstrate how effective our assembly and binning were.
 
-One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up as. We looked at this statistic [previously](https://cloud-span.github.io/nerc-metagenomics04-polishing/02-QC-polished-assembly/index.html) when we were quality checking our assemblies, using `seqkit stats`. We can do the same again for each of the bins.
+One useful statistic is the N50 which will give an indication of the size of the contigs (fragments) each bin is made up. We looked at this statistic [previously](https://cloud-span.github.io/nerc-metagenomics04-polishing/02-QC-polished-assembly/index.html) when we were quality checking our assemblies, using `seqkit stats`. We can do the same again for each of the bins.
 
 ~~~
 seqkit stats -a *.fa
