@@ -105,7 +105,7 @@ checkm lineage_wf -h
 
 This readout tells us what we need to include in the command:
 - the `x` flag telling CheckM the format of our bins (`fa`)
-- the directory that contains the bins (`pilon.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)`
+- the directory that contains the bins (`assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)`
 - the directory that we want the output to be saved in (`checkm/`)
 - the `--reduced_tree` flag to limit the memory requirements
 - the `-f` flag to specify an output file name/format
