@@ -336,6 +336,6 @@ Another option is to build a taxonomic tree to see what organisms your MAG is re
 
 Once you have an rRNA sequence you can run it through a search tool such as [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) to find sequences which match it and what species they belong to.
 
-We won't be covering how to do this in detail as part of this course but you can read some instructions on how to use both BlastKOALA and BLAST towards the end of [this episode](https://cloud-span.github.io/nerc-metagenomics05-binning/03-Functional-annotation/index.html) of our previous Metagenomics course.
+We won't be covering how to do this in detail as part of this course but you can read some instructions on how to use both BlastKOALA and BLAST towards the end of [this episode](https://cloud-span.github.io/metagenomics04-binning_funa/03-Functional-annotation/index.html) of our previous Metagenomics course.
 
 {% include links.md %}
