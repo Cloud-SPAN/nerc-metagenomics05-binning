@@ -105,7 +105,7 @@ checkm lineage_wf -h
 
 This readout tells us what we need to include in the command:
 - the `x` flag telling CheckM the format of our bins (`fa`)
-- the directory that contains the bins (`assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/)`
+- the directory that contains the bins (`assembly_ERR5000342.fasta.metabat-bins1500-YYYYMMDD_HHMMSS/)`
 - the directory that we want the output to be saved in (`checkm/`)
 - the `--reduced_tree` flag to limit the memory requirements
 - the `-f` flag to specify an output file name/format
@@ -114,9 +114,11 @@ This readout tells us what we need to include in the command:
 
 As a result our command looks like this:
 ~~~
-checkm lineage_wf -x fa binning/assembly_ERR5000342.fasta.metabat-bins1500-YYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv &> checkm.out &
+checkm lineage_wf -x fa binning/assembly_ERR5000342.fasta.metabat-bins1500-YYYYMMDD_HHMMSS/ checkm/ --reduced_tree -t 4 --tab_table -f MAGs_checkm.tsv &> checkm.out &
 ~~~
 {: .bash}
+
+(Don't forget to change `YYYYMMDD-HHMMSS` to match your directory's name.)
 
 As always you can check the command's progress by looking inside the `checkm.out` file or using `jobs` (as long as you haven't logged out of your instance since starting the command running)
 
@@ -179,7 +181,16 @@ We have already determined the **completeness** and **contamination** of each of
 
 Note that due to the difficulty in the assembly of short-read metagenomes, often just a completeness of >90% and a contamination of ≤ 5% is treated as a good quality MAG.
 
-To best examine your bins, you might want to import it into a spreadsheet software program (like we did in the previous lesson). Then, you can use "filter" (Google Sheets) or "format as table (Excel) to sort your bins by completeness and/or contamination.
+To best examine your bins, you might want to import it into a spreadsheet software program (you should be able to directly copy and paste the contents of your `MAGS_checkm.tsv` text file into a spreadsheet without needing to do any further formatting or splitting into columns). Then, you can use "filter" (Google Sheets) or "format as table (Excel) to sort your bins by completeness and/or contamination.
+
+- ### Google Sheets
+  - Select the entire top row (containing your headers) of the sheet
+  - Click the symbol which looks like a funnel in the toolbar at the top (second from the right) **or** go to Data > Create a filter
+  - You can now click the inverted pyramid in the header cell of each column to sort/filter the data by the values in that column
+- ### Excel
+  - Select all of the cells containing your data
+  - From the main Home bar, select 'Format as Table' (near the middle of the toolbar) and choose a style. In the popup that appears, make sure 'My table has headers' is checked then click OK.
+  - You can now use the drop down arrow in the header cell of each column to sort/filter the data by the values in that column
 
 <a href="{{ page.root }}/fig/checkm_results_excel.png">
   <img src="{{ page.root }}/fig/checkm_results_excel.png" width="700" alt="Spreadsheet with checkm output formatted as a table"/>
