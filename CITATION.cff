@@ -18,8 +18,8 @@ authors:
 - family-names: "Rand"
   given-names: "Emma"
   orcid: "https://orcid.org/0000-0002-1358-8275"
-title: "Cloud-SPAN Metagenomics Course Session 4: Binning + Functional Annotation"
+title: "Cloud-SPAN NERC Metagenomics Course Session 5: Binning + Functional Annotation"
 version: 1.0.0
 doi:
 date-released: 2023-04-06
-url: "https://cloud-span.github.io/metagenomics04-binning_funa/"
+url: "https://cloud-span.github.io/nerc-metagenomics05-binning/"
