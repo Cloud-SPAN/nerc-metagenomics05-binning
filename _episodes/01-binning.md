@@ -262,11 +262,11 @@ seqkit stats -a *.fa
 The table is quite long as we have 90 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
 
 - ### Google Sheets
-  - Copy the data from the shell and paste it into the top left cell of a sheet.
+  - Copy the data from the shell. Open a new Google Sheet and use <kbd>Ctrl</kbd>-<kbd>v</kbd> (or right click on the top left cell and select Paste) to paste the data into the sheet
   - With all of the leftmost column selected, go to **Data** > **Split text to columns**.
   - Your data should magically split so that each value has its own cell. If you are prompted to choose the type of separator, select 'Space' from the drop-down list.
 - ### Excel
-  - Copy the data from the shell and paste it into the top left cell of a sheet.
+  - Copy the data from the shell. Open a new spreadsheet and use <kbd>Ctrl</kbd>-<kbd>v</kbd> (or right click on the top left cell and select Paste) to paste the data into the sheet
   - With all of the leftmost column selected, go to **Data** > **Text to columns**.
   - A 'Wizard' popup will ask you to select either 'Delimited' or 'Fixed width' - choose 'Fixed width' and click Next.
   - Check that the column breaks are correct (they should be fine but worth checking anyway).
