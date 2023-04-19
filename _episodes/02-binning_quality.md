@@ -220,8 +220,6 @@ You will find that none of our bins satisfy the requirements for a "high quality
 
 So how can you make your bin outputs more reliable? 
 - there are ways of combining outputs from different binning tools which can help crosscheck results and refine your bins
-- kraken-tools
-- more here from Sarah
 
 
 > ## Exercise 2: Explore the quality of the obtained MAGs
