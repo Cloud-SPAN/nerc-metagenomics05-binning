@@ -16,9 +16,9 @@ keypoints:
 Now we are ready to start doing analysis of our metagenomic assembly!
 
 ## A new assembly
-In the last two lessons we constructed and polished an assembly based on a subset of a bigger dataset. That's why our `nano_fastq` file was called ERR5000342_**sub15**.fastq - it contained a randomly chosen 15% subset of the original dataset. We did this because the full `nano_fastq` dataset contains over 2 million reads, and the instance doesn't have enough computing power to cope with that much data.
+In the last two lessons we constructed and polished an assembly based on a subset of a bigger dataset. That's why our `nano_fastq` file was called ERR5000342_**sub12**.fastq - it contained a randomly chosen 12% subset of the original dataset. We did this because the full `nano_fastq` dataset contains over 2 million reads, and the instance doesn't have enough computing power to cope with that much data.
 
-Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 15% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies in the last lesson. Only about 0.2-0.3% of the genomes were complete.
+Subsetting your data is a great way to practice and troubleshoot workflows like the one we're following in this course. *However*, only assembling 12% of the reads means the assembly is far less likely to be complete. We saw the effects of this when we used `seqkit` and `MetaQUAST` to quality check our assemblies in the last lesson. Only about 0.2-0.3% of the genomes were complete.
 
 Fortunately, we have access to an assembly that was generated from the full `ERR5000342.fastq` long read dataset. The process to generate and polish it was exactly the same; we just started with a larger dataset (2,000,000 reads compared to 300,000 reads). Now that we are onto analysis, which relies on having a strong assembly, we will switch to using this bigger assembly.
 
@@ -256,7 +256,7 @@ seqkit stats -a *.fa
 | bin.11.fa | FASTA  | DNA  | 11       | 319,827 | 8,885   | 29,075.2 | 48,350  | 25,427.5  | 30,240  | 34,944.5  | 0       | 30,309  | 0      | 0      | 54.83 |
 | bin.12.fa | FASTA  | DNA  | 13       | 415,561 | 13,844  | 31,966.2 | 72,402  | 17,948    | 29,809  | 35,084    | 0       | 34,115  | 0      | 0      | 69.98 |
 | bin.13.fa | FASTA  | DNA  | 1        | 206,331 | 206,331 | 206,331  | 206,331 | 103,165.5 | 206,331 | 103,165.5 | 0       | 206,331 | 0      | 0      | 56.92 |
-| bin.14.fa | FASTA  | DNA  | 8        | 392,143 | 22,611  | 49,017.9 | 85,177  | 32,278.5  | 49,048  | 60,851    | 0       | 53,439  | 0      | 0      | 59.51 |
+| bin.14.fa | FASTA  | DNA  | 8        | 392,143 | 22,611  | 49,017.9 | 85,177  | 32,278.5  | 49,048  | 60,851    | 0       | 53,439  | 0      | 0      | 59.51 |shell
 | bin.15.fa | FASTA  | DNA  | 5        | 317,530 | 12,569  | 63,506   | 138,947 | 51,122    | 53,427  | 61,465    | 0       | 61,465  | 0      | 0      | 64.14 |
 
 The table is quite long as we have 90 separate bins! It may also be hard to read depending on how your shell program formats and wraps the table columns. You might find it useful to copy and paste the table into a Google Sheets or Excel spreadsheet and use the 'split text to columns' feature to have a better look at your bins.
